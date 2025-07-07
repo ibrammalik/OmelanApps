@@ -1,0 +1,38 @@
+{
+  "name": "server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:prod": "NODE_ENV=production node ./src/server.js",
+    "start": "nodemon ./src/server.js",
+    "lint": "eslint ./",
+    "migrate": "node-pg-migrate"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.842.0",
+    "@aws-sdk/s3-request-presigner": "^3.842.0",
+    "@hapi/hapi": "^21.4.0",
+    "@hapi/inert": "^7.1.0",
+    "@hapi/jwt": "^3.2.0",
+    "amqplib": "^0.10.8",
+    "bcrypt": "^6.0.0",
+    "dotenv": "^16.5.0",
+    "joi": "^17.13.3",
+    "nanoid": "^5.1.5",
+    "node-pg-migrate": "^8.0.2",
+    "pg": "^8.16.0",
+    "redis": "^4.6.10"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.28.0",
+    "eslint": "^9.28.0",
+    "eslint-config-dicodingacademy": "^0.9.4",
+    "globals": "^16.2.0",
+    "nodemon": "^3.1.10"
+  }
+}
