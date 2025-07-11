@@ -1,5 +1,6 @@
 require('dotenv').config();
 const Hapi = require('@hapi/hapi');
+const Jwt = require('@hapi/jwt');
 
 // Users Client
 const userClient = require('./api/usersClient');
@@ -11,9 +12,16 @@ const userPartner = require('./api/usersPartner');
 const UserPartnerValidator = require('./validators/usersPartner');
 const UsersPartnerService = require('./services/postgres/UsersPartnerServices');
 
+// Authentications
+const authentication = require('./api/authentications');
+const AuthenticationValidator = require('./validators/authentications');
+const TokenManager = require('./tokenizer/TokenManager');
+const AuthenticationService = require('./services/postgres/AuthenticationsService');
+
 const Init = async () => {
   const usersClientService = new UsersClientService();
   const usersPartnerService = new UsersPartnerService();
+  const authenticationService = new AuthenticationService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -23,6 +31,28 @@ const Init = async () => {
         origin: ['*']
       }
     }
+  });
+
+  await server.register([
+    {
+      plugin: Jwt
+    }
+  ]);
+
+  server.auth.strategy('omelanapp_jwt', 'jwt', {
+    keys: process.env.ACCESS_TOKEN_KEY,
+    verify: {
+      aud: false,
+      iss: false,
+      sub: false,
+      maxAgeSec: process.env.ACCESS_TOKEN_AGE
+    },
+    validate: (artifacts) => ({
+      isValid: true,
+      credentials: {
+        id: artifacts.decoded.payload.id
+      }
+    })
   });
 
   await server.register([
@@ -40,6 +70,16 @@ const Init = async () => {
         validator: UserPartnerValidator
       }
     },
+    {
+      plugin: authentication,
+      options: {
+        usersClientService,
+        usersPartnerService,
+        tokenManager: TokenManager,
+        service: authenticationService,
+        validator: AuthenticationValidator
+      }
+    }
   ]);
 
   await server.start();
