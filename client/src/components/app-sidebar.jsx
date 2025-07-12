@@ -26,6 +26,66 @@ import {
 import { Button } from "./ui/button";
 // import { link } from "fs";
 
+const commonNav = [
+  {
+    title: "Documentation",
+    url: "#",
+    icon: BookOpen,
+    items: [
+      { title: "Introduction", url: "#" },
+      { title: "Get Started", url: "#" },
+      { title: "Tutorials", url: "#" },
+      { title: "Changelog", url: "#" },
+    ],
+  },
+  {
+    title: "Settings",
+    url: "#",
+    icon: Settings2,
+    items: [
+      { title: "General", url: "#" },
+      { title: "Team", url: "#" },
+      { title: "Billing", url: "#" },
+      { title: "Limits", url: "#" },
+    ],
+  },
+];
+
+const caregiverNav = [
+  {
+    title: "Caregiver",
+    url: "#",
+    icon: SquareTerminal,
+    isActive: true,
+    items: [
+      { title: "History", url: "#" },
+      { title: "Starred", url: "#" },
+      { title: "Settings", url: "#" },
+    ],
+  },
+];
+
+const caretakerNav = [
+  {
+    title: "Caretaker",
+    url: "#",
+    icon: Bot,
+    items: [
+      { title: "Genesis", url: "#" },
+      { title: "Explorer", url: "#" },
+      { title: "Quantum", url: "#" },
+    ],
+  },
+];
+// This is sample data.
+const udata = {
+  user: {
+    name: "shadcn",
+    email: "m@example.com",
+    avatar: "/avatars/shadcn.jpg",
+  },
+};
+
 // This is sample data.
 const data = {
   user: {
@@ -52,27 +112,27 @@ const data = {
   ],
   navMain: [
     {
-      title: "Playground",
+      title: "Caregiver",
       url: "#",
       icon: SquareTerminal,
       isActive: true,
       items: [
         {
-          title: "History",
+          title: "Order-List",
           url: "#",
         },
         {
-          title: "Starred",
+          title: "My Appointment",
           url: "#",
         },
         {
-          title: "Settings",
+          title: "My Availability",
           url: "#",
         },
       ],
     },
     {
-      title: "Models",
+      title: "Caretaker",
       url: "#",
       icon: Bot,
       items: [
@@ -156,7 +216,15 @@ const data = {
   ],
 };
 
-export function AppSidebar({ ...props }) {
+export function AppSidebar({ role, ...props }) {
+  let navMain = [];
+
+  if (role === "caregiver") {
+    navMain = [...caregiverNav, ...commonNav];
+  } else if (role === "caretaker") {
+    navMain = [...caretakerNav, ...commonNav];
+  }
+
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
