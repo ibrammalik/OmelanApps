@@ -1,7 +1,7 @@
 const routes = (handler) => [
   {
     method: 'POST',
-    path: '/register/partner',
+    path: '/partner/register',
     handler: handler.postUsersPartner
   },
 ];

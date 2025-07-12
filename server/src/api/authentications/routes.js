@@ -1,24 +1,34 @@
 const routes = (handler) => [
   {
     method: 'POST',
-    path: '/authentications/client',
+    path: '/client/authentications',
     handler: handler.postAuthenticationUserClientHandler
   },
   {
     method: 'POST',
-    path: '/authentications/partner',
+    path: '/partner/authentications',
     handler: handler.postAuthenticationUserPartnerHandler
   },
   {
     method: 'PUT',
-    path: '/authentications/{any*}',
+    path: '/client/authentications',
+    handler: handler.putAuthenticationHandler
+  },
+  {
+    method: 'PUT',
+    path: '/partner/authentications',
     handler: handler.putAuthenticationHandler
   },
   {
     method: 'DELETE',
-    path: '/authentications/{any*}',
+    path: '/client/authentications',
     handler: handler.deleteAuthenticationHandler
   },
+  {
+    method: 'DELETE',
+    path: '/partner/authentications',
+    handler: handler.deleteAuthenticationHandler
+  }
 ];
 
 module.exports = routes;
