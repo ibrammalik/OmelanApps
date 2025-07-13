@@ -223,30 +223,37 @@ export function AppSidebar({ role, ...props }) {
     navMain = [...caregiverNav, ...commonNav];
   } else if (role === "caretaker") {
     navMain = [...caretakerNav, ...commonNav];
+  } else {
+    navMain = [...commonNav];
   }
 
+  {
+    /* <span className="truncate font-medium">OMELAN</span> */
+  }
+
+  {
+    /* <ul className="ml-2">
+    <li>
+      <Button>Dashboard</Button>
+    </li>
+    <li>
+      <Button>Requests</Button>
+    </li>
+    <li>
+      <Button>My Appointments</Button>
+    </li>
+    <li>
+      <Button>My Availability</Button>
+    </li>
+  </ul> */
+  }
   return (
     <Sidebar collapsible="icon" {...props}>
       <SidebarHeader>
         <TeamSwitcher teams={data.teams} />
-        {/* <span className="truncate font-medium">OMELAN</span> */}
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={data.navMain} />
-        {/* <ul className="ml-2">
-          <li>
-            <Button>Dashboard</Button>
-          </li>
-          <li>
-            <Button>Requests</Button>
-          </li>
-          <li>
-            <Button>My Appointments</Button>
-          </li>
-          <li>
-            <Button>My Availability</Button>
-          </li>
-        </ul> */}
+        <NavMain items={navMain} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
