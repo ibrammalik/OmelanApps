@@ -1,5 +1,5 @@
 const { badRequest } = require('@hapi/boom');
-const { UserLoginPayloadSchema, UserRefreshPayloadSchema, UserLogoutPayloadSchema } = require('./schema');
+const { UserLoginPayloadSchema, UserRefreshTokenPayloadSchema, UserLogoutPayloadSchema } = require('./schema');
 
 const AuthenticationsValidator = {
   validateUserLoginPayload: (payload) => {
@@ -9,7 +9,7 @@ const AuthenticationsValidator = {
     }
   },
   validateUserRefreshPayload: (payload) => {
-    const validateResult = UserRefreshPayloadSchema.validate(payload);
+    const validateResult = UserRefreshTokenPayloadSchema.validate(payload);
     if (validateResult.error) {
       throw badRequest(validateResult.error.message);
     }
