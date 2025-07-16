@@ -7,7 +7,7 @@ import {
   Route,
   Navigate,
 } from "react-router-dom";
-import { LoginPage } from "./pages/LoginPages";
+import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 
 function App() {
@@ -18,7 +18,10 @@ function App() {
         <aside>
           <Page />
         </aside>
-        <main></main>
+        <main>
+          <LoginPage />
+          <RegisterPage />
+        </main>
       </div>
 
       <footer></footer>
