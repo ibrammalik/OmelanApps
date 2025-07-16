@@ -7,7 +7,11 @@ export default function SidebarMenuContent({ items }) {
   const collapsed = state === "collapsed";
 
   return (
-    <div className={collapsed ? "px-1 space-y-4" : "px-3 space-y-4"}>
+    <div
+      className={`space-y-4 transition-all duration-300 ${
+        collapsed ? "px-1" : "px-3"
+      }`}
+    >
       <Separator className="mb-2" />
       <nav className="space-y-1">
         {items.map((item) => (

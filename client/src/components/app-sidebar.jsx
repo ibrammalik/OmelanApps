@@ -4,7 +4,7 @@ import {
   BookOpen,
   Bot,
   CalendarCheck2,
-  Clock,
+  CalendarClock,
   Command,
   Frame,
   GalleryVerticalEnd,
@@ -240,10 +240,10 @@ export function AppSidebar({ role, ...props }) {
     { icon: <House size={16} />, label: "Dashboard" },
     { icon: <List size={16} />, label: "Requests" },
     { icon: <CalendarCheck2 size={16} />, label: "My Appointments" },
-    { icon: <Clock size={16} />, label: "My Availability" },
+    { icon: <CalendarClock size={16} />, label: "My Availability" },
   ];
 
-  const menuItems = role === "user" ? caregiverMenu : userMenu;
+  const menuItems = role === "caregiver" ? caregiverMenu : userMenu;
 
   return (
     <Sidebar collapsible="icon" {...props}>
