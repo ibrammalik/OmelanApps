@@ -1,60 +1,63 @@
-import { BadgeDollarSign, Route, ShieldCheck, Truck, Undo2, UserRoundCheck } from 'lucide-react';
+import { CalendarDays, CreditCard, MapPin, Repeat2, ShieldCheck, UsersRound } from 'lucide-react';
 
 const faq = [
   {
-    icon: Undo2,
-    question: 'What is your return policy?',
+    icon: <UsersRound />,
+    question: 'Apakah saya bisa memesan perawat untuk orang tua saya?',
     answer:
-      'You can return unused items in their original packaging within 30 days for a refund or exchange. Contact support for assistance.',
+      'Tentu saja. Anda dapat mengisi data pasien atas nama orang tua atau anggota keluarga lainnya saat melakukan pemesanan.',
   },
   {
-    icon: Route,
-    question: 'How do I track my order?',
+    icon: <CalendarDays />,
+    question: 'Bagaimana jika tidak ada perawat yang tersedia di tanggal yang saya pilih?',
     answer:
-      'Track your order using the link provided in your confirmation email, or log into your account to view tracking details.',
+      'Jika tidak tersedia, sistem akan merekomendasikan tanggal alternatif atau perawat lain yang masih dalam jangkauan.',
   },
   {
-    icon: Truck,
-    question: 'Do you ship internationally?',
+    icon: <Repeat2 />,
+    question: 'Apakah saya bisa memilih perawat yang sama lagi di kemudian hari?',
     answer:
-      'Yes, we ship worldwide. Shipping fees and delivery times vary by location, and customs duties may apply for some countries.',
+      'Ya, Anda bisa melihat riwayat pemesanan dan memesan ulang perawat yang sebelumnya pernah memberikan layanan.',
   },
   {
-    icon: BadgeDollarSign,
-    question: 'What payment methods do you accept?',
+    icon: <MapPin />,
+    question: 'Apakah layanan tersedia di luar kota?',
     answer:
-      'We accept Visa, MasterCard, American Express, PayPal, Apple Pay, and Google Pay, ensuring secure payment options for all customers.',
+      'Saat ini layanan Omelan tersedia di beberapa kota besar di Indonesia. Gunakan pencarian lokasi untuk melihat cakupan area.',
   },
   {
-    icon: ShieldCheck,
-    question: 'What if I receive a damaged item?',
+    icon: <ShieldCheck />,
+    question: 'Apakah data pribadi saya aman?',
     answer:
-      'Please contact our support team within 48 hours of delivery with photos of the damaged item. We’ll arrange a replacement or refund.',
+      'Kami menjamin keamanan dan kerahasiaan data Anda menggunakan sistem enkripsi dan standar perlindungan data yang ketat.',
   },
   {
-    icon: UserRoundCheck,
-    question: 'How can I contact customer support?',
+    icon: <CreditCard />,
+    question: 'Metode pembayaran apa yang bisa digunakan?',
     answer:
-      'Reach out via email at support@example.com or call us at 1-800-123-4567 for assistance with any inquiries.',
+      'Kami mendukung pembayaran melalui transfer bank, e-wallet (seperti OVO, Dana, Gopay), serta kartu debit dan kredit.',
   },
 ];
 
 const FAQ = () => {
   return (
-    <div id="faq" className="min-h-screen flex items-center justify-center px-6 py-12 xs:py-20">
+    <div
+      id="faq"
+      className="min-h-screen flex items-center justify-center px-6 py-12 xs:py-20 scroll-mt-16">
       <div className="max-w-screen-lg">
         <h2 className="text-3xl xs:text-4xl md:text-5xl !leading-[1.15] font-bold tracking-tight text-center">
-          Frequently Asked Questions
+          Pertanyaan yang Sering Diajukan
         </h2>
         <p className="mt-3 xs:text-lg text-center text-muted-foreground">
-          Quick answers to common questions about our products and services.
+          Kami telah mengumpulkan pertanyaan yang sering diajukan seputar layanan Omelan. Temukan
+          jawaban cepat di bawah ini.
         </p>
 
-        <div className="mt-12 grid md:grid-cols-2 bg-background rounded-xl overflow-hidden outline outline-[1px] outline-border outline-offset-[-1px]">
-          {faq.map(({ question, answer, icon: Icon }) => (
+        <div className="mt-12 grid md:grid-cols-2 bg-background rounded-xl overflow-hidden outline outline-border outline-offset-[-1px]">
+          {faq.map(({ question, answer, icon }) => (
             <div key={question} className="border p-6 -mt-px -ml-px">
               <div className="h-8 w-8 xs:h-10 xs:w-10 flex items-center justify-center rounded-full bg-accent">
-                <Icon className="h-4 w-4 xs:h-6 xs:w-6" />
+                {icon}
               </div>
               <div className="mt-3 mb-2 flex items-start gap-2 text-lg xs:text-[1.35rem] font-semibold tracking-tight">
                 <span>{question}</span>

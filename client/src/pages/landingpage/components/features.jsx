@@ -1,57 +1,50 @@
-import {
-  Blocks,
-  Bot,
-  ChartPie,
-  Film,
-  MessageCircle,
-  Settings2,
-} from "lucide-react";
+import { BellRing, CalendarCheck, Lock, MapPin, ShieldCheck, Users } from "lucide-react";
 import React from "react";
 
 const features = [
   {
-    icon: Settings2,
-    title: "Customizable Layouts",
+    title: "Perawat Tersertifikasi",
     description:
-      "Design your space with drag-and-drop simplicity—create grids, lists, or galleries in seconds.",
+      "Semua perawat telah melalui proses verifikasi dan memiliki sertifikasi profesional di bidangnya.",
+    icon: ShieldCheck,
   },
   {
-    icon: Blocks,
-    title: "Interactive Widgets",
+    title: "Pemesanan untuk Diri Sendiri atau Keluarga",
     description:
-      "Embed polls, quizzes, or forms to keep your audience engaged.",
+      "Anda bisa memesan layanan untuk diri sendiri atau keluarga, cukup isi data pasien yang dibutuhkan.",
+    icon: Users,
   },
   {
-    icon: Bot,
-    title: "AI-Powered Tools",
+    title: "Jadwal Harian yang Fleksibel",
     description:
-      "Generate summaries, auto-format content, or translate into multiple languages seamlessly.",
+      "Perawat tersedia setiap hari, dan Anda bebas memilih tanggal sesuai kebutuhan.",
+    icon: CalendarCheck,
   },
   {
-    icon: Film,
-    title: "Media Integrations",
+    title: "Berbasis Lokasi",
     description:
-      "Connect with Spotify, Instagram, or your own media library for dynamic visuals and sound.",
+      "Temukan perawat terdekat dari lokasi Anda untuk kemudahan dan efisiensi waktu.",
+    icon: MapPin,
   },
   {
-    icon: ChartPie,
-    title: "Advanced Analytics",
+    title: "Notifikasi Instan",
     description:
-      "Track engagement, clicks, and user activity with intuitive charts and reports.",
+      "Terima update langsung lewat WhatsApp atau notifikasi aplikasi saat status pemesanan berubah.",
+    icon: BellRing,
   },
   {
-    icon: MessageCircle,
-    title: "Seamless Collaboration",
+    title: "Privasi & Keamanan Data",
     description:
-      "Comment, tag, and assign tasks directly within your documents.",
+      "Data Anda dan keluarga dijamin aman dan tidak dibagikan ke pihak ketiga tanpa izin.",
+    icon: Lock,
   },
 ];
 
 const Features = () => {
   return (
-    <div id="features" className="w-full py-12 xs:py-20 px-6">
+    <div id="fitur" className="w-full py-12 xs:py-20 px-6 scroll-mt-16">
       <h2 className="text-3xl xs:text-4xl sm:text-5xl font-bold tracking-tight text-center">
-        Unleash Your Creativity
+        Kenapa Memilih Omelan?
       </h2>
       <div className="w-full max-w-screen-lg mx-auto mt-10 sm:mt-16 grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {features.map((feature) => (
