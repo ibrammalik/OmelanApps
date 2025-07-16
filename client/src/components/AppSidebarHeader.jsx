@@ -8,14 +8,14 @@ export default function AppSidebarHeader() {
   return (
     <div
       className={`flex items-center ${
-        collapsed ? "justify-center px-2 py-3" : "justify-start px-4 py-3"
+        collapsed ? "justify-center py-1" : "justify-start px-4 py-1"
       }`}
     >
       <div className="flex items-center gap-2 font-bold text-lg tracking-wide">
         <img
           src={brandImage}
           alt="OMELAN Logo"
-          className="w-9 h-9 rounded-full object-cover"
+          className="size-8 rounded-full object-cover aspect-square"
         />
         {!collapsed && <span>OMELAN</span>}
       </div>
