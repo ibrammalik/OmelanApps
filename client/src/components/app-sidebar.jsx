@@ -3,27 +3,30 @@ import {
   AudioWaveform,
   BookOpen,
   Bot,
+  CalendarCheck2,
+  Clock,
   Command,
   Frame,
   GalleryVerticalEnd,
+  House,
+  List,
   Map,
   PieChart,
   Settings2,
   SquareTerminal,
 } from "lucide-react";
 
-import { NavMain } from "@/components/nav-main";
-import { NavProjects } from "@/components/nav-projects";
 import { NavUser } from "@/components/nav-user";
-import { TeamSwitcher } from "@/components/team-switcher";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
   SidebarHeader,
+  SidebarMenu,
   SidebarRail,
 } from "@/components/ui/sidebar";
-import { Button } from "./ui/button";
+import SidebarMenuContent from "./SidebarMenuContent";
+import AppSidebarHeader from "./AppSidebarHeader";
 // import { link } from "fs";
 
 const commonNav = [
@@ -227,33 +230,29 @@ export function AppSidebar({ role, ...props }) {
     navMain = [...commonNav];
   }
 
-  {
-    /* <span className="truncate font-medium">OMELAN</span> */
-  }
+  const userMenu = [
+    { icon: <House size={16} />, label: "Dashboard" },
+    { icon: <List size={16} />, label: "My Requests" },
+    { icon: <CalendarCheck2 size={16} />, label: "My Appointments" },
+  ];
 
-  {
-    /* <ul className="ml-2">
-    <li>
-      <Button>Dashboard</Button>
-    </li>
-    <li>
-      <Button>Requests</Button>
-    </li>
-    <li>
-      <Button>My Appointments</Button>
-    </li>
-    <li>
-      <Button>My Availability</Button>
-    </li>
-  </ul> */
-  }
+  const caregiverMenu = [
+    { icon: <House size={16} />, label: "Dashboard" },
+    { icon: <List size={16} />, label: "Requests" },
+    { icon: <CalendarCheck2 size={16} />, label: "My Appointments" },
+    { icon: <Clock size={16} />, label: "My Availability" },
+  ];
+
+  const menuItems = role === "user" ? caregiverMenu : userMenu;
+
   return (
     <Sidebar collapsible="icon" {...props}>
+      {/* <Sidebar> */}
       <SidebarHeader>
-        <TeamSwitcher teams={data.teams} />
+        <AppSidebarHeader />
       </SidebarHeader>
       <SidebarContent>
-        <NavMain items={navMain} />
+        <SidebarMenuContent items={menuItems} />
       </SidebarContent>
       <SidebarFooter>
         <NavUser user={data.user} />
