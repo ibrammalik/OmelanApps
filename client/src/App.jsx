@@ -1,10 +1,14 @@
-import './App.css';
-import React, { useEffect, useState } from 'react';
-// import Page from './pages/dashboard/page';
-// import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-// import { LoginPage } from './pages/LoginPages';
-// import { RegisterPage } from './pages/RegisterPage';
-import LandingPage from './pages/landingpage/LandingPage';
+import "./App.css";
+import Page from "./pages/dashboard/page";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
 
 function App() {
   return (
@@ -14,7 +18,10 @@ function App() {
         <aside>
           <Page />
         </aside>
-        <main></main>
+        <main>
+          <LoginPage />
+          <RegisterPage />
+        </main>
       </div>
 
       <footer></footer> */}
