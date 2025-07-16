@@ -1,19 +1,15 @@
-import "./App.css";
-import Page from "./pages/dashboard/page";
-import React, { useEffect, useState } from "react";
-import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Navigate,
-} from "react-router-dom";
-import { LoginPage } from "./pages/LoginPages";
-import { RegisterPage } from "./pages/RegisterPage";
+import './App.css';
+import React, { useEffect, useState } from 'react';
+// import Page from './pages/dashboard/page';
+// import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
+// import { LoginPage } from './pages/LoginPages';
+// import { RegisterPage } from './pages/RegisterPage';
+import LandingPage from './pages/landingpage/LandingPage';
 
 function App() {
   return (
     <>
-      <header></header>
+      {/* <header></header>
       <div>
         <aside>
           <Page />
@@ -21,7 +17,8 @@ function App() {
         <main></main>
       </div>
 
-      <footer></footer>
+      <footer></footer> */}
+      <LandingPage />
     </>
   );
 }
