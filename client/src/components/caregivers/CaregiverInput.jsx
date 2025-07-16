@@ -1,62 +1,30 @@
 import React from "react";
-import RegisterInput from "../RegisterInput";
+import { Label } from "../ui/label";
+import { Input } from "../ui/input";
 
 export default function CaregiverInput() {
   return (
-    <RegisterInput title="Caregiver Registration">
-      <form className="space-y-4">
-        <div>
-          <label htmlFor="name" className="block text-left mb-1">
-            Name
-          </label>
-          <input
-            id="name"
-            type="text"
-            className="w-full border rounded px-3 py-2 transition-transform duration-200 focus:scale-98 focus:outline-none"
-          />
-        </div>
-        <div>
-          <label htmlFor="email" className="block text-left mb-1">
-            Email
-          </label>
-          <input
-            id="email"
-            type="email"
-            className="w-full border rounded px-3 py-2 transition-transform duration-200 focus:scale-98 focus:outline-none"
-          />
-        </div>
-        <div>
-          <label htmlFor="password" className="block text-left mb-1">
-            Password
-          </label>
-          <input
-            id="password"
-            type="password"
-            className="w-full border rounded px-3 py-2 transition-transform duration-200 focus:scale-98 focus:outline-none"
-          />
-        </div>
-        <div>
-          <label htmlFor="experience" className="block text-left mb-1">
-            Years of Experience
-          </label>
-          <input
-            id="experience"
-            type="number"
-            min="0"
-            className="w-full border rounded px-3 py-2 transition-transform duration-200 focus:scale-98 focus:outline-none"
-          />
-        </div>
-        <div>
-          <label htmlFor="specialization" className="block text-left mb-1">
-            Specialization
-          </label>
-          <input
-            id="specialization"
-            type="text"
-            className="w-full border rounded px-3 py-2 transition-transform duration-200 focus:scale-98 focus:outline-none"
-          />
-        </div>
-      </form>
-    </RegisterInput>
+    <div className="flex flex-col gap-6">
+      <div className="grid gap-2">
+        <Label htmlFor="name">Name</Label>
+        <Input id="name" required />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="email">Email</Label>
+        <Input id="email" type="email" placeholder="m@example.com" required />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="password">Password</Label>
+        <Input id="password" type="password" required />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="experience">Years of Experience</Label>
+        <Input id="experience" type="number" min="0" required />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="specialization">Specialization</Label>
+        <Input id="specialization" required />
+      </div>
+    </div>
   );
 }

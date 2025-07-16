@@ -1,3 +1,4 @@
+import CaregiverInput from "@/components/caregivers/CaregiverInput";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,10 +9,11 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import UserInput from "@/components/users/UserInput";
+import { useState } from "react";
 
 export function RegisterPage() {
+  const [role, setRole] = useState("user");
   return (
     <div className="flex items-center justify-center min-h-screen">
       <Card className="w-md">
@@ -25,39 +27,30 @@ export function RegisterPage() {
           </CardAction>
         </CardHeader>
         <CardContent>
-          <form>
-            <div className="flex flex-col gap-6">
-              <div className="grid gap-2">
-                <Label htmlFor="name">Name</Label>
-                <Input id="name" type="name" required />
-              </div>
-              <div className="grid gap-2">
-                <Label htmlFor="email">Email</Label>
-                <Input
-                  id="email"
-                  type="email"
-                  placeholder="m@example.com"
-                  required
-                />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Password</Label>
-                </div>
-                <Input id="password" type="password" required />
-              </div>
-              <div className="grid gap-2">
-                <div className="flex items-center">
-                  <Label htmlFor="password">Confirm Password</Label>
-                </div>
-                <Input id="password" type="password" required />
-              </div>
-            </div>
+          {/* <UserInput /> */}
+          {/* <CaregiverInput /> */}
+          <div className="flex gap-4 mb-6">
+            <Button
+              variant={role === "user" ? "default" : "outline"}
+              onClick={() => setRole("user")}
+            >
+              Sign Up as User
+            </Button>
+            <Button
+              variant={role === "caregiver" ? "default" : "outline"}
+              onClick={() => setRole("caregiver")}
+            >
+              Sign Up as Caregiver
+            </Button>
+          </div>
+
+          <form className="flex flex-col gap-6">
+            {role === "user" ? <UserInput /> : <CaregiverInput />}
           </form>
         </CardContent>
         <CardFooter className="flex-col gap-2">
           <Button type="submit" className="w-full">
-            Register
+            Create Account
           </Button>
         </CardFooter>
       </Card>
