@@ -10,7 +10,7 @@ import {
 import { LoginPage } from "./pages/LoginPage";
 import { RegisterPage } from "./pages/RegisterPage";
 import LandingPage from "./pages/landingpage/LandingPage";
-import PublicLayout from "./pages/layouts/PublicLayout";
+import PublicLayout from "./layouts/PublicLayout";
 
 function App() {
   return (
