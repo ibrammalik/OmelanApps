@@ -1,10 +1,13 @@
 import { AppSidebar } from "@/components/app-sidebar";
+import CaregiverProfile from "@/components/caregivers/CaregiverProfile";
+import ProfileCard from "@/components/ProfileCard";
 import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
   SidebarTrigger,
 } from "@/components/ui/sidebar";
+import UserProfile from "@/components/users/UserProfile";
 
 export default function Page() {
   return (
@@ -30,6 +33,7 @@ export default function Page() {
             <div className="bg-muted/50 aspect-video rounded-xl" />
           </div>
           <div className="bg-muted/50 min-h-[100vh] flex-1 rounded-xl md:min-h-min" />
+          <ProfileCard />
         </div>
       </SidebarInset>
     </SidebarProvider>

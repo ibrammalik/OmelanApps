@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import UserInput from "@/components/users/UserInput";
 import { useState } from "react";
+import { Link } from "react-router-dom";
 
 export function RegisterPage() {
   const [role, setRole] = useState("user");
@@ -23,12 +24,12 @@ export function RegisterPage() {
             Enter your details below to create a new account
           </CardDescription>
           <CardAction>
-            <Button variant="link">Login</Button>
+            <Button asChild variant="link">
+              <Link to="/login">Login</Link>
+            </Button>
           </CardAction>
         </CardHeader>
         <CardContent>
-          {/* <UserInput /> */}
-          {/* <CaregiverInput /> */}
           <div className="flex gap-4 mb-6">
             <Button
               variant={role === "user" ? "default" : "outline"}

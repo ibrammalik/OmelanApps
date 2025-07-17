@@ -9,6 +9,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Link } from "react-router-dom";
 
 export function LoginPage() {
   return (
@@ -20,7 +21,9 @@ export function LoginPage() {
             Enter your email below to login to your account
           </CardDescription>
           <CardAction>
-            <Button variant="link">Sign Up</Button>
+            <Button asChild variant="link">
+              <Link to="/register">Sign Up</Link>
+            </Button>
           </CardAction>
         </CardHeader>
         <CardContent>
@@ -30,7 +33,7 @@ export function LoginPage() {
         </CardContent>
         <CardFooter className="flex-col gap-2">
           <Button type="submit" className="w-full">
-            Login
+            <Link to="/dashboard">Login</Link>
           </Button>
         </CardFooter>
       </Card>

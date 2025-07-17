@@ -1,11 +1,16 @@
-import './App.css';
-import Page from './pages/dashboard/page';
-import React, { useEffect, useState } from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
-import LandingPage from './pages/landingpage/LandingPage';
-import PublicLayout from './pages/layouts/PublicLayout';
+import "./App.css";
+import Page from "./pages/dashboard/page";
+import React, { useEffect, useState } from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+import LandingPage from "./pages/landingpage/LandingPage";
+import PublicLayout from "./pages/layouts/PublicLayout";
 
 function App() {
   return (
@@ -17,6 +22,7 @@ function App() {
       </Route>
 
       {/* <Route element={<DashboardLayout />}></Route> */}
+      <Route path="dashboard" element={<Page />} />
     </Routes>
   );
 }
