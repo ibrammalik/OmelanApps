@@ -7,14 +7,18 @@ import {
 
 const navs = [
   {
-    text: "Fitur",
-    link: "/#fitur"
+    text: 'Fitur',
+    link: '/#fitur',
   },
   {
-    text: "FAQ",
-    link: "/#faq"
+    text: 'FAQ',
+    link: '/#faq',
   },
-]
+  {
+    text: 'Pesan',
+    link: '/pesan',
+  },
+];
 
 export const NavMenu = (props) => (
   <NavigationMenu {...props}>
@@ -26,7 +30,7 @@ export const NavMenu = (props) => (
               <a href={nav.link}>{nav.text}</a>
             </NavigationMenuLink>
           </NavigationMenuItem>
-        )
+        );
       })}
     </NavigationMenuList>
   </NavigationMenu>
