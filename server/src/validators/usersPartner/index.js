@@ -1,9 +1,15 @@
 const { badRequest } = require('@hapi/boom');
-const UsersPartnerSchema = require('./schema');
+const { UsersPartnerPayloadSchema, UsersPartnerUpdatePayloadSchema } = require('./schema');
 
 const UsersPartnerValidator = {
   validateUserPartnerPayload: (payload) => {
-    const validateResult = UsersPartnerSchema.validate(payload);
+    const validateResult = UsersPartnerPayloadSchema.validate(payload);
+    if (validateResult.error) {
+      throw badRequest(validateResult.error.message);
+    }
+  },
+  validateUserPartnerUpdatePayload: (payload) => {
+    const validateResult = UsersPartnerUpdatePayloadSchema.validate(payload);
     if (validateResult.error) {
       throw badRequest(validateResult.error.message);
     }

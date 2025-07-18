@@ -6,4 +6,12 @@ const UsersPartnerPayloadSchema = Joi.object({
   password: Joi.string().required()
 });
 
-module.exports = UsersPartnerPayloadSchema;
+const UsersPartnerUpdatePayloadSchema = Joi.object({
+  age: Joi.number().required(),
+  fullname: Joi.string().required(),
+  address: Joi.string().required(),
+  biodata: Joi.string().required(),
+  photoUrl: Joi.string()
+});
+
+module.exports = { UsersPartnerPayloadSchema, UsersPartnerUpdatePayloadSchema };

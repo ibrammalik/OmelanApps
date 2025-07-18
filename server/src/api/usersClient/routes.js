@@ -4,6 +4,22 @@ const routes = (handler) => [
     path: '/register/client',
     handler: handler.postUsersClient
   },
+  {
+    method: 'GET',
+    path: '/details/client',
+    handler: handler.getUserClientDetailsById,
+    options: {
+      auth: 'omelanapp_jwt'
+    }
+  },
+  {
+    method: 'PUT',
+    path: '/details/client',
+    handler: handler.putUserClientDetails,
+    options: {
+      auth: 'omelanapp_jwt'
+    }
+  },
 ];
 
 module.exports = routes;

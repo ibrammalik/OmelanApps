@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 /**
  * @param pgm {import('node-pg-migrate').MigrationBuilder}
  * @param run {() => void | undefined}
@@ -27,7 +28,21 @@ exports.up = (pgm) => {
     },
     address: {
       type: 'TEXT'
-    }
+    },
+    biodata: {
+      type: 'TEXT'
+    },
+    'photo_url': {
+      type: 'TEXT'
+    },
+    created_at: {
+      type: 'TEXT',
+      notNull: true,
+    },
+    updated_at: {
+      type: 'TEXT',
+      notNull: true,
+    },
   });
 };
 

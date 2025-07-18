@@ -1,5 +1,5 @@
 const { nanoid } = require('nanoid');
-const { badRequest, unauthorized } = require('@hapi/boom');
+const { badRequest, unauthorized, notFound } = require('@hapi/boom');
 
 const bycrypt = require('bcrypt');
 
@@ -10,20 +10,47 @@ class UsersClientServices {
     this._pool = ConnectPool();
   }
 
+  async getUserDetailsById(id) {
+    const query = {
+      text: 'SELECT id, fullname, age, biodata, photo_url FROM users_client WHERE id = $1',
+      values: [id]
+    };
+
+    const result = await this._pool.query(query);
+    return result.rows[0];
+  }
+
   async addUser({ username, password, fullname }) {
+    const createdAt = new Date().toISOString();
+    const updatedAt = createdAt;
+
     const id = `user_client-${nanoid(16)}`;
     const hashedPassword = await bycrypt.hash(password, 10);
+
     const query = {
-      text: 'INSERT INTO users_client VALUES($1, $2, $3, $4) RETURNING id',
-      values: [id, username, fullname, hashedPassword]
+      text: 'INSERT INTO users_client VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
+      values: [id, username, fullname, hashedPassword, null, '', '', '', createdAt, updatedAt]
     };
 
     const result = await this._pool.query(query).catch((err) => err);
     if (!result.rows || !result.rows.length) {
-      throw badRequest('Failed to add user client');
+      throw badRequest('Failed to add user');
     }
 
     return result.rows[0].id;
+  }
+
+  async editUserById(id, { fullname, age, address, biodata }) {
+    const updatedAt = new Date().toISOString();
+    const query = {
+      text: 'UPDATE users_client SET fullname = $1, age = $2, address = $3, biodata = $4, updated_at = $5 WHERE id = $6 RETURNING id',
+      values: [fullname, age, address, biodata, updatedAt, id]
+    };
+
+    const result = await this._pool.query(query);
+    if (!result.rows.length) {
+      throw new notFound('Failed to update user. Cannot find user.');
+    }
   }
 
   async verifyUserRegister({ username }) {
