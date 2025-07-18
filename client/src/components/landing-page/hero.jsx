@@ -1,7 +1,8 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { ArrowUpRight, CirclePlay } from "lucide-react";
-import React from "react";
+import { Badge } from '@/components/ui/badge';
+import { Button } from '@/components/ui/button';
+import { ArrowUpRight, CirclePlay } from 'lucide-react';
+import React from 'react';
+import { NavLink } from 'react-router-dom';
 
 const Hero = () => {
   return (
@@ -12,14 +13,14 @@ const Hero = () => {
             Pesan Layanan Caregiver Harian dengan Mudah
           </h1>
           <p className="mt-6 xs:text-lg">
-            Temukan caregiver profesional dan terpercaya hanya dalam beberapa klik. Untuk Anda atau keluarga tercinta.
+            Temukan caregiver profesional dan terpercaya hanya dalam beberapa klik. Untuk Anda atau
+            keluarga tercinta.
           </p>
           <div className="mt-12 flex flex-col sm:flex-row items-center sm:justify-center gap-4">
-            <Button
-              size="lg"
-              className="w-full sm:w-auto rounded-full text-base"
-            >
-              Pesan Sekarang <ArrowUpRight className="!h-5 !w-5" />
+            <Button size="lg" className="w-full sm:w-auto rounded-full text-base">
+              <NavLink to="/pesan" end>
+                Pesan Sekarang
+              </NavLink>
             </Button>
           </div>
         </div>

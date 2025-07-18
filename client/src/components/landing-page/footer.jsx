@@ -12,6 +12,10 @@ const footerLinks = [
     title: 'FAQ',
     href: '/#faq',
   },
+  {
+    title: 'Pesan',
+    href: '/pesan',
+  },
 ];
 
 const Footer = () => {
@@ -33,7 +37,6 @@ const Footer = () => {
               ))}
             </ul>
           </div>
-
         </div>
         <Separator />
         <div className="py-8 flex flex-col-reverse sm:flex-row items-center justify-between gap-x-2 gap-y-5 px-6 xl:px-0">

@@ -2,6 +2,7 @@ import { ArrowUpRight, Forward } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { AnimatedGridPattern } from '@/components/ui/animated-grid-pattern';
 import { Button } from '@/components/ui/button';
+import { NavLink } from 'react-router-dom';
 
 export default function CTABanner() {
   return (
@@ -26,17 +27,19 @@ export default function CTABanner() {
           )}
         />
         <div className="relative z-0 flex flex-col gap-3">
-          <h3 className="text-3xl md:text-4xl font-semibold">Siap Merawat Orang Tercinta Lebih Baik?</h3>
+          <h3 className="text-3xl md:text-4xl font-semibold">
+            Siap Merawat Orang Tercinta Lebih Baik?
+          </h3>
           <p className="mt-2 text-base md:text-lg">
-            Mulai perjalanan perawatan yang lebih mudah, aman, dan terpercaya bersama Omelan hari ini!
+            Mulai perjalanan perawatan yang lebih mudah, aman, dan terpercaya bersama Omelan hari
+            ini!
           </p>
         </div>
         <div className="relative z-0 mt-14 flex flex-col sm:flex-row gap-4">
           <Button size="lg">
-            Pesan Sekarang <ArrowUpRight className="!h-5 !w-5" />
-          </Button>
-          <Button size="lg" variant="outline">
-            Pelajari Lebih Lanjut <Forward className="!h-5 !w-5" />
+            <NavLink to="/pesan" end>
+              Pesan Sekarang
+            </NavLink>
           </Button>
         </div>
       </div>
