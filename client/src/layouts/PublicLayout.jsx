@@ -1,7 +1,7 @@
-import React from "react";
-import Navbar from "../pages/landingpage/components/navbar/navbar";
-import { Outlet } from "react-router-dom";
-import Footer from "../pages/landingpage/components/footer";
+import React from 'react';
+import Navbar from '../components/landing-page/navbar/navbar';
+import { Outlet } from 'react-router-dom';
+import Footer from '../components/landing-page/footer';
 
 export default function PublicLayout() {
   return (
