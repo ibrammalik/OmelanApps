@@ -5,7 +5,7 @@ export default function ProfileCard({ profileImage, onChangeImage, children }) {
   return (
     <div className="flex flex-col md:flex-row gap-4 rounded-lg">
       {/* Profile Image Section */}
-      <div className="flex flex-col items-center gap-4 w-full md:w-1/3 rounded-lg px-6 py-6 shadow">
+      <div className="flex flex-col items-center gap-4 w-full md:w-1/3 rounded-lg p-6 shadow">
         <div className="w-40 h-40 rounded-full bg-gray-200 overflow-hidden">
           <img
             src={profileImage}
