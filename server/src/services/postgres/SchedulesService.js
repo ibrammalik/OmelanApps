@@ -10,6 +10,12 @@ class SchedulesService {
 
   async addSchedule(userId, { dateStart, dateEnd }) {
     const id = `user_schedule-${nanoid(16)}`;
+
+    const timeStart = 'T00:00:00.000z';
+    const timeEnd = 'T59:59:59.997z';
+    dateStart = new Date(dateStart).toISOString().split('T')[0]+ timeStart;
+    dateEnd = new Date(dateStart).toISOString().split('T')[0]+ timeEnd;
+
     const query = {
       text: 'INSERT INTO schedules VALUES($1, $2, $3, $4) RETURNING id',
       values: [id, userId, dateStart, dateEnd]
@@ -49,6 +55,20 @@ class SchedulesService {
     }
 
     return result.rows[0];
+  }
+
+  async getSchedulesByDate({ dateStart, dateEnd }) {
+    const query = {
+      text: 'SELECT DISTINCT user_id FROM schedules WHERE date_start <= $1 AND date_end >= $2',
+      values: [dateStart, dateEnd]
+    };
+
+    const result = await this._pool.query(query);
+    if (!result.rows || !result.rows.length) {
+      throw badRequest('Sorry, no match schedule for your request');
+    }
+
+    return result.rows;
   }
 }
 

@@ -23,6 +23,14 @@ const routes = (handler) => [
       auth: 'omelanapp_jwt'
     }
   },
+  {
+    method: 'POST',
+    path: '/schedule/findByDate',
+    handler: handler.getScheduleByDate,
+    options: {
+      auth: 'omelanapp_jwt'
+    }
+  },
 ];
 
 module.exports = routes;

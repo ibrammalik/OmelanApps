@@ -79,6 +79,7 @@ const Init = async () => {
     {
       plugin: schedule,
       options: {
+        usersClientService,
         usersPartnerService,
         schedulesService,
         validator: SchedulesValidator
