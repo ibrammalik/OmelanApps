@@ -12,7 +12,7 @@ class UsersPartnerServices {
 
   async getUsers(top = 50) {
     const query = {
-      text: 'SELECT id, fullname, age, photo_url FROM users_partner LIMIT $1',
+      text: 'SELECT id, fullname, age, photo_url, average_rating FROM users_partner LIMIT $1',
       values: [top]
     };
 
@@ -22,7 +22,7 @@ class UsersPartnerServices {
 
   async getUserDetailsById(id) {
     const query = {
-      text: 'SELECT id, fullname, age, biodata, photo_url FROM users_partner WHERE id = $1',
+      text: 'SELECT id, fullname, age, biodata, photo_url, average_rating, experience, specialist FROM users_partner WHERE id = $1',
       values: [id]
     };
 
@@ -30,7 +30,17 @@ class UsersPartnerServices {
     return result.rows[0];
   }
 
-  async addUser({ username, password, fullname }) {
+  async getUserDetails(id) {
+    const query = {
+      text: 'SELECT id, fullname, age, address, biodata, photo_url, phone_number, average_rating, experience, specialist FROM users_partner WHERE id = $1',
+      values: [id]
+    };
+
+    const result = await this._pool.query(query);
+    return result.rows[0];
+  }
+
+  async addUser({ username, fullname, password, age = null, address = '', biodata = '', photoUrl = '', phoneNumber = '', rating = null, experience = '', specialist = '' }) {
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
 
@@ -38,11 +48,11 @@ class UsersPartnerServices {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const query = {
-      text: 'INSERT INTO users_partner VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
-      values: [id, username, fullname, hashedPassword, null, '', '', '', createdAt, updatedAt]
+      text: 'INSERT INTO users_partner VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING id',
+      values: [id, username, fullname, hashedPassword, age, address, biodata, photoUrl, phoneNumber, rating, experience, specialist, createdAt, updatedAt]
     };
 
-    const result = await this._pool.query(query);
+    const result = await this._pool.query(query).catch((err) => err);
     if (!result.rows || !result.rows.length) {
       throw badRequest('Failed to add user');
     }
@@ -50,11 +60,11 @@ class UsersPartnerServices {
     return result.rows[0].id;
   }
 
-  async editUserById(id, { fullname, age, address, biodata }) {
+  async editUserById(id, { fullname, age, address, biodata, photoUrl = '', phoneNumber, experience, specialist }) {
     const updatedAt = new Date().toISOString();
     const query = {
-      text: 'UPDATE users_partner SET fullname = $1, age = $2, address = $3, biodata = $4, updated_at = $5 WHERE id = $6 RETURNING id',
-      values: [fullname, age, address, biodata, updatedAt, id]
+      text: 'UPDATE users_partner SET fullname = $1, age = $2, address = $3, biodata = $4, photo_url = $5, phone_number = $6, experience = $7, specialist = $8, updated_at = $9 WHERE id = $10 RETURNING id',
+      values: [fullname, age, address, biodata, photoUrl, phoneNumber, experience, specialist, updatedAt, id]
     };
 
     const result = await this._pool.query(query);

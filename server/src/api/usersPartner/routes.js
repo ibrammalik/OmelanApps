@@ -11,8 +11,16 @@ const routes = (handler) => [
   },
   {
     method: 'GET',
-    path: '/list/partner/{id}',
+    path: '/details/partner/{id}',
     handler: handler.getUserPartnerDetailsById
+  },
+  {
+    method: 'GET',
+    path: '/details/partner',
+    handler: handler.getUserPartnerDetails,
+    options: {
+      auth: 'omelanapp_jwt'
+    }
   },
   {
     method: 'PUT',
