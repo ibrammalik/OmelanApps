@@ -11,6 +11,9 @@ const UsersClientUpdatePayloadSchema = Joi.object({
   fullname: Joi.string().required(),
   address: Joi.string().required(),
   biodata: Joi.string().required(),
+  phoneNumber: Joi.string().required(),
+  partnerName: Joi.string().required(),
+  emergencyContact: Joi.string().required(),
   photoUrl: Joi.string()
 });
 
