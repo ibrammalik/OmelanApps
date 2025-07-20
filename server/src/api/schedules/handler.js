@@ -48,7 +48,7 @@ class SchedulesHandler {
     };
   };
 
-  getScheduleByDate = async (request, h) => {
+  getScheduleByDate = async (request) => {
     this._validator.validateSchedulePayload(request.payload);
 
     const { id: credentialId } = request.auth.credentials;
