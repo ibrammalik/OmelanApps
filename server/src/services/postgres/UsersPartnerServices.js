@@ -42,7 +42,7 @@ class UsersPartnerServices {
       values: [id, username, fullname, hashedPassword, null, '', '', '', createdAt, updatedAt]
     };
 
-    const result = await this._pool.query(query).catch((err) => err);
+    const result = await this._pool.query(query);
     if (!result.rows || !result.rows.length) {
       throw badRequest('Failed to add user');
     }
@@ -94,6 +94,18 @@ class UsersPartnerServices {
     }
 
     return id;
+  }
+
+  async verifyUserExisting(id) {
+    const query = {
+      text: 'SELECT username FROM users_partner WHERE id = $1',
+      values: [id]
+    };
+
+    const { rowCount } = await this._pool.query(query).catch((err) => err);
+    if (rowCount == 0) {
+      throw unauthorized('User not found. You have no permission.');
+    }
   }
 
 }

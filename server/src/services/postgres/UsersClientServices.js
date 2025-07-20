@@ -32,7 +32,7 @@ class UsersClientServices {
       values: [id, username, fullname, hashedPassword, null, '', '', '', createdAt, updatedAt]
     };
 
-    const result = await this._pool.query(query).catch((err) => err);
+    const result = await this._pool.query(query);
     if (!result.rows || !result.rows.length) {
       throw badRequest('Failed to add user');
     }
