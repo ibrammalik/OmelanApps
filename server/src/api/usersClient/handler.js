@@ -4,7 +4,7 @@ class UsersClientHandler {
     this._validator = validator;
   }
 
-  getUserClientDetailsById = async (request) => {
+  getUserClientDetails = async (request) => {
     const { id: credentialId } = request.auth.credentials;
 
     const details = await this._service.getUserDetailsById(credentialId);

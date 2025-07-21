@@ -27,6 +27,19 @@ class UsersPartnerHandler {
     };
   };
 
+  getUserPartnerDetails = async (request) => {
+    const { id: credentialId } = request.auth.credentials;
+    await this._service.verifyUserExisting(credentialId);
+
+    const details = await this._service.getUserDetails(credentialId);
+    return {
+      status: 'success',
+      data: {
+        details
+      }
+    };
+  };
+
   postUsersPartner = async (request, h) => {
     this._validator.validateUserPartnerPayload(request.payload);
     await this._service.verifyUserRegister(request.payload);

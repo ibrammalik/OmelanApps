@@ -24,16 +24,32 @@ exports.up = (pgm) => {
       notNull: true
     },
     age: {
-      type: 'INTEGER'
+      type: 'INTEGER',
+      notNull: false
     },
     address: {
-      type: 'TEXT'
+      type: 'TEXT',
+      notNull: false
     },
     biodata: {
-      type: 'TEXT'
+      type: 'TEXT',
+      notNull: false
     },
     'photo_url': {
-      type: 'TEXT'
+      type: 'TEXT',
+      notNull: false
+    },
+    phone_number: {
+      type: 'VARCHAR(20)',
+      notNull: false
+    },
+    partner_name: {
+      type: 'TEXT',
+      notNull: false
+    },
+    emergency_contact: {
+      type: 'VARCHAR(20)',
+      notNull: false
     },
     created_at: {
       type: 'TEXT',

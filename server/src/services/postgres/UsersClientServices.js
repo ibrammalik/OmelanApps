@@ -12,7 +12,7 @@ class UsersClientServices {
 
   async getUserDetailsById(id) {
     const query = {
-      text: 'SELECT id, fullname, age, biodata, photo_url FROM users_client WHERE id = $1',
+      text: 'SELECT id, fullname, age, biodata, photo_url, phone_number, partner_name, emergency_contact FROM users_client WHERE id = $1',
       values: [id]
     };
 
@@ -20,7 +20,7 @@ class UsersClientServices {
     return result.rows[0];
   }
 
-  async addUser({ username, password, fullname }) {
+  async addUser({ username, password, fullname, age = null, address = '', biodata = '', photoUrl = '', phoneNumber = '', partnerName = '', emergencyContact = '' }) {
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
 
@@ -28,11 +28,11 @@ class UsersClientServices {
     const hashedPassword = await bycrypt.hash(password, 10);
 
     const query = {
-      text: 'INSERT INTO users_client VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING id',
-      values: [id, username, fullname, hashedPassword, null, '', '', '', createdAt, updatedAt]
+      text: 'INSERT INTO users_client VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id',
+      values: [id, username, fullname, hashedPassword, age, address, biodata, photoUrl, phoneNumber, partnerName, emergencyContact, createdAt, updatedAt]
     };
 
-    const result = await this._pool.query(query).catch((err) => err);
+    const result = await this._pool.query(query);
     if (!result.rows || !result.rows.length) {
       throw badRequest('Failed to add user');
     }
@@ -84,6 +84,18 @@ class UsersClientServices {
     }
 
     return id;
+  }
+
+  async verifyUserExisting(id) {
+    const query = {
+      text: 'SELECT username FROM users_client WHERE id = $1',
+      values: [id]
+    };
+
+    const { rowCount } = await this._pool.query(query).catch((err) => err);
+    if (rowCount == 0) {
+      throw unauthorized('User not found. You have no permission.');
+    }
   }
 }
 

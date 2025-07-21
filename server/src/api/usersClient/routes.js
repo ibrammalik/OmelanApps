@@ -7,7 +7,7 @@ const routes = (handler) => [
   {
     method: 'GET',
     path: '/details/client',
-    handler: handler.getUserClientDetailsById,
+    handler: handler.getUserClientDetails,
     options: {
       auth: 'omelanapp_jwt'
     }

@@ -12,6 +12,11 @@ const userPartner = require('./api/usersPartner');
 const UserPartnerValidator = require('./validators/usersPartner');
 const UsersPartnerService = require('./services/postgres/UsersPartnerServices');
 
+// Schedules
+const schedule = require('./api/schedules');
+const SchedulesValidator = require('./validators/schedules');
+const ScheduleService = require('./services/postgres/SchedulesService');
+
 // Authentications
 const authentication = require('./api/authentications');
 const AuthenticationValidator = require('./validators/authentications');
@@ -21,6 +26,7 @@ const AuthenticationService = require('./services/postgres/AuthenticationsServic
 const Init = async () => {
   const usersClientService = new UsersClientService();
   const usersPartnerService = new UsersPartnerService();
+  const schedulesService = new ScheduleService();
   const authenticationService = new AuthenticationService();
 
   const server = Hapi.server({
@@ -68,6 +74,15 @@ const Init = async () => {
       options: {
         service: usersPartnerService,
         validator: UserPartnerValidator
+      }
+    },
+    {
+      plugin: schedule,
+      options: {
+        usersClientService,
+        usersPartnerService,
+        schedulesService,
+        validator: SchedulesValidator
       }
     },
     {
