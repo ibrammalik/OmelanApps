@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 export default function OrderConfirmationPage() {
   return (
-    <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
+    <div className="max-w-2xl mx-auto px-4 space-y-6">
       <h2 className="text-2xl font-bold">Konfirmasi Pemesanan</h2>
 
       <Card>

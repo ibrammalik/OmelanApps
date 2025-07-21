@@ -179,3 +179,8 @@ export async function getCaregiverDetailsById(id) {
   return { error: false, data: caregivers.find((c) => c.id === id) };
 }
 
+// Simulasi SEARCH caregivers berdasarkan tanggal available
+export async function searchCaregiversByDateAvailable() {
+  await delay();
+  return {error: false, data: caregivers};
+}
