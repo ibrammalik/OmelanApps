@@ -13,7 +13,9 @@ import { Button } from '@/components/ui/button';
 import { Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export function CaregiverDetailModal() {
+export function CaregiverDetailModal({ caregiver }) {
+  const { photo_url, fullname, age, average_rating, experience, specialist, biodata } = caregiver;
+
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -29,20 +31,20 @@ export function CaregiverDetailModal() {
           {/* Header */}
           <Card className="flex flex-col md:flex-row items-start gap-6 p-6">
             <Avatar className="w-28 h-28">
-              <AvatarImage src="https://randomuser.me/api/portraits/women/65.jpg" />
+              <AvatarImage src={photo_url} />
               <AvatarFallback>AN</AvatarFallback>
             </Avatar>
 
             <div className="flex-1 space-y-1">
-              <h2 className="text-xl font-semibold">Nama Perawat</h2>
-              <p className="text-muted-foreground">Usia 45 tahun</p>
+              <h2 className="text-xl font-semibold">{fullname}</h2>
+              <p className="text-muted-foreground">Usia {age} tahun</p>
               <div className="flex items-center gap-2">
                 <Star className="h-5 w-5 text-yellow-400" />
-                <span className="text-sm">4.8 / 5.0</span>
+                <span className="text-sm">{average_rating} / 5.0</span>
               </div>
               <div className="flex gap-2 flex-wrap mt-2">
-                <Badge variant="outline">8 tahun pengalaman</Badge>
-                <Badge variant="secondary">Lansia & Demensia</Badge>
+                <Badge variant="outline">{experience} tahun pengalaman</Badge>
+                <Badge variant="secondary">{specialist}</Badge>
               </div>
             </div>
           </Card>
@@ -53,10 +55,7 @@ export function CaregiverDetailModal() {
               <CardTitle>Tentang Perawat</CardTitle>
             </CardHeader>
             <CardContent>
-              <p className="text-sm leading-relaxed text-muted-foreground">
-                Perawat berpengalaman yang telah membantu puluhan pasien lansia dalam merawat
-                kebutuhan harian mereka, dengan pendekatan empati dan profesional.
-              </p>
+              <p className="text-sm leading-relaxed text-muted-foreground">{biodata}</p>
             </CardContent>
           </Card>
 
