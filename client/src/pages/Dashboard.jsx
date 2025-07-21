@@ -8,12 +8,10 @@ import {
 import { AppSidebar } from "@/components/app-sidebar";
 import AppointmentPage from "@/components/users/AppointmentPage";
 import UserAppointment from "@/components/users/UserAppointment";
-import UserRequest from "@/components/users/UserRequests";
-import AvailabilitySection from "@/components/availability/AvailabilitySection";
-import CaregiverProfile from "@/components/caregivers/CaregiverProfile";
-import UserProfile from "@/components/users/UserProfile";
-import ProfilePage from "./ProfilePage";
 import ProfileCard from "@/components/ProfileCard";
+import OverviewStats from "@/components/dashboard/OverviewStats";
+import OverviewSection from "@/components/dashboard/OverviewSection";
+import ReviewSummary from "@/components/caregivers/ReviewSummary";
 
 export default function Dashboard() {
   const [role, setRole] = useState(null);
@@ -24,10 +22,54 @@ export default function Dashboard() {
   }, []);
 
   const renderRoleBasedFeatures = () => {
+    const dashboardData = {
+      appointments: 45,
+      earnings: 1500,
+    };
+
+    const appointments = [
+      {
+        id: 1,
+        caretakerName: "Bambang",
+        schedule: "22 July 2025, 10:00 AM",
+      },
+      {
+        id: 2,
+        caretakerName: "john",
+        schedule: "23 July 2025, 2:00 PM",
+      },
+    ];
+
+    const availability = {
+      monday: ["08:00 AM - 12:00 PM", "02:00 PM - 06:00 PM"],
+      wednesday: ["09:00 AM - 11:00 AM"],
+      friday: [],
+    };
+
+    const reviews = [
+      {
+        id: 1,
+        caretakerName: "Bambang",
+        date: "22 July 2025",
+        feedback: "Very helpful and professional service!",
+      },
+      {
+        id: 2,
+        caretakerName: "john",
+        date: "23 July 2025",
+        feedback: "Friendly caregiver, but arrived slightly late.",
+      },
+    ];
+
     if (role === "caregiver") {
       return (
         <>
-          <AvailabilitySection />
+          <OverviewStats role={role} data={dashboardData} />
+          <OverviewSection
+            appointments={appointments}
+            availability={availability}
+          />
+          <ReviewSummary reviews={reviews} />
         </>
       );
     }
@@ -42,7 +84,7 @@ export default function Dashboard() {
       );
     }
 
-    return null; // saat role belum dikenali
+    return null;
   };
 
   return (

@@ -36,7 +36,7 @@ export default function CaregiverAvailability({
       <button
         key={slot}
         onClick={() => toggleSlot(slot)}
-        className={`flex items-center gap-2 px-3 py-1 rounded-lg border text-sm ${
+        className={`flex items-center gap-2 px-3 py-1 rounded-lg border text-sm cursor-pointer ${
           isSelected ? "bg-blue-500 text-white" : "bg-muted"
         }`}
       >
@@ -67,6 +67,7 @@ export default function CaregiverAvailability({
               const isDisabled = currentAvailability[day];
               return (
                 <Button
+                  className="cursor-pointer"
                   key={day}
                   variant={day === selectedDay ? "default" : "outline"}
                   onClick={() => setSelectedDay(day)}
@@ -93,10 +94,12 @@ export default function CaregiverAvailability({
       </div>
 
       <div className="flex justify-end gap-3">
-        <Button variant="outline" onClick={onCancel}>
+        <Button variant="outline" className="cursor-pointer" onClick={onCancel}>
           Cancel
         </Button>
-        <Button onClick={handleSave}>Save Changes</Button>
+        <Button className="cursor-pointer" onClick={handleSave}>
+          Save Changes
+        </Button>
       </div>
     </div>
   );

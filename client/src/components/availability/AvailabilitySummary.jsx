@@ -24,14 +24,14 @@ export default function AvailabilitySummary({
                   className="text-blue-500 hover:text-blue-700"
                   title="Edit Slots"
                 >
-                  <SquarePen size={16} />
+                  <SquarePen className="cursor-pointer" size={16} />
                 </button>
                 <button
                   onClick={() => onRemoveDay(day)}
                   className="text-red-500 hover:text-red-700"
                   title="Remove Slots"
                 >
-                  <Trash2 size={16} />
+                  <Trash2 className="cursor-pointer" size={16} />
                 </button>
               </div>
             </div>

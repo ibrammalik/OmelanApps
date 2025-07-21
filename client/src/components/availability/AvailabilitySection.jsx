@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AddSlotModal from "./AddSlotModal";
 import { Separator } from "../ui/separator";
 import AvailabilitySummary from "./AvailabilitySummary";
@@ -6,8 +6,15 @@ import EditSlotModal from "./EditSlotModal";
 import { allSlots } from "@/utils/time-slots";
 
 export default function AvailabilitySection() {
-  const [availability, setAvailability] = useState({});
+  const [availability, setAvailability] = useState(() => {
+    const saved = localStorage.getItem("availabilityData");
+    return saved ? JSON.parse(saved) : {};
+  });
   const [editDay, setEditDay] = useState(null);
+
+  useEffect(() => {
+    localStorage.setItem("availabilityData", JSON.stringify(availability));
+  }, [availability]);
 
   const handleAddSlots = (newAvailability) => {
     setAvailability((prev) => {

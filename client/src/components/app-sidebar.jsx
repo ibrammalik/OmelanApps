@@ -9,6 +9,7 @@ import {
   Frame,
   GalleryVerticalEnd,
   House,
+  LayoutDashboard,
   List,
   Map,
   NotebookPen,
@@ -33,7 +34,11 @@ import NavProfile from "./sidebar-custom/NavProfile";
 
 export function AppSidebar({ role }) {
   const baseMenu = [
-    { icon: <House size={16} />, label: "Dashboard", url: "/dashboard" },
+    {
+      icon: <LayoutDashboard size={16} />,
+      label: "Dashboard",
+      url: "/dashboard",
+    },
   ];
 
   const userMenu = [

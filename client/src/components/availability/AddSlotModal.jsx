@@ -29,7 +29,7 @@ export default function AddSlotModal({ onSave, currentAvailability }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline">
+        <Button variant="outline" className="cursor-pointer gap-1">
           <Plus size={16} />
           Add Slots
         </Button>
