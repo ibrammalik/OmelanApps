@@ -6,11 +6,11 @@ import Footer from '../components/landing-page/footer';
 export default function PublicLayout() {
   return (
     <>
-      <main className="pt-16 xs:pt-20 sm:pt-24">
-        <Navbar />
+      <Navbar />
+      <main className="pt-12 xs:pt-20 sm:pt-24">
         <Outlet />
-        <Footer />
       </main>
+      <Footer />
     </>
   );
 }
