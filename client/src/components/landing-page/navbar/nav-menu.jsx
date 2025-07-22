@@ -18,11 +18,11 @@ const navs = [
   },
   {
     text: 'Caregiver',
-    link: '/caregivers  ',
+    link: '/caregivers',
   },
   {
     text: 'Dashboard',
-    link: '/dashboard  ',
+    link: '/dashboard',
   },
 ];
 
@@ -36,7 +36,7 @@ export function NavMenu() {
       <NavigationMenuList className="gap-6">
         {navs.map((nav, index) => (
           <NavigationMenuItem key={index}>
-            <NavigationMenuLink asChild>
+            <NavigationMenuLink>
               <NavLink
                 to={nav.link}
                 className={({ isActive }) => (isActive ? 'text-primary font-semibold' : '')}>
