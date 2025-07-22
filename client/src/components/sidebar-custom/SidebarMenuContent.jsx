@@ -1,6 +1,6 @@
+import { Separator } from "../ui/separator";
+import { useSidebar } from "../ui/sidebar";
 import { SidebarItem } from "./SidebarItem";
-import { Separator } from "./ui/separator";
-import { useSidebar } from "./ui/sidebar";
 
 export default function SidebarMenuContent({ items }) {
   const { state } = useSidebar();
@@ -8,8 +8,8 @@ export default function SidebarMenuContent({ items }) {
 
   return (
     <div
-      className={`space-y-4 transition-all duration-300 ${
-        collapsed ? "px-1" : "px-3"
+      className={`space-y-4 transition-all duration-300 ease-in-out ${
+        collapsed ? "px-2" : "px-3"
       }`}
     >
       <Separator className="mb-2" />
@@ -19,6 +19,7 @@ export default function SidebarMenuContent({ items }) {
             key={item.label}
             icon={item.icon}
             label={collapsed ? null : item.label}
+            url={item.url}
           />
         ))}
       </nav>

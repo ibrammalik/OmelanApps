@@ -1,6 +1,5 @@
 import './App.css';
-import Page from './pages/dashboard/page';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { LoginPage } from './pages/LoginPage';
 import { RegisterPage } from './pages/RegisterPage';
@@ -11,6 +10,7 @@ import CaregiverDetailPage from './pages/CaregiverDetailPage';
 import OrderConfirmationPage from './pages/OrderConfirmationPage';
 import CaregiverListPage from './pages/CaregiverListPage';
 import LoaderScreen from './components/global/LoaderScreen';
+import Dashboard from "./pages/Dashboard";
 
 function App() {
   return (
@@ -26,7 +26,7 @@ function App() {
       </Route>
 
       {/* <Route element={<DashboardLayout />}></Route> */}
-      <Route path="/dashboard" element={<Page />} />
+      <Route path="dashboard" element={<Dashboard />} />
     </Routes>
   );
 }
