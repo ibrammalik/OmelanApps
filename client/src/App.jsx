@@ -18,10 +18,12 @@ function App() {
         <Route index element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/pesan" element={<CaregiverOrderPage />} />
-        <Route path="/caregivers/:id" element={<CaregiverDetailPage />} />
+
         <Route path="/caregivers" element={<CaregiverListPage />} />
-        <Route path="/konfirmasi-pesanan" element={<OrderConfirmationPage />} />
+        <Route path="/caregivers/:id" element={<CaregiverDetailPage />} />
+
+        <Route path="/pesan" element={<CaregiverOrderPage />} />
+        <Route path="/pesan/konfirmasi" element={<OrderConfirmationPage />} />
       </Route>
 
       {/* <Route element={<DashboardLayout />}></Route> */}

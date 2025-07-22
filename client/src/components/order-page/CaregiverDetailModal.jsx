@@ -61,7 +61,7 @@ export function CaregiverDetailModal({ caregiver }) {
 
           {/* CTA */}
           <div className="flex justify-end">
-            <Link to="/konfirmasi-pesanan">
+            <Link to="/pesan/konfirmasi">
               <Button size="lg">Pesan Perawat Ini</Button>
             </Link>
           </div>
