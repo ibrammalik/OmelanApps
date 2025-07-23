@@ -5,7 +5,6 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -17,13 +16,11 @@ export function RegisterPage() {
   const [role, setRole] = useState("user");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
   const [password, setPassword] = useState("");
 
   // user only
   const [dob, setDob] = useState("");
-  // caregiver only
-  const [experience, setExperience] = useState("");
-  const [specialization, setSpecialization] = useState("");
 
   const navigate = useNavigate();
 
@@ -36,16 +33,16 @@ export function RegisterPage() {
             role,
             name,
             email,
-            password,
+            phoneNumber,
             dob,
+            password,
           }
         : {
             role,
             name,
             email,
+            phoneNumber,
             password,
-            experience,
-            specialization,
           };
 
     localStorage.setItem("userRole", role);
@@ -57,13 +54,13 @@ export function RegisterPage() {
     <div className="flex items-center justify-center min-h-screen">
       <Card className="w-md">
         <CardHeader>
-          <CardTitle>Create your account</CardTitle>
+          <CardTitle>Buat Akun Anda</CardTitle>
           <CardDescription>
-            Enter your details below to create a new account
+            Masukkan detail Anda di bawah ini untuk membuat akun baru
           </CardDescription>
           <CardAction>
             <Button asChild variant="link">
-              <Link to="/login">Login</Link>
+              <Link to="/login">Masuk</Link>
             </Button>
           </CardAction>
         </CardHeader>
@@ -73,13 +70,13 @@ export function RegisterPage() {
               variant={role === "user" ? "default" : "outline"}
               onClick={() => setRole("user")}
             >
-              Sign Up as User
+              Daftar sebagai Klien
             </Button>
             <Button
               variant={role === "caregiver" ? "default" : "outline"}
               onClick={() => setRole("caregiver")}
             >
-              Sign Up as Caregiver
+              Daftar sebagai Mitra
             </Button>
           </div>
 
@@ -90,10 +87,12 @@ export function RegisterPage() {
                 onNameChange={(e) => setName(e.target.value)}
                 email={email}
                 onEmailChange={(e) => setEmail(e.target.value)}
-                password={password}
-                onPasswordChange={(e) => setPassword(e.target.value)}
+                phoneNumber={phoneNumber}
+                onPhoneNumberChange={(e) => setPhoneNumber(e.target.value)}
                 dob={dob}
                 onDobChange={(e) => setDob(e.target.value)}
+                password={password}
+                onPasswordChange={(e) => setPassword(e.target.value)}
               />
             ) : (
               <CaregiverInput
@@ -101,18 +100,14 @@ export function RegisterPage() {
                 onNameChange={(e) => setName(e.target.value)}
                 email={email}
                 onEmailChange={(e) => setEmail(e.target.value)}
+                phoneNumber={phoneNumber}
+                onPhoneNumberChange={(e) => setPhoneNumber(e.target.value)}
                 password={password}
                 onPasswordChange={(e) => setPassword(e.target.value)}
-                experience={experience}
-                onExperienceChange={(e) => setExperience(e.target.value)}
-                specialization={specialization}
-                onSpecializationChange={(e) =>
-                  setSpecialization(e.target.value)
-                }
               />
             )}{" "}
             <Button type="submit" className="w-full">
-              Create Account
+              Buat Akun
             </Button>
           </form>
         </CardContent>

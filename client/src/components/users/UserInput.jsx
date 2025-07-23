@@ -7,15 +7,17 @@ export default function UserInput({
   onNameChange,
   email,
   onEmailChange,
-  password,
-  onPasswordChange,
+  phoneNumber,
+  onPhoneNumberChange,
   dob,
   onDobChange,
+  password,
+  onPasswordChange,
 }) {
   return (
     <div className="flex flex-col gap-6">
       <div className="grid gap-2">
-        <Label htmlFor="name">Name</Label>
+        <Label htmlFor="name">Nama Lengkap</Label>
         <Input id="name" value={name} onChange={onNameChange} required />
       </div>
       <div className="grid gap-2">
@@ -29,22 +31,34 @@ export default function UserInput({
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="password">Password</Label>
+        <Label htmlFor="phone">No. Telepon</Label>
         <Input
-          id="password"
-          type="password"
-          value={password}
-          onChange={onPasswordChange}
+          id="phone"
+          type="tel"
+          inputMode="tel"
+          pattern="[0-9+]{10,15}"
+          value={phoneNumber}
+          onChange={onPhoneNumberChange}
           required
         />
       </div>
       <div className="grid gap-2">
-        <Label htmlFor="dob">Date of Birth</Label>
+        <Label htmlFor="dob">Tanggal Lahir</Label>
         <Input
           id="dob"
           type="date"
           value={dob}
           onChange={onDobChange}
+          required
+        />
+      </div>
+      <div className="grid gap-2">
+        <Label htmlFor="password">Kata Sandi</Label>
+        <Input
+          id="password"
+          type="password"
+          value={password}
+          onChange={onPasswordChange}
           required
         />
       </div>

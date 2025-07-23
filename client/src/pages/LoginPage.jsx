@@ -6,7 +6,6 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
@@ -39,13 +38,13 @@ export function LoginPage() {
     <div className="flex items-center justify-center min-h-screen">
       <Card className="w-md">
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Masuk ke Akun Anda</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Masukkan email Anda di bawah ini untuk masuk ke akun
           </CardDescription>
           <CardAction>
             <Button asChild variant="link">
-              <Link to="/register">Sign Up</Link>
+              <Link to="/register">Daftar</Link>
             </Button>
           </CardAction>
         </CardHeader>
@@ -58,7 +57,7 @@ export function LoginPage() {
               onPasswordChange={(e) => setPassword(e.target.value)}
             />
             <Button type="submit" className="w-full">
-              Login
+              Masuk
             </Button>
           </form>
         </CardContent>

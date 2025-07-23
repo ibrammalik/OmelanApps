@@ -22,7 +22,7 @@ export default function LoginInput({
       </div>
       <div className="grid gap-2">
         <div className="flex items-center">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">Kata Sandi</Label>
         </div>
         <Input
           id="password"
