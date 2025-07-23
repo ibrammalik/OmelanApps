@@ -7,7 +7,7 @@ export default function StatCard({
   iconColor = "text-gray-300",
 }) {
   return (
-    <div className="rounded-lg bg-white shadow p-4 text-start flex justify-between">
+    <div className="rounded-lg bg-white shadow p-4 text-start flex justify-between items-center">
       <div>
         <p className="text-sm font-semibold mb-3">{title}</p>
         <p className="text-2xl font-bold">{value}</p>

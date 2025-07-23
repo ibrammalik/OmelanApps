@@ -1,13 +1,13 @@
 import React from "react";
-import { Wallet } from "lucide-react";
+import { ShoppingCart } from "lucide-react";
 import StatCard from "../dashboard/StatCard";
 
-export default function TotalEarnings({ value = "Rp.0" }) {
+export default function TotalOrders({ value = 0 }) {
   return (
     <StatCard
-      title="Total Pendapatan"
+      title="Total Pesanan"
       value={value}
-      icon={Wallet}
+      icon={ShoppingCart}
       iconColor="text-green-400"
     />
   );
