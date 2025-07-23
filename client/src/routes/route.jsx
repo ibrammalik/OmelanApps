@@ -13,6 +13,7 @@ const ROUTES = {
     confirmOrder: "/dashboard/caregiver/order/:orderId/confirm",
     availability: "/dashboard/caregiver/availability",
     reviews: "/dashboard/caregiver/reviews",
+    earnings: "/dashboard/caregiver/earnings",
   },
 };
 

@@ -20,6 +20,8 @@ import ROUTES from "./routes/route";
 import DashboardCaretaker from "./components/dashboard/DashboardCaretaker";
 import DashboardCaregiver from "./components/dashboard/DashboardCaregiver";
 import AvailableSection from "./components/availability/AvailableSection";
+import ReviewList from "./components/caregivers/ReviewList";
+import InvoiceSummary from "./components/caregivers/InvoiceSummary";
 
 function App() {
   return (
@@ -50,7 +52,8 @@ function App() {
           element={<AvailableSection />}
         />
         {/* <Route path={ROUTES.caregiver.appointment} /> */}
-        {/* <Route path={ROUTES.caretaker.review} /> */}
+        <Route path={ROUTES.caregiver.earnings} element={<InvoiceSummary />} />
+        <Route path={ROUTES.caregiver.reviews} element={<ReviewList />} />
       </Route>
     </Routes>
   );
