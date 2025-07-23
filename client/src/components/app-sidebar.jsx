@@ -1,22 +1,11 @@
 import React from "react";
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
   CalendarCheck2,
   CalendarClock,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  House,
+  Heart,
   LayoutDashboard,
   List,
-  Map,
   NotebookPen,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-  Star,
   Wallet,
 } from "lucide-react";
 
@@ -36,35 +25,35 @@ export function AppSidebar({ role }) {
   const baseMenu = [
     {
       icon: <LayoutDashboard size={16} />,
-      label: "Dashboard",
+      label: "Beranda",
       url: "/dashboard",
     },
   ];
 
   const userMenu = [
-    { icon: <List size={16} />, label: "Requests", url: "/requests" },
+    { icon: <List size={16} />, label: "Permintaan", url: "/requests" },
     {
       icon: <CalendarCheck2 size={16} />,
-      label: "Appointments",
+      label: "Janji Temu",
       url: "/appointments",
     },
-    { icon: <NotebookPen size={16} />, label: "Reviews", url: "/reviews" },
-    { icon: <Star size={16} />, label: "Favorite", url: "/favorite" },
+    { icon: <NotebookPen size={16} />, label: "Penilaian", url: "/reviews" },
+    { icon: <Heart size={16} />, label: "Disukai", url: "/favorite" },
   ];
 
   const caregiverMenu = [
     {
       icon: <CalendarCheck2 size={16} />,
-      label: "Appointments",
+      label: "Janji Temu",
       url: "/appointments",
     },
     {
       icon: <CalendarClock size={16} />,
-      label: "Availability Schedule",
+      label: "Jadwal Ketersediaan",
       url: "/availability",
     },
-    { icon: <Wallet size={16} />, label: "Earnings", url: "/earnings" },
-    { icon: <Star size={16} />, label: "Reviews", url: "/reviews" },
+    { icon: <Wallet size={16} />, label: "Pendapatan", url: "/earnings" },
+    { icon: <NotebookPen size={16} />, label: "Penilaian", url: "/reviews" },
   ];
 
   const menuItems =

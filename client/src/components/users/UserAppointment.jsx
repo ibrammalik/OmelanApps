@@ -21,7 +21,7 @@ export default function UserAppointment() {
       </div>
 
       <Separator />
-      {/* <p className="text-muted-foreground">No appointment selected yet.</p> */}
+
       <div className="flex items-center gap-4 justify-between">
         <div className="flex items-center gap-4">
           <img

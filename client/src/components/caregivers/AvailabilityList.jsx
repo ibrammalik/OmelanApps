@@ -1,28 +1,18 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { Separator } from "../ui/separator";
 
-export default function AvailabilityList({ availability = {} }) {
-  const hasAvailability = Object.keys(availability).length > 0;
-
-  if (!hasAvailability) {
-    return <p className="text-gray-500">No availability set.</p>;
-  }
-
+export default function AvailabilityList() {
   return (
-    <div className="space-y-4">
-      {Object.entries(availability).map(([day, times]) => (
-        <div key={day} className="rounded-lg flex justify-between">
-          <p className="font-semibold capitalize">{day}</p>
-          {times.length > 0 ? (
-            <ul className="list-disc pl-5 text-sm text-gray-700 mt-1 list-none">
-              {times.map((time, index) => (
-                <li key={index}>{time}</li>
-              ))}
-            </ul>
-          ) : (
-            <p className="text-sm text-gray-400">No time slots available.</p>
-          )}
-        </div>
-      ))}
+    <div className="shadow p-4 rounded-lg">
+      <div className="flex justify-between">
+        <h2 className="text-base font-semibold mb-3">Jadwal Ketersediaan</h2>
+        <Link className="text-gray-600 text-sm">Atur Jadwal</Link>
+      </div>
+      <Separator />
+      <div className="flex items-center mt-2">
+        <p className="text-base">21 Juli 2025</p>
+      </div>
     </div>
   );
 }
