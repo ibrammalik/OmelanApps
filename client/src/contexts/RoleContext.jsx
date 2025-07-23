@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 const RoleContext = createContext();
 
@@ -11,8 +11,4 @@ export function RoleProvider({ children }) {
   }, []);
 
   return <RoleContext.Provider value={role}>{children}</RoleContext.Provider>;
-}
-
-export function useRole() {
-  return useContext(RoleContext);
 }

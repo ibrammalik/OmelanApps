@@ -20,46 +20,58 @@ import {
 import SidebarMenuContent from "./sidebar-custom/SidebarMenuContent";
 import AppSidebarHeader from "./sidebar-custom/AppSidebarHeader";
 import NavProfile from "./sidebar-custom/NavProfile";
+import ROUTES from "@/routes/route";
 
-export function AppSidebar({ role }) {
-  const baseMenu = [
+export function AppSidebar({ role, setActiveLabel }) {
+  const userMenu = [
     {
       icon: <LayoutDashboard size={16} />,
       label: "Beranda",
-      url: "/dashboard",
+      url: ROUTES.caretaker.dashboard,
     },
-  ];
-
-  const userMenu = [
-    { icon: <List size={16} />, label: "Permintaan", url: "/requests" },
+    {
+      icon: <List size={16} />,
+      label: "Permintaan",
+      url: ROUTES.caretaker.order,
+    },
     {
       icon: <CalendarCheck2 size={16} />,
       label: "Janji Temu",
-      url: "/appointments",
+      url: ROUTES.caretaker.appointment,
     },
-    { icon: <NotebookPen size={16} />, label: "Penilaian", url: "/reviews" },
+    {
+      icon: <NotebookPen size={16} />,
+      label: "Penilaian",
+      url: ROUTES.caretaker.review,
+    },
     { icon: <Heart size={16} />, label: "Disukai", url: "/favorite" },
   ];
 
   const caregiverMenu = [
     {
+      icon: <LayoutDashboard size={16} />,
+      label: "Beranda",
+      url: ROUTES.caregiver.dashboard,
+    },
+    {
       icon: <CalendarCheck2 size={16} />,
       label: "Janji Temu",
-      url: "/appointments",
+      url: ROUTES.caregiver.appointment,
     },
     {
       icon: <CalendarClock size={16} />,
       label: "Jadwal Ketersediaan",
-      url: "/availability",
+      url: ROUTES.caregiver.availability,
     },
     { icon: <Wallet size={16} />, label: "Pendapatan", url: "/earnings" },
-    { icon: <NotebookPen size={16} />, label: "Penilaian", url: "/reviews" },
+    {
+      icon: <NotebookPen size={16} />,
+      label: "Penilaian",
+      url: ROUTES.caregiver.reviews,
+    },
   ];
 
-  const menuItems =
-    role === "caregiver"
-      ? [...baseMenu, ...caregiverMenu]
-      : [...baseMenu, ...userMenu];
+  const menuItems = role === "caregiver" ? caregiverMenu : userMenu;
 
   return (
     <Sidebar collapsible="icon">
@@ -67,7 +79,7 @@ export function AppSidebar({ role }) {
         <AppSidebarHeader />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenuContent items={menuItems} />
+        <SidebarMenuContent items={menuItems} onSelect={setActiveLabel} />
       </SidebarContent>
       <SidebarFooter>
         <NavProfile />

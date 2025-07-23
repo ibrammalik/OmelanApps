@@ -10,6 +10,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
+import ROUTES from "@/routes/route";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -22,15 +23,23 @@ export function LoginPage() {
     const storedData = JSON.parse(localStorage.getItem("tempRegisterData"));
 
     if (!storedData) {
-      alert("No registered account found. Please sign up first.");
+      alert("Akun tidak ditemukan. Silakan daftar terlebih dahulu.");
       return;
     }
 
     if (email === storedData.email && password === storedData.password) {
-      alert("Login successful.");
-      navigate("/dashboard");
+      alert("Berhasil Masuk.");
+      // Simpan role ke localStorage
+      localStorage.setItem("userRole", storedData.role);
+
+      // Arahkan berdasarkan role
+      if (storedData.role === "caregiver") {
+        navigate(ROUTES.caregiver.dashboard);
+      } else if (storedData.role === "user") {
+        navigate(ROUTES.caretaker.dashboard);
+      }
     } else {
-      alert("Invalid email or password.");
+      alert("Email atau kata sandi yang Anda masukkan tidak valid.");
     }
   };
 

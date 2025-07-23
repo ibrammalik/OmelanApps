@@ -24,13 +24,13 @@ export default function AvailableSummary({
       {availableDates.map((date) => (
         <li
           key={date}
-          className="flex items-center justify-between rounded border p-3"
+          className="flex items-center justify-between rounded py-1 px-2"
         >
           <span>{formatTanggalIndonesia(date)}</span>
           <Button
-            variant="destructive"
+            variant="ghost"
             size="sm"
-            className="text-white hover:text-red-700 hover:bg-white"
+            className="text-red-500 hover:text-red-700 hover:bg-white"
             onClick={() => onDeleteDate(date)}
           >
             <Trash2 size={16} />

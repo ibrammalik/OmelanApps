@@ -6,8 +6,8 @@ import { Separator } from "../ui/separator";
 export default function AppointmentList() {
   return (
     <div className="shadow p-4 rounded-lg">
-      <div className="flex justify-between items-center">
-        <h2 className="text-base font-semibold mb-3">Daftar Permintaan</h2>
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="text-base font-semibold">Daftar Permintaan</h2>
         <Link className="text-gray-600 text-sm">Lihat</Link>
       </div>
       <Separator />

@@ -5,8 +5,8 @@ import { Separator } from "../ui/separator";
 export default function AvailabilityList() {
   return (
     <div className="shadow p-4 rounded-lg">
-      <div className="flex justify-between">
-        <h2 className="text-base font-semibold mb-3">Jadwal Ketersediaan</h2>
+      <div className="flex justify-between items-center mb-3">
+        <h2 className="text-base font-semibold">Jadwal Ketersediaan</h2>
         <Link className="text-gray-600 text-sm">Atur Jadwal</Link>
       </div>
       <Separator />

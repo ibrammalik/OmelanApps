@@ -16,6 +16,10 @@ import OrderConfirmationPage from "./pages/OrderConfirmationPage";
 import CaregiverListPage from "./pages/CaregiverListPage";
 import LoaderScreen from "./components/global/LoaderScreen";
 import Dashboard from "./pages/Dashboard";
+import ROUTES from "./routes/route";
+import DashboardCaretaker from "./components/dashboard/DashboardCaretaker";
+import DashboardCaregiver from "./components/dashboard/DashboardCaregiver";
+import AvailableSection from "./components/availability/AvailableSection";
 
 function App() {
   return (
@@ -31,7 +35,23 @@ function App() {
       </Route>
 
       {/* <Route element={<DashboardLayout />}></Route> */}
-      <Route path="dashboard" element={<Dashboard />} />
+      {/* caretaker */}
+      <Route path={ROUTES.caretaker.dashboard} element={<Dashboard />}>
+        <Route index element={<DashboardCaretaker />} />
+        {/* <Route path={ROUTES.caretaker.appointment} /> */}
+        {/* <Route path={ROUTES.caretaker.review} /> */}
+      </Route>
+
+      {/* caregiver */}
+      <Route path={ROUTES.caregiver.dashboard} element={<Dashboard />}>
+        <Route index element={<DashboardCaregiver />} />
+        <Route
+          path={ROUTES.caregiver.availability}
+          element={<AvailableSection />}
+        />
+        {/* <Route path={ROUTES.caregiver.appointment} /> */}
+        {/* <Route path={ROUTES.caretaker.review} /> */}
+      </Route>
     </Routes>
   );
 }

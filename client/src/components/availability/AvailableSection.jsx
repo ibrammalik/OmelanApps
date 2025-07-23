@@ -17,7 +17,7 @@ export default function AvailableSection() {
   };
 
   return (
-    <div className="space-y-4 rounded-lg p-6 shadow">
+    <div className="space-y-2 rounded-lg p-4 shadow">
       <div className="flex justify-between items-center">
         <h2 className="text-lg font-semibold">Jadwal Ketersediaan</h2>
         <div className="flex justify-end">
