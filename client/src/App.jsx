@@ -11,6 +11,10 @@ import { RegisterPage } from "./pages/RegisterPage";
 import LandingPage from "./pages/LandingPage";
 import PublicLayout from "./layouts/PublicLayout";
 import CaregiverOrderPage from "./pages/OrderPage";
+import CaregiverDetailPage from "./pages/CaregiverDetailPage";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+import CaregiverListPage from "./pages/CaregiverListPage";
+import LoaderScreen from "./components/global/LoaderScreen";
 import Dashboard from "./pages/Dashboard";
 
 function App() {
@@ -18,9 +22,12 @@ function App() {
     <Routes>
       <Route element={<PublicLayout />}>
         <Route index element={<LandingPage />} />
-        <Route path="login" element={<LoginPage />} />
-        <Route path="register" element={<RegisterPage />} />
-        <Route path="pesan" element={<CaregiverOrderPage />} />
+        <Route path="/login" element={<LoginPage />} />
+        <Route path="/register" element={<RegisterPage />} />
+        <Route path="/pesan" element={<CaregiverOrderPage />} />
+        <Route path="/caregivers/:id" element={<CaregiverDetailPage />} />
+        <Route path="/caregivers" element={<CaregiverListPage />} />
+        <Route path="/konfirmasi-pesanan" element={<OrderConfirmationPage />} />
       </Route>
 
       {/* <Route element={<DashboardLayout />}></Route> */}

@@ -5,58 +5,58 @@
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable('users_client', {
+  pgm.createTable("users_client", {
     id: {
-      type: 'VARCHAR(50)',
-      primaryKey: true
+      type: "VARCHAR(50)",
+      primaryKey: true,
     },
     username: {
-      type: 'VARCHAR(50)',
+      type: "VARCHAR(50)",
       unique: true,
-      notNull: true
+      notNull: true,
     },
     fullname: {
-      type: 'TEXT',
-      notNull: true
+      type: "TEXT",
+      notNull: true,
     },
     password: {
-      type: 'TEXT',
-      notNull: true
+      type: "TEXT",
+      notNull: true,
     },
     age: {
-      type: 'INTEGER',
-      notNull: false
+      type: "INTEGER",
+      notNull: false,
     },
     address: {
-      type: 'TEXT',
-      notNull: false
+      type: "TEXT",
+      notNull: false,
     },
     biodata: {
-      type: 'TEXT',
-      notNull: false
+      type: "TEXT",
+      notNull: false,
     },
-    'photo_url': {
-      type: 'TEXT',
-      notNull: false
+    photo_url: {
+      type: "TEXT",
+      notNull: false,
     },
     phone_number: {
-      type: 'VARCHAR(20)',
-      notNull: false
+      type: "VARCHAR(20)",
+      notNull: false,
     },
     partner_name: {
-      type: 'TEXT',
-      notNull: false
+      type: "TEXT",
+      notNull: false,
     },
     emergency_contact: {
-      type: 'VARCHAR(20)',
-      notNull: false
+      type: "VARCHAR(20)",
+      notNull: false,
     },
     created_at: {
-      type: 'TEXT',
+      type: "TEXT",
       notNull: true,
     },
     updated_at: {
-      type: 'TEXT',
+      type: "TEXT",
       notNull: true,
     },
   });
@@ -68,5 +68,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable('users_client');
+  pgm.dropTable("users_client");
 };

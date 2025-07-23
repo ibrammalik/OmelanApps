@@ -4,34 +4,48 @@ import {
   NavigationMenuLink,
   NavigationMenuList,
 } from '@/components/ui/navigation-menu';
+import { useScrollToTop } from '@/hooks/useScrollToTop';
+import { NavLink, useLocation } from 'react-router-dom';
 
 const navs = [
   {
-    text: 'Fitur',
-    link: '/#fitur',
-  },
-  {
-    text: 'FAQ',
-    link: '/#faq',
+    text: 'Beranda',
+    link: '/',
   },
   {
     text: 'Pesan',
     link: '/pesan',
   },
+  {
+    text: 'Caregiver',
+    link: '/caregivers  ',
+  },
+  {
+    text: 'Dashboard',
+    link: '/dashboard  ',
+  },
 ];
 
-export const NavMenu = (props) => (
-  <NavigationMenu {...props}>
-    <NavigationMenuList className="gap-6 space-x-0 data-[orientation=vertical]:flex-col data-[orientation=vertical]:items-start">
-      {navs.map((nav, i) => {
-        return (
-          <NavigationMenuItem key={i}>
+export function NavMenu() {
+  const location = useLocation();
+
+  useScrollToTop(location);
+
+  return (
+    <NavigationMenu>
+      <NavigationMenuList className="gap-6">
+        {navs.map((nav, index) => (
+          <NavigationMenuItem key={index}>
             <NavigationMenuLink asChild>
-              <a href={nav.link}>{nav.text}</a>
+              <NavLink
+                to={nav.link}
+                className={({ isActive }) => (isActive ? 'text-primary font-semibold' : '')}>
+                {nav.text}
+              </NavLink>
             </NavigationMenuLink>
           </NavigationMenuItem>
-        );
-      })}
-    </NavigationMenuList>
-  </NavigationMenu>
-);
+        ))}
+      </NavigationMenuList>
+    </NavigationMenu>
+  );
+}
