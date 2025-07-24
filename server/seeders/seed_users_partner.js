@@ -2,8 +2,8 @@ const { faker } = require("@faker-js/faker");
 const { nanoid } = require("nanoid");
 const bcrypt = require("bcrypt");
 
-module.exports = async (now) => {
-  const hashedPassword = await bcrypt.hash("admin", 10);
+module.exports = (now) => {
+  const hashedPassword = bcrypt.hashSync("admin", 10);
 
   const adminPartner = {
     id: "partner-admin",
@@ -22,24 +22,22 @@ module.exports = async (now) => {
     updated_at: now,
   };
 
-  const dummyPartners = await Promise.all(
-    Array.from({ length: 6 }).map(async () => ({
-      id: `partner-${nanoid(10)}`,
-      username: faker.internet.email(),
-      fullname: faker.person.fullName(),
-      password: await bcrypt.hash("123456", 10),
-      age: faker.number.int({ min: 30, max: 60 }),
-      address: faker.location.city(),
-      biodata: faker.lorem.paragraph(),
-      photo_url: faker.image.avatar(),
-      phone_number: faker.phone.number(),
-      average_rating: faker.number.float({ min: 3, max: 5, precision: 0.1 }),
-      experience: faker.number.int({ min: 1, max: 10 }).toString(),
-      specialist: faker.person.jobTitle(),
-      created_at: now,
-      updated_at: now,
-    }))
-  );
+  const dummyPartners = Array.from({ length: 6 }).map(() => ({
+    id: `partner-${nanoid(10)}`,
+    username: faker.internet.email(),
+    fullname: faker.person.fullName(),
+    password: bcrypt.hashSync("123456", 10),
+    age: faker.number.int({ min: 30, max: 60 }),
+    address: faker.location.city(),
+    biodata: faker.lorem.paragraph(),
+    photo_url: faker.image.avatar(),
+    phone_number: faker.phone.number(),
+    average_rating: faker.number.float({ min: 3, max: 5, precision: 0.1 }),
+    experience: faker.number.int({ min: 1, max: 10 }).toString(),
+    specialist: faker.person.jobTitle(),
+    created_at: now,
+    updated_at: now,
+  }));
 
   return [adminPartner, ...dummyPartners];
 };

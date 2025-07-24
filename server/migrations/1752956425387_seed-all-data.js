@@ -6,7 +6,8 @@
  */
 const seedClients = require("../seeders/seed_users_client");
 const seedPartners = require("../seeders/seed_users_partner");
-const seedAvailabilities = require("../seeders/seed_availabilities");
+// const seedAvailabilities = require("../seeders/seed_availabilities");
+const seedSchedules = require("../seeders/seed_schedules");
 const seedAppointments = require("../seeders/seed_appointments");
 const seedReviews = require("../seeders/seed_reviews");
 
@@ -19,7 +20,8 @@ exports.up = (pgm) => {
   const now = new Date().toISOString();
   const clients = seedClients(now);
   const partners = seedPartners(now);
-  const availabilities = seedAvailabilities(partners, now);
+  // const availabilities = seedAvailabilities(partners, now);
+  const schedules = seedSchedules(partners, now);
   const appointments = seedAppointments(clients, partners, now);
   const reviews = seedReviews(clients, partners, now);
 
@@ -67,6 +69,17 @@ exports.up = (pgm) => {
   //     "created_at",
   //   ])};
   // `);
+  // schedules
+  pgm.sql(`
+  INSERT INTO schedules (id, user_id, date_start, date_end)
+  VALUES ${formatValues(schedules, [
+    "id",
+    "user_id",
+    "date_start",
+    "date_end",
+  ])};
+`);
+
   // appointments
   pgm.sql(`
     INSERT INTO appointment (user_client_id, user_partner_id, appointment_date, status, created_at, "updated_at")
