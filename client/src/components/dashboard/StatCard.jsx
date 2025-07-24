@@ -9,7 +9,7 @@ export default function StatCard({
   return (
     <div className="rounded-lg bg-white shadow p-4 text-start flex justify-between items-center">
       <div>
-        <p className="text-sm font-semibold mb-3">{title}</p>
+        <p className="text-base font-semibold mb-3">{title}</p>
         <p className="text-2xl font-bold">{value}</p>
       </div>
       {IconComponent && <IconComponent size={48} className={iconColor} />}

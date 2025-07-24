@@ -11,9 +11,10 @@ import ProfileImg from "../../assets/images/profile.png";
 import { ChevronsUpDown, LogOut } from "lucide-react";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { SidebarMenuButton, useSidebar } from "../ui/sidebar";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import ROUTES from "@/routes/route";
 
-export default function NavProfile() {
+export default function NavProfile({ setActiveLabel }) {
   const { isMobile } = useSidebar();
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
@@ -28,6 +29,11 @@ export default function NavProfile() {
   const handleLogout = () => {
     localStorage.removeItem("tempRegisterData");
     navigate("/login");
+  };
+
+  const handleProfileClick = () => {
+    setActiveLabel("Profil");
+    navigate(ROUTES.caregiver.profile);
   };
 
   if (!user) return null;
@@ -60,18 +66,27 @@ export default function NavProfile() {
         sideOffset={4}
       >
         <DropdownMenuLabel className="p-0 font-normal">
-          <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
-            <Avatar className="h-8 w-8 rounded-lg">
-              <AvatarImage src={ProfileImg} alt="Dana" />
-              <AvatarFallback className="rounded-lg">
-                {user.name ? user.name.charAt(0) : "U"}
-              </AvatarFallback>
-            </Avatar>
-            <div className="grid flex-1 text-left text-sm leading-tight">
-              <span className="truncate font-medium">{user.name}</span>
-              <span className="truncate text-xs">{user.email}</span>
+          <Link
+            to={
+              user.role === "caregiver"
+                ? ROUTES.caregiver.profile
+                : ROUTES.caretaker.profile
+            }
+            onClick={handleProfileClick}
+          >
+            <div className="flex items-center gap-2 px-1 py-1.5 text-left text-sm">
+              <Avatar className="h-8 w-8 rounded-lg">
+                <AvatarImage src={ProfileImg} alt="Dana" />
+                <AvatarFallback className="rounded-lg">
+                  {user.name ? user.name.charAt(0) : "U"}
+                </AvatarFallback>
+              </Avatar>
+              <div className="grid flex-1 text-left text-sm leading-tight">
+                <span className="truncate font-medium">{user.name}</span>
+                <span className="truncate text-xs">{user.email}</span>
+              </div>
             </div>
-          </div>
+          </Link>
         </DropdownMenuLabel>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>

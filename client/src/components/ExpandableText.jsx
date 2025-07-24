@@ -27,7 +27,7 @@ export default function ExpandableText({
             onClick={toggleExpanded}
             className="text-sm text-blue-500 hover:text-blue-700"
           >
-            {expanded ? "Lihat lebih sedikit" : "Lihat selengkapnya"}
+            {expanded ? "Lihat lebih sedikit." : "Lihat selengkapnya."}
           </button>
         )}
       </div>
@@ -43,7 +43,7 @@ export default function ExpandableText({
             onClick={toggleExpanded}
             className="text-sm text-blue-500 hover:text-blue-700"
           >
-            {expanded ? "Lihat lebih sedikit" : "Lihat selengkapnya"}
+            {expanded ? "Lihat lebih sedikit." : "Lihat selengkapnya."}
           </button>
         )}
       </p>
