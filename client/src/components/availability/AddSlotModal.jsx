@@ -1,12 +1,5 @@
 import { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import CaregiverAvailability from "../caregivers/CaregiverAvailability";
 import { Button } from "../ui/button";
 import { Plus } from "lucide-react";
@@ -29,9 +22,8 @@ export default function AddSlotModal({ onSave, currentAvailability }) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" className="cursor-pointer gap-1">
+        <Button variant="outline" className="cursor-pointer">
           <Plus size={16} />
-          Add Slots
         </Button>
       </DialogTrigger>
 

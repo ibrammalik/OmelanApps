@@ -1,22 +1,11 @@
 import React from "react";
 import {
-  AudioWaveform,
-  BookOpen,
-  Bot,
   CalendarCheck2,
   CalendarClock,
-  Command,
-  Frame,
-  GalleryVerticalEnd,
-  House,
+  Heart,
   LayoutDashboard,
   List,
-  Map,
   NotebookPen,
-  PieChart,
-  Settings2,
-  SquareTerminal,
-  Star,
   Wallet,
 } from "lucide-react";
 
@@ -31,46 +20,62 @@ import {
 import SidebarMenuContent from "./sidebar-custom/SidebarMenuContent";
 import AppSidebarHeader from "./sidebar-custom/AppSidebarHeader";
 import NavProfile from "./sidebar-custom/NavProfile";
+import ROUTES from "@/routes/route";
 
-export function AppSidebar({ role }) {
-  const baseMenu = [
+export function AppSidebar({ role, setActiveLabel }) {
+  const userMenu = [
     {
       icon: <LayoutDashboard size={16} />,
-      label: "Dashboard",
-      url: "/dashboard",
+      label: "Beranda",
+      url: ROUTES.caretaker.dashboard,
     },
-  ];
-
-  const userMenu = [
-    { icon: <List size={16} />, label: "Requests", url: "/requests" },
+    {
+      icon: <List size={16} />,
+      label: "Permintaan",
+      url: ROUTES.caretaker.order,
+    },
     {
       icon: <CalendarCheck2 size={16} />,
-      label: "Appointments",
-      url: "/appointments",
+      label: "Janji Temu",
+      url: ROUTES.caretaker.appointment,
     },
-    { icon: <NotebookPen size={16} />, label: "Reviews", url: "/reviews" },
-    { icon: <Star size={16} />, label: "Favorite", url: "/favorite" },
+    {
+      icon: <NotebookPen size={16} />,
+      label: "Penilaian",
+      url: ROUTES.caretaker.review,
+    },
+    { icon: <Heart size={16} />, label: "Disukai", url: "/favorite" },
   ];
 
   const caregiverMenu = [
     {
+      icon: <LayoutDashboard size={16} />,
+      label: "Beranda",
+      url: ROUTES.caregiver.dashboard,
+    },
+    {
       icon: <CalendarCheck2 size={16} />,
-      label: "Appointments",
-      url: "/appointments",
+      label: "Janji Temu",
+      url: ROUTES.caregiver.appointment,
     },
     {
       icon: <CalendarClock size={16} />,
-      label: "Availability Schedule",
-      url: "/availability",
+      label: "Jadwal Ketersediaan",
+      url: ROUTES.caregiver.availability,
     },
-    { icon: <Wallet size={16} />, label: "Earnings", url: "/earnings" },
-    { icon: <Star size={16} />, label: "Reviews", url: "/reviews" },
+    {
+      icon: <Wallet size={16} />,
+      label: "Pendapatan",
+      url: ROUTES.caregiver.earnings,
+    },
+    {
+      icon: <NotebookPen size={16} />,
+      label: "Penilaian",
+      url: ROUTES.caregiver.reviews,
+    },
   ];
 
-  const menuItems =
-    role === "caregiver"
-      ? [...baseMenu, ...caregiverMenu]
-      : [...baseMenu, ...userMenu];
+  const menuItems = role === "caregiver" ? caregiverMenu : userMenu;
 
   return (
     <Sidebar collapsible="icon">
@@ -78,7 +83,7 @@ export function AppSidebar({ role }) {
         <AppSidebarHeader />
       </SidebarHeader>
       <SidebarContent>
-        <SidebarMenuContent items={menuItems} />
+        <SidebarMenuContent items={menuItems} onSelect={setActiveLabel} />
       </SidebarContent>
       <SidebarFooter>
         <NavProfile />

@@ -2,7 +2,7 @@ import { Separator } from "../ui/separator";
 import { useSidebar } from "../ui/sidebar";
 import { SidebarItem } from "./SidebarItem";
 
-export default function SidebarMenuContent({ items }) {
+export default function SidebarMenuContent({ items, onSelect }) {
   const { state } = useSidebar();
   const collapsed = state === "collapsed";
 
@@ -20,6 +20,7 @@ export default function SidebarMenuContent({ items }) {
             icon={item.icon}
             label={collapsed ? null : item.label}
             url={item.url}
+            onClick={() => onSelect?.(item.label)}
           />
         ))}
       </nav>

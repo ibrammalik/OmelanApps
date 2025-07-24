@@ -6,11 +6,11 @@ import {
   CardAction,
   CardContent,
   CardDescription,
-  CardFooter,
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
+import ROUTES from "@/routes/route";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -23,15 +23,23 @@ export function LoginPage() {
     const storedData = JSON.parse(localStorage.getItem("tempRegisterData"));
 
     if (!storedData) {
-      alert("No registered account found. Please sign up first.");
+      alert("Akun tidak ditemukan. Silakan daftar terlebih dahulu.");
       return;
     }
 
     if (email === storedData.email && password === storedData.password) {
-      alert("Login successful.");
-      navigate("/dashboard");
+      alert("Berhasil Masuk.");
+      // Simpan role ke localStorage
+      localStorage.setItem("userRole", storedData.role);
+
+      // Arahkan berdasarkan role
+      if (storedData.role === "caregiver") {
+        navigate(ROUTES.caregiver.dashboard);
+      } else if (storedData.role === "user") {
+        navigate(ROUTES.caretaker.dashboard);
+      }
     } else {
-      alert("Invalid email or password.");
+      alert("Email atau kata sandi yang Anda masukkan tidak valid.");
     }
   };
 
@@ -39,13 +47,13 @@ export function LoginPage() {
     <div className="flex items-center justify-center min-h-screen">
       <Card className="w-md">
         <CardHeader>
-          <CardTitle>Login to your account</CardTitle>
+          <CardTitle>Masuk ke Akun Anda</CardTitle>
           <CardDescription>
-            Enter your email below to login to your account
+            Masukkan email Anda di bawah ini untuk masuk ke akun
           </CardDescription>
           <CardAction>
             <Button asChild variant="link">
-              <Link to="/register">Sign Up</Link>
+              <Link to="/register">Daftar</Link>
             </Button>
           </CardAction>
         </CardHeader>
@@ -58,7 +66,7 @@ export function LoginPage() {
               onPasswordChange={(e) => setPassword(e.target.value)}
             />
             <Button type="submit" className="w-full">
-              Login
+              Masuk
             </Button>
           </form>
         </CardContent>

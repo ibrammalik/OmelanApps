@@ -1,16 +1,27 @@
-import './App.css';
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { LoginPage } from './pages/LoginPage';
-import { RegisterPage } from './pages/RegisterPage';
-import LandingPage from './pages/LandingPage';
-import PublicLayout from './layouts/PublicLayout';
-import CaregiverOrderPage from './pages/OrderPage';
-import CaregiverDetailPage from './pages/CaregiverDetailPage';
-import OrderConfirmationPage from './pages/OrderConfirmationPage';
-import CaregiverListPage from './pages/CaregiverListPage';
-import LoaderScreen from './components/global/LoaderScreen';
+import "./App.css";
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Routes,
+  Route,
+  Navigate,
+} from "react-router-dom";
+import { LoginPage } from "./pages/LoginPage";
+import { RegisterPage } from "./pages/RegisterPage";
+import LandingPage from "./pages/LandingPage";
+import PublicLayout from "./layouts/PublicLayout";
+import CaregiverOrderPage from "./pages/OrderPage";
+import CaregiverDetailPage from "./pages/CaregiverDetailPage";
+import OrderConfirmationPage from "./pages/OrderConfirmationPage";
+import CaregiverListPage from "./pages/CaregiverListPage";
+import LoaderScreen from "./components/global/LoaderScreen";
 import Dashboard from "./pages/Dashboard";
+import ROUTES from "./routes/route";
+import DashboardCaretaker from "./components/dashboard/DashboardCaretaker";
+import DashboardCaregiver from "./components/dashboard/DashboardCaregiver";
+import AvailableSection from "./components/availability/AvailableSection";
+import ReviewList from "./components/caregivers/ReviewList";
+import InvoiceSummary from "./components/caregivers/InvoiceSummary";
 
 function App() {
   return (
@@ -26,7 +37,24 @@ function App() {
       </Route>
 
       {/* <Route element={<DashboardLayout />}></Route> */}
-      <Route path="dashboard" element={<Dashboard />} />
+      {/* caretaker */}
+      <Route path={ROUTES.caretaker.dashboard} element={<Dashboard />}>
+        <Route index element={<DashboardCaretaker />} />
+        {/* <Route path={ROUTES.caretaker.appointment} /> */}
+        {/* <Route path={ROUTES.caretaker.review} /> */}
+      </Route>
+
+      {/* caregiver */}
+      <Route path={ROUTES.caregiver.dashboard} element={<Dashboard />}>
+        <Route index element={<DashboardCaregiver />} />
+        <Route
+          path={ROUTES.caregiver.availability}
+          element={<AvailableSection />}
+        />
+        {/* <Route path={ROUTES.caregiver.appointment} /> */}
+        <Route path={ROUTES.caregiver.earnings} element={<InvoiceSummary />} />
+        <Route path={ROUTES.caregiver.reviews} element={<ReviewList />} />
+      </Route>
     </Routes>
   );
 }
