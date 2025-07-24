@@ -162,6 +162,16 @@ let caregivers = [
 ];
 
 
+let requests = [
+  {
+    id: 'rq-01',
+    name: 'Sri Rejeki',
+    address: 'Jl. Merdeka Barat, Bandung',
+    date: '8 Agustus 2025',
+    status: 'pending'
+  }
+]
+
 
 function delay(ms = 500) {
   return new Promise((resolve) => setTimeout(resolve, ms));
@@ -183,4 +193,10 @@ export async function getCaregiverDetailsById(id) {
 export async function searchCaregiversByDateAvailable() {
   await delay();
   return {error: false, data: caregivers};
+}
+
+// Simulasi GET /requests
+export async function getAllRequests() {
+  await delay();
+  return {error: false, data: requests};
 }
