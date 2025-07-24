@@ -1,14 +1,10 @@
 import React from "react";
-import { useRole } from "@/contexts/RoleContext";
-import CaregiverProfile from "@/components/caregivers/CaregiverProfile";
-import UserProfile from "@/components/users/UserProfile";
+import EditableProfileCard from "@/components/EditableProfileCard";
 
 export default function ProfilePage() {
-  const { role } = useRole();
-
-  if (!role) {
-    return <p>Loading profile...</p>;
-  }
-
-  return <>{role === "caregiver" ? <CaregiverProfile /> : <UserProfile />}</>;
+  return (
+    <div className="">
+      <EditableProfileCard />
+    </div>
+  );
 }
