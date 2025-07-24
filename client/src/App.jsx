@@ -22,6 +22,11 @@ import DashboardCaregiver from "./components/dashboard/DashboardCaregiver";
 import AvailableSection from "./components/availability/AvailableSection";
 import ReviewList from "./components/caregivers/ReviewList";
 import InvoiceSummary from "./components/caregivers/InvoiceSummary";
+import ProfilePage from "./pages/ProfilePage";
+import UserAppointment from "./components/users/UserAppointment";
+import FavoriteCaregiver from "./components/users/FavoriteCaregiver";
+import AppointmentSummary from "./components/users/AppointmentSummary";
+import RequestSummary from "./components/users/RequestSummary";
 
 function App() {
   return (
@@ -40,13 +45,26 @@ function App() {
       {/* caretaker */}
       <Route path={ROUTES.caretaker.dashboard} element={<Dashboard />}>
         <Route index element={<DashboardCaretaker />} />
-        {/* <Route path={ROUTES.caretaker.appointment} /> */}
-        {/* <Route path={ROUTES.caretaker.review} /> */}
+        <Route path={ROUTES.caretaker.profile} element={<ProfilePage />} />
+        <Route
+          path={ROUTES.caretaker.appointment}
+          element={<UserAppointment />}
+        />
+        <Route path={ROUTES.caretaker.order} element={<RequestSummary />} />
+        <Route
+          path={ROUTES.caretaker.favorite}
+          element={<FavoriteCaregiver />}
+        />
+        <Route
+          path={ROUTES.caretaker.review}
+          element={<AppointmentSummary />}
+        />
       </Route>
 
       {/* caregiver */}
       <Route path={ROUTES.caregiver.dashboard} element={<Dashboard />}>
         <Route index element={<DashboardCaregiver />} />
+        <Route path={ROUTES.caregiver.profile} element={<ProfilePage />} />
         <Route
           path={ROUTES.caregiver.availability}
           element={<AvailableSection />}

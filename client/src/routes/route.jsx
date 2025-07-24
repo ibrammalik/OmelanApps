@@ -5,6 +5,8 @@ const ROUTES = {
     review: "/dashboard/caretaker/review",
     order: "/dashboard/caretaker/order",
     caregiverDetail: "/dashboard/caretaker/caregiver/:id",
+    profile: "/dashboard/caretaker/profile",
+    favorite: "/dashboard/caretaker/favorite",
   },
 
   caregiver: {
@@ -14,6 +16,7 @@ const ROUTES = {
     availability: "/dashboard/caregiver/availability",
     reviews: "/dashboard/caregiver/reviews",
     earnings: "/dashboard/caregiver/earnings",
+    profile: "/dashboard/caregiver/profile",
   },
 };
 

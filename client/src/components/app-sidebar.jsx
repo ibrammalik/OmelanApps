@@ -41,10 +41,14 @@ export function AppSidebar({ role, setActiveLabel }) {
     },
     {
       icon: <NotebookPen size={16} />,
-      label: "Penilaian",
+      label: "Penilaian & Ulasan",
       url: ROUTES.caretaker.review,
     },
-    { icon: <Heart size={16} />, label: "Disukai", url: "/favorite" },
+    {
+      icon: <Heart size={16} />,
+      label: "Disukai",
+      url: ROUTES.caretaker.favorite,
+    },
   ];
 
   const caregiverMenu = [
@@ -86,7 +90,7 @@ export function AppSidebar({ role, setActiveLabel }) {
         <SidebarMenuContent items={menuItems} onSelect={setActiveLabel} />
       </SidebarContent>
       <SidebarFooter>
-        <NavProfile />
+        <NavProfile setActiveLabel={setActiveLabel} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>
