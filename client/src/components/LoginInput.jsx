@@ -32,6 +32,13 @@ export default function LoginInput({
           required
         />
       </div>
+      <div>
+        <label className="block text-sm">Login sebagai</label>
+        <select className="w-full p-2 border rounded">
+          <option value="caretaker">Client (Caretaker)</option>
+          <option value="caregiver">Partner (Caregiver)</option>
+        </select>
+      </div>
     </div>
   );
 }

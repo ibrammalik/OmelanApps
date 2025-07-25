@@ -24,30 +24,46 @@ export function RegisterPage() {
 
   const navigate = useNavigate();
 
-  const handleRegister = (e) => {
+  const handleRegister = async (e) => {
     e.preventDefault();
+    const endpoint = role === "user" ? "/register/client" : "/register/partner";
+    const res = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        fullname: name,
+        username: email,
+        password,
+      }),
+    });
 
-    const userData =
-      role === "user"
-        ? {
-            role,
-            name,
-            email,
-            phoneNumber,
-            dob,
-            password,
-          }
-        : {
-            role,
-            name,
-            email,
-            phoneNumber,
-            password,
-          };
+    // const userData =
+    //   role === "user"
+    //     ? {
+    //         role,
+    //         name,
+    //         email,
+    //         phoneNumber,
+    //         dob,
+    //         password,
+    //       }
+    //     : {
+    //         role,
+    //         name,
+    //         email,
+    //         phoneNumber,
+    //         password,
+    //       };
 
-    localStorage.setItem("userRole", role);
-    localStorage.setItem("tempRegisterData", JSON.stringify(userData));
-    navigate("/login");
+    // localStorage.setItem("userRole", role);
+    // localStorage.setItem("tempRegisterData", JSON.stringify(userData));
+    const result = await res.json();
+    if (res.ok) {
+      navigate("/login");
+    } else {
+      alert(result.message || "Register gagal");
+    }
+    // navigate("/login");
   };
 
   return (

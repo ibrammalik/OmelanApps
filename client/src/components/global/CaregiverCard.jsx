@@ -1,7 +1,7 @@
 // components/CaregiverCard.jsx
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-import { Star } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Star } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export default function CaregiverCard({ caregiver }) {
   return (
@@ -21,7 +21,8 @@ export default function CaregiverCard({ caregiver }) {
         <p className="text-sm text-muted-foreground">{caregiver.address}</p>
         <div className="flex items-center gap-1 text-yellow-500 text-sm font-medium">
           <Star size={16} className="fill-yellow-400 stroke-yellow-500" />
-          {caregiver.average_rating || 'Belum ada rating'}
+          {parseFloat(caregiver.average_rating).toFixed(2) ||
+            "Belum ada rating"}
         </div>
       </CardContent>
     </Card>
