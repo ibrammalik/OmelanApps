@@ -65,7 +65,7 @@ export default function NavProfile({ setActiveLabel }) {
         align="end"
         sideOffset={4}
       >
-        <DropdownMenuLabel className="p-0 font-normal">
+        <DropdownMenuItem asChild className="p-0 font-normal">
           <Link
             to={
               user.role === "caregiver"
@@ -87,7 +87,7 @@ export default function NavProfile({ setActiveLabel }) {
               </div>
             </div>
           </Link>
-        </DropdownMenuLabel>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem className="cursor-pointer" onClick={handleLogout}>
           <LogOut />

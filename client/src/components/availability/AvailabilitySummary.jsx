@@ -7,7 +7,7 @@ export default function AvailabilitySummary({
   onEditDay,
 }) {
   if (Object.keys(availability).length === 0) {
-    return <p className="text-muted-foreground">No slots selected yet.</p>;
+    return <p className="text-muted-foreground">Belum ada jadwal.</p>;
   }
 
   return (

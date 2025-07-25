@@ -17,6 +17,14 @@ export default function CaregiverAvailable({
   const handleSubmit = () => {
     if (!selectedDate) return;
 
+    const today = new Date(getTodayDate());
+    const selected = new Date(selectedDate);
+
+    if (selected < today) {
+      setError("Silakan pilih tanggal mulai dari hari ini.");
+      return;
+    }
+
     if (existingDates.includes(selectedDate)) {
       setError("Tanggal sudah dipilih sebelumnya.");
       return;

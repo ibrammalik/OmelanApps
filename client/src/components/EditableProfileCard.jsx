@@ -1,9 +1,15 @@
 import React, { useEffect, useState } from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { Avatar, AvatarFallback, AvatarImage } from "./ui/avatar";
 import { Button } from "./ui/button";
 import { Separator } from "./ui/separator";
 import { Input } from "./ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "./ui/select";
 
 export default function EditableProfileCard() {
   const [profile, setProfile] = useState(null);
@@ -20,9 +26,29 @@ export default function EditableProfileCard() {
   }, []);
 
   const handleChange = (field, value) => {
-    setProfile((prev) => ({ ...prev, [field]: value }));
-  };
+    if (field === "dob") {
+      const birthDate = new Date(value); // YYYY-MM-DD
+      if (isNaN(birthDate)) return;
 
+      const today = new Date();
+      let age = today.getFullYear() - birthDate.getFullYear();
+      const monthDiff = today.getMonth() - birthDate.getMonth();
+      if (
+        monthDiff < 0 ||
+        (monthDiff === 0 && today.getDate() < birthDate.getDate())
+      ) {
+        age--;
+      }
+
+      setProfile((prev) => ({
+        ...prev,
+        dob: value,
+        age: age < 0 ? 0 : age,
+      }));
+    } else {
+      setProfile((prev) => ({ ...prev, [field]: value }));
+    }
+  };
   const handlePhotoChange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
@@ -64,8 +90,28 @@ export default function EditableProfileCard() {
             <AvatarImage src={profile.photoUrl || ""} />
             <AvatarFallback>{profile.name?.[0]}</AvatarFallback>
           </Avatar>
-          {isEditing && (
-            <Input type="file" accept="image/*" onChange={handlePhotoChange} />
+
+          {isEditing ? (
+            <>
+              <Input
+                type="file"
+                accept="image/*"
+                onChange={handlePhotoChange}
+              />
+              <textarea
+                className="w-full max-w-md rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                rows={3}
+                placeholder="Masukkan keterangan..."
+                value={profile.description || ""}
+                onChange={(e) => handleChange("description", e.target.value)}
+              />
+            </>
+          ) : (
+            profile.description && (
+              <p className="text-sm text-gray-700 text-justify p-2 max-w-md">
+                {profile.description}
+              </p>
+            )
           )}
         </div>
 
@@ -75,47 +121,90 @@ export default function EditableProfileCard() {
       </div>
 
       {isEditing && (
-        <div className="pt-4 flex justify-end">
-          <Button onClick={handleSave}>Simpan</Button>
-        </div>
+        <>
+          <Separator />
+          <div className="flex justify-end">
+            <Button onClick={handleSave}>Simpan</Button>
+          </div>
+        </>
       )}
     </div>
   );
 }
 
 function renderFields(role, profile, isEditing, handleChange) {
-  const fields =
-    role === "caregiver"
+  const fields = [
+    { key: "name", label: "Nama Lengkap", type: "text" },
+    { key: "email", label: "Email", type: "email" },
+    { key: "phoneNumber", label: "No. Telepon", type: "tel" },
+    { key: "dob", label: "Tanggal Lahir", type: "date" },
+    { key: "age", label: "Umur", type: "number", disabled: true },
+    {
+      key: "gender",
+      label: "Jenis Kelamin",
+      type: "select",
+      options: ["Laki-laki", "Perempuan"],
+    },
+    ...(role === "caregiver"
       ? [
-          { key: "name", label: "Nama Lengkap" },
-          { key: "email", label: "Email" },
-          { key: "phoneNumber", label: "No. Telepon" },
-          { key: "age", label: "Umur" },
-          { key: "gender", label: "Jenis Kelamin" },
-          { key: "address", label: "Alamat" },
-          { key: "experience", label: "Pengalaman" },
-          { key: "specialist", label: "Spesialis" },
+          {
+            key: "experience",
+            label: "Pengalaman (Tahun)",
+            type: "select",
+            options: Array.from({ length: 10 }, (_, i) => (i + 1).toString()),
+          },
         ]
-      : [
-          { key: "name", label: "Nama Lengkap" },
-          { key: "email", label: "Email" },
-          { key: "phoneNumber", label: "No. Telepon" },
-          { key: "dob", label: "Tanggal Lahir" },
-          { key: "age", label: "Umur" },
-          { key: "gender", label: "Jenis Kelamin" },
-          { key: "address", label: "Alamat" },
-        ];
+      : []),
+    { key: "address", label: "Alamat", type: "textarea" },
+  ];
 
-  return fields.map(({ key, label }) => (
+  return fields.map(({ key, label, type, options, disabled }) => (
     <div key={key} className="flex flex-col gap-1">
       <label className="text-sm text-muted-foreground">{label}</label>
       {isEditing ? (
-        <Input
-          value={profile[key] || ""}
-          onChange={(e) => handleChange(key, e.target.value)}
-        />
+        type === "select" ? (
+          <Select
+            value={profile[key] || ""}
+            onValueChange={(value) => handleChange(key, value)}
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder={`Pilih ${label}`} />
+            </SelectTrigger>
+            <SelectContent>
+              {options.map((opt) => (
+                <SelectItem key={opt} value={opt}>
+                  {opt}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        ) : type === "textarea" ? (
+          <textarea
+            className="border shadow-xs rounded-sm"
+            value={profile[key] || ""}
+            onChange={(e) => handleChange(key, e.target.value)}
+          />
+        ) : (
+          <Input
+            type={type}
+            value={profile[key] || ""}
+            disabled={disabled}
+            onChange={(e) => {
+              if (key === "dob") {
+                const raw = e.target.value;
+                handleChange("dob", raw);
+              } else {
+                handleChange(key, e.target.value);
+              }
+            }}
+          />
+        )
       ) : (
-        <p className="font-medium">{profile[key] || "-"}</p>
+        <p className="font-medium">
+          {key === "age" && typeof profile.age === "number"
+            ? `${profile.age} tahun`
+            : profile[key] || "-"}
+        </p>
       )}
     </div>
   ));
