@@ -46,11 +46,11 @@ export function AppSidebar({ role, setActiveLabel }) {
       label: "Penilaian & Ulasan",
       url: ROUTES.caretaker.review,
     },
-    {
-      icon: <Heart size={16} />,
-      label: "Disukai",
-      url: ROUTES.caretaker.favorite,
-    },
+    // {
+    //   icon: <Heart size={16} />,
+    //   label: "Disukai",
+    //   url: ROUTES.caretaker.favorite,
+    // },
   ];
 
   const caregiverMenu = [

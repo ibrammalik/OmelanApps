@@ -84,38 +84,46 @@ export default function EditableProfileCard() {
 
       <Separator />
 
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mt-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-4">
         <div className="flex flex-col items-center gap-4 p-4">
           <Avatar className="w-32 h-32">
             <AvatarImage src={profile.photoUrl || ""} />
-            <AvatarFallback>{profile.name?.[0]}</AvatarFallback>
+            <AvatarFallback className="text-5xl bg-blue-100 text-blue-700">
+              {profile.name?.[0]}
+            </AvatarFallback>
           </Avatar>
-
           {isEditing ? (
             <>
               <Input
                 type="file"
                 accept="image/*"
                 onChange={handlePhotoChange}
-              />
+              />{" "}
+              <label className="text-base font-medium text-muted-foreground w-full max-w-md">
+                Biodata
+              </label>
               <textarea
-                className="w-full max-w-md rounded-md border border-gray-300 px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-                rows={3}
-                placeholder="Masukkan keterangan..."
+                className="w-full max-w-md rounded-md border border-gray-300 text-sm shadow-sm focus:outline-none focus:ring-2 p-2 focus:ring-blue-500"
+                rows={5}
                 value={profile.description || ""}
                 onChange={(e) => handleChange("description", e.target.value)}
               />
             </>
           ) : (
             profile.description && (
-              <p className="text-sm text-gray-700 text-justify p-2 max-w-md">
-                {profile.description}
-              </p>
+              <div>
+                <label className="text-base font-medium text-muted-foreground w-full max-w-md text-left p-2">
+                  Biodata
+                </label>
+                <p className="text-sm text-gray-700 text-justify p-2 max-w-md">
+                  {profile.description}
+                </p>
+              </div>
             )
           )}
         </div>
 
-        <div className="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 gap-6 p-4">
+        <div className="md:col-span-2 grid grid-cols-1 sm:grid-cols-2 gap-6 p-4">
           {renderFields(role, profile, isEditing, handleChange)}
         </div>
       </div>
@@ -160,7 +168,7 @@ function renderFields(role, profile, isEditing, handleChange) {
 
   return fields.map(({ key, label, type, options, disabled }) => (
     <div key={key} className="flex flex-col gap-1">
-      <label className="text-sm text-muted-foreground">{label}</label>
+      <label className="text-base text-muted-foreground">{label}</label>
       {isEditing ? (
         type === "select" ? (
           <Select

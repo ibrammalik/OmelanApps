@@ -2,12 +2,12 @@ import React from "react";
 import { Separator } from "../ui/separator";
 import { Button } from "../ui/button";
 import { Avatar, AvatarFallback } from "../ui/avatar";
-import { Star } from "lucide-react";
-import { useFavoriteCaregivers } from "@/hooks/useFavoriteCaregivers";
+// import { Star } from "lucide-react";
+// import { useFavoriteCaregivers } from "@/hooks/useFavoriteCaregivers";
 
 export default function UserAppointment() {
   const today = new Date().toISOString().split("T")[0];
-  const { toggleFavorite, isFavorite } = useFavoriteCaregivers();
+  // const { toggleFavorite, isFavorite } = useFavoriteCaregivers();
 
   const caregivers = [
     { id: 1, name: "Dewi Kartika", phone: "0812-3456-7890" },
@@ -54,8 +54,9 @@ export default function UserAppointment() {
                 </p>
               </div>
             </div>
+            <p>22 Maret 2025</p>
             <div className="flex gap-2">
-              <Button
+              {/* <Button
                 variant="ghost"
                 size="icon"
                 onClick={() => toggleFavorite(caregiver)}
@@ -68,7 +69,8 @@ export default function UserAppointment() {
                       : "text-gray-400"
                   }`}
                 />
-              </Button>
+              </Button> */}
+
               <Button
                 variant="outline"
                 className="text-blue-600 border-blue-600 hover:bg-blue-50"

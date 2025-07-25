@@ -5,6 +5,7 @@ import OvewviewRating from "../caregivers/OverviewRating";
 import CompletedAppointment from "../users/CompletedAppointment";
 import TotalOrders from "../users/TotalOrders";
 import TotalFavorite from "../users/TotalFavorite";
+import TotalReview from "../users/TotalReview";
 
 export default function OverviewStats({ role }) {
   return (
@@ -21,7 +22,8 @@ export default function OverviewStats({ role }) {
         <>
           <TotalOrders />
           <CompletedAppointment />
-          <TotalFavorite />
+          {/* <TotalFavorite /> */}
+          <TotalReview />
         </>
       )}
     </div>
