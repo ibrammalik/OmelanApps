@@ -28,28 +28,38 @@ export default function ReviewList() {
         <h2 className="text-lg font-semibold">Penilaian & Ulasan</h2>
       </div>
       <Separator />
-      {reviews.map((review) => (
-        <div
-          key={review.id}
-          className="flex gap-4 items-center mt-4 border p-4 rounded-lg"
-        >
-          <div className="flex items-center shrink-0">
-            <Avatar className="w-12 h-12 rounded-lg">
-              <AvatarFallback className="text-lg font-medium bg-blue-100 text-blue-700">
-                {review.name[0]}
-              </AvatarFallback>
-            </Avatar>
-          </div>
-          <div className="flex-1">
-            <div className="flex justify-between items-center mb-1">
-              <p className="text-base font-semibold truncate">{review.name}</p>
-              <p className="text-sm text-gray-600 text-center">{review.date}</p>
+      {reviews.length === 0 ? (
+        <p className="text-sm text-gray-500 mt-4 text-center">
+          Belum ada penilaian dan ulasan.
+        </p>
+      ) : (
+        reviews.map((review) => (
+          <div
+            key={review.id}
+            className="flex gap-4 items-center mt-4 border p-4 rounded-lg"
+          >
+            <div className="flex items-center shrink-0">
+              <Avatar className="w-12 h-12 rounded-lg">
+                <AvatarFallback className="text-lg font-medium bg-blue-100 text-blue-700">
+                  {review.name[0]}
+                </AvatarFallback>
+              </Avatar>
             </div>
-            <StarRating rating={review.rating} />
-            <ExpandableText text={review.text} maxLength={200} />
+            <div className="flex-1">
+              <div className="flex justify-between items-center mb-1">
+                <p className="text-base font-semibold truncate">
+                  {review.name}
+                </p>
+                <p className="text-sm text-gray-600 text-center">
+                  {review.date}
+                </p>
+              </div>
+              <StarRating rating={review.rating} />
+              <ExpandableText text={review.text} maxLength={200} />
+            </div>
           </div>
-        </div>
-      ))}
+        ))
+      )}
     </div>
   );
 }

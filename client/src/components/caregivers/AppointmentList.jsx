@@ -2,6 +2,7 @@ import React from "react";
 import { Avatar, AvatarFallback } from "../ui/avatar";
 import { Link } from "react-router-dom";
 import { Separator } from "../ui/separator";
+import ROUTES from "@/routes/route";
 
 export default function AppointmentList() {
   const appointments = [
@@ -46,7 +47,12 @@ export default function AppointmentList() {
         <h2 className="text-base font-semibold text-gray-800">
           Daftar Permintaan
         </h2>
-        <Link className="text-sm text-gray-500 hover:text-gray-700">Lihat</Link>
+        <Link
+          to={ROUTES.caregiver.appointment}
+          className="text-sm text-gray-500 hover:text-gray-700"
+        >
+          Lihat
+        </Link>
       </div>
       <Separator />
 
@@ -61,12 +67,15 @@ export default function AppointmentList() {
                 {item.name.charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <p className="text-sm font-medium text-gray-800 truncate">
-              {item.name}
-            </p>
+            <div className="flex flex-col">
+              <p className="text-md font-semibold text-gray-800 truncate">
+                {item.name}
+              </p>
+              <p className="text-xs text-gray-500">{formatDate(item.date)}</p>
+            </div>
           </div>
           <p className="text-sm text-gray-600 text-right">
-            {formatDate(item.date)}
+            Menunggu konfirmasi
           </p>
         </div>
       ))}

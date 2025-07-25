@@ -16,7 +16,7 @@ export default function AvailableSummary({
   };
 
   if (availableDates.length === 0) {
-    return <p className="text-sm text-muted-foreground">Belum ada jadwal.</p>;
+    return <p className="text-start text-gray-400">Belum ada jadwal.</p>;
   }
 
   return (

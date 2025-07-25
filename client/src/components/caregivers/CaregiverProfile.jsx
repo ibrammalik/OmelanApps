@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import profileImage from "../../assets/images/profile.png";
+
+import CaregiverProfileSummary from "./CaregiverProfileSummary";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Button } from "../ui/button";
-import ProfileCard from "../ProfileCard";
 
 export default function CaregiverProfile() {
   const [profile, setProfile] = useState({
@@ -13,9 +13,9 @@ export default function CaregiverProfile() {
     address: "",
     contact: "",
     experience: "",
-    specialization: "",
-    certificate: null,
   });
+
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     const data = localStorage.getItem("tempRegisterData");
@@ -30,8 +30,28 @@ export default function CaregiverProfile() {
     }));
   };
 
+  const handleSave = () => {
+    localStorage.setItem("tempRegisterData", JSON.stringify(profile));
+    setIsEditing(false);
+  };
+
+  const handleCancel = () => {
+    const data = localStorage.getItem("tempRegisterData");
+    if (data) setProfile(JSON.parse(data));
+    setIsEditing(false);
+  };
+
+  if (!isEditing) {
+    return (
+      <CaregiverProfileSummary
+        profile={profile}
+        onEdit={() => setIsEditing(true)}
+      />
+    );
+  }
+
   return (
-    <ProfileCard profileImage={profileImage} onChangeImage={() => {}}>
+    <Card className="p-6 space-y-4">
       <div className="grid gap-2">
         <Label htmlFor="name">Full Name</Label>
         <Input
@@ -103,30 +123,12 @@ export default function CaregiverProfile() {
         />
       </div>
 
-      <div className="grid gap-2">
-        <Label htmlFor="specialization">Specialization</Label>
-        <Input
-          id="specialization"
-          value={profile.specialization}
-          onChange={handleChange("specialization")}
-          required
-        />
+      <div className="flex justify-end gap-2 pt-4">
+        <Button variant="outline" onClick={handleCancel}>
+          Batal
+        </Button>
+        <Button onClick={handleSave}>Simpan</Button>
       </div>
-
-      <div className="grid gap-2">
-        <Label htmlFor="certificate">Upload Certificate</Label>
-        <Input
-          id="certificate"
-          type="file"
-          accept=".pdf,.jpg,.png"
-          onChange={handleChange("certificate")}
-        />
-        {profile.certificate && (
-          <p className="text-sm text-muted-foreground">
-            {profile.certificate.name}
-          </p>
-        )}
-      </div>
-    </ProfileCard>
+    </Card>
   );
 }
