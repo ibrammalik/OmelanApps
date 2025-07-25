@@ -22,6 +22,7 @@ export function LoginPage() {
   const handleLogin = async (e) => {
     e.preventDefault();
     setLoading(true);
+
     try {
       const endpoint =
         role === "caregiver"

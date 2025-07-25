@@ -7,9 +7,22 @@ export default function LoginInput({
   onEmailChange,
   password,
   onPasswordChange,
+  role,
+  onChangeRole,
 }) {
   return (
     <div className="flex flex-col gap-6">
+      <div className="grid gap-2">
+        <label className="block text-sm">Login sebagai</label>
+        <select
+          value={role}
+          onChange={onChangeRole}
+          className="w-full p-2 border rounded"
+        >
+          <option value="caretaker">Client (Caretaker)</option>
+          <option value="caregiver">Partner (Caregiver)</option>
+        </select>
+      </div>
       <div className="grid gap-2">
         <Label htmlFor="email">Email</Label>
         <Input
@@ -31,13 +44,6 @@ export default function LoginInput({
           onChange={onPasswordChange}
           required
         />
-      </div>
-      <div>
-        <label className="block text-sm">Login sebagai</label>
-        <select className="w-full p-2 border rounded">
-          <option value="caretaker">Client (Caretaker)</option>
-          <option value="caregiver">Partner (Caregiver)</option>
-        </select>
       </div>
     </div>
   );
