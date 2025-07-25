@@ -38,7 +38,7 @@ npm run lint
 
 ## Migration
 
-When you want to create table with postgres, you can use this command line and you will create two tables (albums & songs).
+When you want to create table with postgres, you can use this command line and you will create all tables and run seeder.
 I will assume you already setup your postgres (user, role, database, etc)
 
 ```bash
@@ -58,7 +58,9 @@ After install all package you can run the program with this command line and you
 ```bash
 npm run start
 ```
+
 or if you want to running it on production you can run this command line.
+
 ```bash
 npm run start:prod
 ```

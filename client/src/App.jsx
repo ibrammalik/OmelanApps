@@ -29,6 +29,7 @@ import AppointmentSummary from "./components/users/AppointmentSummary";
 import RequestSummary from "./components/users/RequestSummary";
 import CaregiverConfirmRequest from "./pages/CaregiverConfirmRequest";
 import CaregiverAppointment from "./components/caregivers/CaregiverAppointment";
+import PrivateRoute from "./utils/PrivateRoute";
 
 function App() {
   return (
@@ -37,10 +38,17 @@ function App() {
         <Route index element={<LandingPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
-        <Route path="/pesan" element={<CaregiverOrderPage />} />
         <Route path="/caregivers/:id" element={<CaregiverDetailPage />} />
         <Route path="/caregivers" element={<CaregiverListPage />} />
         <Route path="/konfirmasi-pesanan" element={<OrderConfirmationPage />} />
+        <Route
+          path="/pesan"
+          element={
+            // <PrivateRoute>
+            <CaregiverOrderPage />
+            // </PrivateRoute>
+          }
+        />
       </Route>
 
       {/* <Route element={<DashboardLayout />}></Route> */}
