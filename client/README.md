@@ -18,3 +18,21 @@ Create .env file and write values like belows:
 ```bash
 #Your Server Localhost
 VITE_API_URL=
+```
+
+Use the npm to install 
+
+```bash
+npm install
+```
+Run Your Server Localhost
+
+```bash
+npm run start
+```
+
+Run Your Client Localhost
+
+```bash
+npm run dev
+```
