@@ -47,15 +47,15 @@ export function LoginPage() {
       }
 
       const accessToken = result.data.accessToken;
-      const decoded = jwtDecode(accessToken);
+      const userRole = jwtDecode(accessToken);
 
       // Simpan token
-      if (accessToken && decoded?.role) {
+      if (accessToken && userRole?.role) {
         localStorage.setItem("accessToken", accessToken);
-        localStorage.setItem("userRole", decoded.role);
+        localStorage.setItem("userRole", userRole.role);
 
         const dashboardPath =
-          decoded.role === "caregiver"
+          userRole.role === "caregiver"
             ? ROUTES.caregiver.dashboard
             : ROUTES.caretaker.dashboard;
 
