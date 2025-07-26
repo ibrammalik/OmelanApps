@@ -1,5 +1,3 @@
-const { nanoid } = require("nanoid");
-
 const ConnectPool = require("./ConnectPool");
 const { badRequest } = require("@hapi/boom");
 

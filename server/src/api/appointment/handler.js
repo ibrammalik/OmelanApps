@@ -6,19 +6,10 @@ class AppointmentHandler {
 
   postAppointmentHandler = async (request, h) => {
     try {
-      console.log("📥 Payload Masuk:", request.payload);
-
       this._validator.validateAppointmentPayload(request.payload);
-      console.log("✅ Payload valid menurut schema");
 
       const { userPartnerId, appointmentDate } = request.payload;
       const { id: userClientId } = request.auth.credentials;
-
-      console.log("🧾 Final Data yang akan disimpan:", {
-        userClientId,
-        userPartnerId,
-        appointmentDate,
-      });
 
       const appointmentId = await this._service.createAppointment({
         userClientId,

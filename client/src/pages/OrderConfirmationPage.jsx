@@ -32,7 +32,6 @@ export default function OrderConfirmationPage() {
       try {
         const decoded = JSON.parse(atob(token.split(".")[1]));
         setUserName(decoded.fullname || "-");
-        console.log(decoded);
       } catch (err) {
         console.error("Gagal mendecode token:", err);
       }
@@ -50,10 +49,6 @@ export default function OrderConfirmationPage() {
 
     setLoading(true);
     try {
-      console.log("Payload ke backend:", {
-        userPartnerId: caregiver.id,
-        appointmentDate,
-      });
       const res = await fetch(`${import.meta.env.VITE_API_URL}/appointments`, {
         method: "POST",
         headers: {
