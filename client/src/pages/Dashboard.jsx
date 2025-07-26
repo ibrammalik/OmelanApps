@@ -15,8 +15,19 @@ export default function Dashboard() {
 
   useEffect(() => {
     const userRole = localStorage.getItem("userRole");
-    setRole(userRole);
+    const token = localStorage.getItem("accessToken");
+
+    if (!userRole || !token) {
+      window.location.href = "/login";
+    } else {
+      setRole(userRole); // role: "caregiver" / "caretaker"
+    }
   }, []);
+
+  // useEffect(() => {
+  //   const userRole = localStorage.getItem("userRole");
+  //   setRole(userRole);
+  // }, []);
 
   if (role === null) {
     return (

@@ -1,29 +1,46 @@
 class AuthenticationHandler {
-  constructor(usersClientService, usersPartnerService, tokenManager, service, validator) {
+  constructor(
+    usersClientService,
+    usersPartnerService,
+    tokenManager,
+    service,
+    validator
+  ) {
     this._usersClientService = usersClientService;
     this._usersPartnerService = usersPartnerService;
     this._tokenManager = tokenManager;
     this._service = service;
-    this._validator = validator ;
+    this._validator = validator;
   }
 
   postAuthenticationUserClientHandler = async (request, h) => {
     this._validator.validateUserLoginPayload(request.payload);
 
     const { username, password } = request.payload;
-    const id = await this._usersClientService.verifyUserCredential(username, password);
+    const id = await this._usersClientService.verifyUserCredential(
+      username,
+      password
+    );
+    console.log(id);
 
-    const accessToken = await this._tokenManager.generateAccessToken({ id });
-    const refreshToken = await this._tokenManager.generateRefreshToken({ id });
+    const accessToken = await this._tokenManager.generateAccessToken({
+      id,
+      role: "caretaker",
+    });
+    const refreshToken = await this._tokenManager.generateRefreshToken({
+      id,
+      role: "caretaker",
+    });
 
     await this._service.addRefreshToken(refreshToken);
 
     const response = h.response({
-      status: 'success',
-      message: 'User authenticated',
+      status: "success",
+      message: "User authenticated",
       data: {
-        accessToken, refreshToken
-      }
+        accessToken,
+        refreshToken,
+      },
     });
     response.code(201);
     return response;
@@ -33,19 +50,28 @@ class AuthenticationHandler {
     this._validator.validateUserLoginPayload(request.payload);
 
     const { username, password } = request.payload;
-    const id = await this._usersPartnerService.verifyUserCredential(username, password);
-
-    const accessToken = await this._tokenManager.generateAccessToken({ id });
-    const refreshToken = await this._tokenManager.generateRefreshToken({ id });
+    const id = await this._usersPartnerService.verifyUserCredential(
+      username,
+      password
+    );
+    const accessToken = await this._tokenManager.generateAccessToken({
+      id,
+      role: "caregiver",
+    });
+    const refreshToken = await this._tokenManager.generateRefreshToken({
+      id,
+      role: "caregiver",
+    });
 
     await this._service.addRefreshToken(refreshToken);
 
     const response = h.response({
-      status: 'success',
-      message: 'User authenticated',
+      status: "success",
+      message: "User authenticated",
       data: {
-        accessToken, refreshToken
-      }
+        accessToken,
+        refreshToken,
+      },
     });
     response.code(201);
     return response;
@@ -56,15 +82,16 @@ class AuthenticationHandler {
 
     const { refreshToken } = request.payload;
     await this._service.verifyRefreshTokenDB(refreshToken);
-    const { id } = this._tokenManager.verifyRefreshTokenByJwt(refreshToken);
+    const { id, role } =
+      this._tokenManager.verifyRefreshTokenByJwt(refreshToken);
+    const accessToken = this._tokenManager.generateAccessToken({ id, role });
 
-    const accessToken = this._tokenManager.generateAccessToken({ id });
     return {
-      status: 'success',
-      message: 'Token updated successfully',
+      status: "success",
+      message: "Token updated successfully",
       data: {
-        accessToken
-      }
+        accessToken,
+      },
     };
   };
 
@@ -75,12 +102,10 @@ class AuthenticationHandler {
     await this._service.verifyRefreshTokenDB(refreshToken);
     await this._service.deleteRefreshToken(refreshToken);
     return {
-      status: 'success',
-      message: 'Token removed successfully'
+      status: "success",
+      message: "Token removed successfully",
     };
   };
 }
-
-
 
 module.exports = AuthenticationHandler;

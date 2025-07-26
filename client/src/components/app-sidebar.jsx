@@ -23,18 +23,20 @@ import AppSidebarHeader from "./sidebar-custom/AppSidebarHeader";
 import NavProfile from "./sidebar-custom/NavProfile";
 import ROUTES from "@/routes/route";
 
-export function AppSidebar({ role, setActiveLabel }) {
-  useEffect(() => {
-    // Simpan dummy user ke localStorage hanya jika belum ada
-    if (!localStorage.getItem("tempRegisterData")) {
-      const dummyUser = {
-        name: "Data Dummy",
-        email: "Dummy@example.com",
-        role: "caregiver", // atau "caretaker"
-      };
-      localStorage.setItem("tempRegisterData", JSON.stringify(dummyUser));
-    }
-  }, []);
+export function AppSidebar({ setActiveLabel }) {
+  const role = localStorage.getItem("userRole");
+
+  // useEffect(() => {
+  //   // Simpan dummy user ke localStorage hanya jika belum ada
+  //   if (!localStorage.getItem("tempRegisterData")) {
+  //     const dummyUser = {
+  //       name: "Data Dummy",
+  //       email: "Dummy@example.com",
+  //       role: "caregiver", // atau "caretaker"
+  //     };
+  //     localStorage.setItem("tempRegisterData", JSON.stringify(dummyUser));
+  //   }
+  // }, []);
 
   const clientMenu = [
     {

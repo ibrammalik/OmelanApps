@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Link, useNavigate } from "react-router-dom";
 import ROUTES from "@/routes/route";
+import { jwtDecode } from "jwt-decode";
 
 export function LoginPage() {
   const [email, setEmail] = useState("");
@@ -28,6 +29,7 @@ export function LoginPage() {
         role === "caregiver"
           ? "/authentications/partner"
           : "/authentications/client";
+
       const res = await fetch(`${import.meta.env.VITE_API_URL}${endpoint}`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -44,11 +46,20 @@ export function LoginPage() {
         return;
       }
 
+      const accessToken = result.data.accessToken;
+      const decoded = jwtDecode(accessToken);
+
       // Simpan token
-      if (result?.data?.accessToken) {
-        localStorage.setItem("accessToken", result.data.accessToken);
-        localStorage.setItem("userRole", role);
-        navigate(ROUTES[role].dashboard);
+      if (accessToken && decoded?.role) {
+        localStorage.setItem("accessToken", accessToken);
+        localStorage.setItem("userRole", decoded.role);
+
+        const dashboardPath =
+          decoded.role === "caregiver"
+            ? ROUTES.caregiver.dashboard
+            : ROUTES.caretaker.dashboard;
+
+        navigate(dashboardPath);
       } else {
         alert("Login gagal: token tidak ditemukan");
       }
