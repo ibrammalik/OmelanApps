@@ -36,3 +36,12 @@ Run Your Client Localhost
 ```bash
 npm run dev
 ```
+### .env
+
+Test Caregiver/Mitra :
+Email : admin@partner.com
+password: admin
+
+Test Caretaker/Client :
+Email : admin@client.com
+password: admin
