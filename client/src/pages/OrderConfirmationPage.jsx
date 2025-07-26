@@ -13,7 +13,7 @@ export default function OrderConfirmationPage() {
   const location = useLocation();
   const caregiver = location.state?.caregiver;
 
-  console.log(caregiver);
+  // console.log(caregiver);
 
   if (!caregiver) {
     return (
@@ -23,8 +23,6 @@ export default function OrderConfirmationPage() {
     );
   }
 
-  // contoh akses:
-  console.log("Caregiver terpilih:", caregiver);
   return (
     <div className="max-w-2xl mx-auto px-4 space-y-6">
       <h2 className="text-2xl font-bold">Konfirmasi Pemesanan</h2>

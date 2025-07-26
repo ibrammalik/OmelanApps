@@ -21,7 +21,6 @@ class AuthenticationHandler {
       username,
       password
     );
-    console.log(id);
 
     const accessToken = await this._tokenManager.generateAccessToken({
       id,
