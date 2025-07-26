@@ -36,7 +36,7 @@ Run Your Client Localhost
 ```bash
 npm run dev
 ```
-### .env
+### Akun Testing Dari Seeder
 
 Test Caregiver/Mitra :
 Email : admin@partner.com
