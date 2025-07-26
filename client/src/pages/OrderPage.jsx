@@ -103,7 +103,7 @@ export default function CaregiverOrderPage() {
                   <div>
                     <p className="font-medium">{caregiver.fullname}</p>
                     <p className="text-sm text-muted-foreground">
-                      Berpengalaman {caregiver.experience}+ tahun merawat lansia
+                      Berpengalaman + tahun merawat lansia
                     </p>
                     <p className="text-sm text-gray-500">
                       {caregiver.specialist}
@@ -123,7 +123,7 @@ export default function CaregiverOrderPage() {
                 </div>
                 <div className="flex gap-4">
                   <CaregiverDetailModal caregiver={caregiver} />
-                  <Link to="/konfirmasi-pesanan">
+                  <Link to="/konfirmasi-pesanan" state={{ caregiver }}>
                     <Button variant="outline">Pilih</Button>
                   </Link>
                 </div>

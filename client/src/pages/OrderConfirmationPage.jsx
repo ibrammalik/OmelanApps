@@ -1,10 +1,30 @@
-import { Card, CardContent, CardHeader } from '@/components/ui/card';
-import { Button } from '@/components/ui/button';
-import { Separator } from '@/components/ui/separator';
-import { CalendarIcon, UserIcon, UserCircleIcon, ArrowLeft } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Separator } from "@/components/ui/separator";
+import {
+  CalendarIcon,
+  UserIcon,
+  UserCircleIcon,
+  ArrowLeft,
+} from "lucide-react";
+import { Link, useLocation } from "react-router-dom";
 
 export default function OrderConfirmationPage() {
+  const location = useLocation();
+  const caregiver = location.state?.caregiver;
+
+  console.log(caregiver);
+
+  if (!caregiver) {
+    return (
+      <p className="text-center py-10">
+        Tidak ada data caregiver yang dikirim.
+      </p>
+    );
+  }
+
+  // contoh akses:
+  console.log("Caregiver terpilih:", caregiver);
   return (
     <div className="max-w-2xl mx-auto px-4 space-y-6">
       <h2 className="text-2xl font-bold">Konfirmasi Pemesanan</h2>
@@ -34,23 +54,31 @@ export default function OrderConfirmationPage() {
       </Card>
 
       <Card>
-        <CardHeader className="text-lg font-semibold">Perawat yang Dipilih</CardHeader>
+        <CardHeader className="text-lg font-semibold">
+          Perawat yang Dipilih
+        </CardHeader>
         <CardContent className="flex items-center gap-4">
           <img
-            src="https://randomuser.me/api/portraits/women/44.jpg"
+            src={caregiver.photo_url}
             alt="caregiver"
             className="w-16 h-16 rounded-full object-cover"
           />
           <div>
-            <p className="font-semibold">Siti Rahmawati</p>
-            <p className="text-sm text-muted-foreground">Spesialis: Lansia dengan Demensia</p>
-            <p className="text-sm text-muted-foreground">Pengalaman: 4 tahun</p>
+            <p className="font-semibold">{caregiver.fullname}</p>
+            <p className="text-sm text-muted-foreground">
+              Spesialis: {caregiver.specialist}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Pengalaman: {caregiver.experience}
+            </p>
           </div>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader className="text-lg font-semibold">Detail Pemesanan</CardHeader>
+        <CardHeader className="text-lg font-semibold">
+          Detail Pemesanan
+        </CardHeader>
         <CardContent className="space-y-2">
           <div className="flex justify-between">
             <span>Durasi Layanan</span>
@@ -74,7 +102,9 @@ export default function OrderConfirmationPage() {
           Kembali
         </Button>
         <Link to="/dashboard">
-          <Button className="bg-primary text-white hover:bg-primary/90">Konfirmasi & Pesan</Button>
+          <Button className="bg-primary text-white hover:bg-primary/90">
+            Konfirmasi & Pesan
+          </Button>
         </Link>
       </div>
     </div>
