@@ -30,6 +30,7 @@ import RequestSummary from "./components/users/RequestSummary";
 import CaregiverConfirmRequest from "./pages/CaregiverConfirmRequest";
 import CaregiverAppointment from "./components/caregivers/CaregiverAppointment";
 import PrivateRoute from "./utils/PrivateRoute";
+import PrivateDashboard from "./utils/PrivateDashboard";
 
 function App() {
   return (
@@ -41,54 +42,65 @@ function App() {
         <Route path="/caregivers/:id" element={<CaregiverDetailPage />} />
         <Route path="/caregivers" element={<CaregiverListPage />} />
         <Route path="/konfirmasi-pesanan" element={<OrderConfirmationPage />} />
-        <Route
-          path="/pesan"
-          element={
-            // <PrivateRoute>
-            <CaregiverOrderPage />
-            // </PrivateRoute>
-          }
-        />
+        <Route path="/pesan" element={<CaregiverOrderPage />} />
       </Route>
 
       {/* <Route element={<DashboardLayout />}></Route> */}
       {/* caretaker */}
-      <Route path={ROUTES.caretaker.dashboard} element={<Dashboard />}>
-        <Route index element={<DashboardCaretaker />} />
-        <Route path={ROUTES.caretaker.profile} element={<ProfilePage />} />
-        <Route
-          path={ROUTES.caretaker.appointment}
-          element={<UserAppointment />}
-        />
-        <Route path={ROUTES.caretaker.order} element={<RequestSummary />} />
-        <Route
-          path={ROUTES.caretaker.favorite}
-          element={<FavoriteCaregiver />}
-        />
-        <Route
-          path={ROUTES.caretaker.review}
-          element={<AppointmentSummary />}
-        />
+      <Route
+        element={
+          <PrivateDashboard
+            allowedRole="caretaker"
+            redirectTo="/dashboard/caregiver/"
+          />
+        }
+      >
+        <Route path={ROUTES.caretaker.dashboard} element={<Dashboard />}>
+          <Route index element={<DashboardCaretaker />} />
+          <Route path={ROUTES.caretaker.profile} element={<ProfilePage />} />
+          <Route
+            path={ROUTES.caretaker.appointment}
+            element={<UserAppointment />}
+          />
+          <Route path={ROUTES.caretaker.order} element={<RequestSummary />} />
+          <Route
+            path={ROUTES.caretaker.favorite}
+            element={<FavoriteCaregiver />}
+          />
+          <Route
+            path={ROUTES.caretaker.review}
+            element={<AppointmentSummary />}
+          />
+        </Route>
       </Route>
 
       {/* caregiver */}
-      <Route path={ROUTES.caregiver.dashboard} element={<Dashboard />}>
-        <Route index element={<DashboardCaregiver />} />
-        <Route path={ROUTES.caregiver.profile} element={<ProfilePage />} />
-        <Route
-          path={ROUTES.caregiver.availability}
-          element={<AvailableSection />}
-        />
-        {/* <Route
+      <Route
+        element={
+          <PrivateDashboard allowedRole="caregiver" redirectTo="/pesan" />
+        }
+      >
+        <Route path={ROUTES.caregiver.dashboard} element={<Dashboard />}>
+          <Route index element={<DashboardCaregiver />} />
+          <Route path={ROUTES.caregiver.profile} element={<ProfilePage />} />
+          <Route
+            path={ROUTES.caregiver.availability}
+            element={<AvailableSection />}
+          />
+          {/* <Route
           path={ROUTES.caregiver.requests}
           element={<CaregiverConfirmRequest />}
         /> */}
-        <Route
-          path={ROUTES.caregiver.appointment}
-          element={<CaregiverAppointment />}
-        />
-        <Route path={ROUTES.caregiver.earnings} element={<InvoiceSummary />} />
-        <Route path={ROUTES.caregiver.reviews} element={<ReviewList />} />
+          <Route
+            path={ROUTES.caregiver.appointment}
+            element={<CaregiverAppointment />}
+          />
+          <Route
+            path={ROUTES.caregiver.earnings}
+            element={<InvoiceSummary />}
+          />
+          <Route path={ROUTES.caregiver.reviews} element={<ReviewList />} />
+        </Route>
       </Route>
     </Routes>
   );
