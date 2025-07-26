@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   CalendarCheck2,
   CalendarClock,
@@ -24,7 +24,19 @@ import NavProfile from "./sidebar-custom/NavProfile";
 import ROUTES from "@/routes/route";
 
 export function AppSidebar({ role, setActiveLabel }) {
-  const userMenu = [
+  useEffect(() => {
+    // Simpan dummy user ke localStorage hanya jika belum ada
+    if (!localStorage.getItem("tempRegisterData")) {
+      const dummyUser = {
+        name: "Data Dummy",
+        email: "Dummy@example.com",
+        role: "caregiver", // atau "caretaker"
+      };
+      localStorage.setItem("tempRegisterData", JSON.stringify(dummyUser));
+    }
+  }, []);
+
+  const clientMenu = [
     {
       icon: <LayoutDashboard size={16} />,
       label: "Beranda",
@@ -86,7 +98,7 @@ export function AppSidebar({ role, setActiveLabel }) {
     },
   ];
 
-  const menuItems = role === "caregiver" ? caregiverMenu : userMenu;
+  const menuItems = role === "caregiver" ? caregiverMenu : clientMenu;
 
   return (
     <Sidebar collapsible="icon">
