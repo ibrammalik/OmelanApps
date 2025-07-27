@@ -25,7 +25,6 @@ class AppointmentHandler {
       response.code(201);
       return response;
     } catch (error) {
-      console.error("❌ Error saat membuat appointment:", error.message);
       return h
         .response({
           status: "fail",
@@ -45,6 +44,21 @@ class AppointmentHandler {
       status: "success",
       data: { appointments },
     };
+  };
+
+  updateAppointmentStatusHandler = async (request, h) => {
+    const { id } = request.params;
+    const { status } = request.payload;
+
+    await this._service.updateAppointmentStatus({ id, status });
+
+    const response = h.response({
+      status: "success",
+      message: "Status appointment diperbarui",
+    });
+
+    response.code(200);
+    return response;
   };
 }
 

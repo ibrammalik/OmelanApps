@@ -1,56 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Separator } from "../ui/separator";
-import { Avatar, AvatarFallback } from "../ui/avatar";
+import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
+import { getAppointmentsByPartner, updateAppointmentStatus } from "@/utils/api";
 
-const STATUS = [
-  "Semua",
-  "Menunggu Konfirmasi",
-  "Sedang Berlangsung",
-  "Selesai",
-];
+const STATUS = ["Semua", "pending", "confirmed", "completed"];
 
 const statusColor = {
-  "Menunggu Konfirmasi": "text-yellow-600",
-  "Sedang Berlangsung": "text-blue-600",
-  Selesai: "text-green-600",
+  pending: "text-yellow-600",
+  confirmed: "text-blue-600",
+  completed: "text-green-600",
+};
+
+const statusLabels = {
+  pending: "Menunggu Konfirmasi",
+  confirmed: "Dikonfirmasi",
+  inProgress: "Sedang Berjalan",
+  completed: "Selesai",
+  cancelled: "Dibatalkan",
+  expired: "Kedaluwarsa",
 };
 
 export default function CaregiverAppointment() {
+  const [appointmentList, setAppointmentList] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [activeStatus, setActiveStatus] = useState("Semua");
-  const [appointmentList, setAppointmentList] = useState([
-    {
-      id: 1,
-      name: "Luffy",
-      date: "22 September 2025",
-      status: "Menunggu Konfirmasi",
-    },
-    {
-      id: 2,
-      name: "Nami",
-      date: "23 September 2025",
-      status: "Sedang Berlangsung",
-    },
-    {
-      id: 3,
-      name: "Zoro",
-      date: "21 September 2025",
-      status: "Selesai",
-    },
-  ]);
+  // const [appointmentList, setAppointmentList] = useState([
+  //   {
+  //     id: 1,
+  //     name: "Luffy",
+  //     date: "22 September 2025",
+  //     status: "Menunggu Konfirmasi",
+  //   },
+  //   {
+  //     id: 2,
+  //     name: "Nami",
+  //     date: "23 September 2025",
+  //     status: "Sedang Berlangsung",
+  //   },
+  //   {
+  //     id: 3,
+  //     name: "Zoro",
+  //     date: "21 September 2025",
+  //     status: "Selesai",
+  //   },
+  // ]);
 
-  const handleStatusChange = (id, newStatus) => {
-    setAppointmentList((prev) =>
-      prev.map((item) =>
-        item.id === id ? { ...item, status: newStatus } : item
-      )
-    );
+  const fetchAppointments = async () => {
+    try {
+      const data = await getAppointmentsByPartner();
+      setAppointmentList(data);
+    } catch (error) {
+      console.error("❌ Gagal ambil appointment:", error.message);
+    } finally {
+      setLoading(false);
+    }
   };
+
+  useEffect(() => {
+    fetchAppointments();
+  }, []);
+
+  const handleStatusChange = async (id, newStatus) => {
+    try {
+      await updateAppointmentStatus(id, newStatus);
+      setAppointmentList((prev) =>
+        prev.map((item) =>
+          item.id === id ? { ...item, status: newStatus } : item
+        )
+      );
+    } catch (error) {
+      alert("Gagal memperbarui status: " + error.message);
+    }
+  };
+
+  // const handleStatusChange = (id, newStatus) => {
+  //   setAppointmentList((prev) =>
+  //     prev.map((item) =>
+  //       item.id === id ? { ...item, status: newStatus } : item
+  //     )
+  //   );
+  // };
 
   const filteredAppointments =
     activeStatus === "Semua"
       ? appointmentList
       : appointmentList.filter((item) => item.status === activeStatus);
+
+  // console.log(filteredAppointments);
 
   return (
     <div className="space-y-4 rounded-lg p-4 shadow bg-white">
@@ -81,15 +118,22 @@ export default function CaregiverAppointment() {
           >
             <div className="flex gap-4 items-center px-2">
               <Avatar className="w-12 h-12 rounded-lg">
+                <AvatarImage
+                  src={item.client_photo}
+                  alt={item.client_name}
+                  className="object-cover"
+                />
                 <AvatarFallback className="text-base font-medium bg-blue-100 text-blue-700">
-                  {item.name.charAt(0)}
+                  {item.client_name?.charAt(0) || "-"}
                 </AvatarFallback>
               </Avatar>
               <div className="flex flex-col gap-2">
                 <p className="text-base font-semibold text-gray-800">
-                  {item.name}
+                  {item.client_name}
                 </p>
-                <p className="text-sm text-gray-400">{item.date}</p>
+                <p className="text-sm text-gray-400">
+                  {item.date?.slice(0, 10)}
+                </p>
               </div>
             </div>
             <div className="flex flex-col items-end gap-1 text-right min-w-[160px] p-2">
@@ -98,30 +142,27 @@ export default function CaregiverAppointment() {
                   statusColor[item.status] || "text-gray-500"
                 }`}
               >
-                {item.status}
+                <strong>{statusLabels[item.status] || item.status}</strong>
               </span>
 
-              {(item.status === "Menunggu Konfirmasi" ||
-                item.status === "Sedang Berlangsung") && (
+              {(item.status === "pending" || item.status === "confirmed") && (
                 <div className="pt-1">
-                  {item.status === "Menunggu Konfirmasi" && (
+                  {item.status === "pending" && (
                     <Button
                       size="sm"
                       variant="outline"
                       className="border-blue-600 text-blue-600 hover:bg-blue-50"
-                      onClick={() =>
-                        handleStatusChange(item.id, "Sedang Berlangsung")
-                      }
+                      onClick={() => handleStatusChange(item.id, "confirmed")}
                     >
                       Konfirmasi
                     </Button>
                   )}
-                  {item.status === "Sedang Berlangsung" && (
+                  {item.status === "confirmed" && (
                     <Button
                       variant="outline"
                       size="sm"
                       className="border-green-600 text-green-600 hover:bg-green-50"
-                      onClick={() => handleStatusChange(item.id, "Selesai")}
+                      onClick={() => handleStatusChange(item.id, "completed")}
                     >
                       Selesaikan
                     </Button>

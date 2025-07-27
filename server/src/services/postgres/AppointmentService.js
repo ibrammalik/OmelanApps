@@ -35,19 +35,68 @@ class AppointmentService {
 
       return result.rows[0].id;
     } catch (error) {
-      console.error("❌ Gagal menyimpan appointment:", error.message);
       throw badRequest(error.message);
     }
   }
 
   async getAppointmentsForPartner(partnerId) {
-    const query = {
-      text: `SELECT * FROM appointment WHERE user_partner_id = $1 ORDER BY appointment_date DESC`,
-      values: [partnerId],
-    };
+    try {
+      const query = {
+        text: `
+        SELECT 
+          a.id,
+          a.user_client_id,
+          a.user_partner_id,
+          a.appointment_date AS date,
+          a.status,
+          uc.fullname AS client_name,
+          uc.photo_url AS client_photo
+        FROM appointment a
+        JOIN users_client uc ON a.user_client_id = uc.id
+        WHERE a.user_partner_id = $1
+        ORDER BY a.created_at DESC
+      `,
+        values: [partnerId],
+      };
 
-    const result = await this._pool.query(query);
-    return result.rows;
+      const result = await this._pool.query(query);
+      return result.rows;
+    } catch (error) {
+      // console.error("Error query getAppointmentsForPartner:", error.message);
+      throw error;
+    }
+  }
+
+  async updateAppointmentStatus({ id, status }) {
+    try {
+      // Pengecekan Optional
+      if (!id || !status) {
+        throw badRequest("ID appointment dan status harus disediakan.");
+      }
+
+      const query = {
+        text: `UPDATE appointment SET status = $1 WHERE id = $2 RETURNING id`,
+        values: [status, id],
+      };
+      const result = await this._pool.query(query);
+      if (!result.rowCount) {
+        throw notFound(
+          "Gagal memperbarui status, appointment tidak ditemukan."
+        );
+      }
+      return result.rows[0].id;
+    } catch (error) {
+      if (error.isBoom) {
+        throw error;
+      }
+      console.error(
+        "Error tak terduga saat memperbarui status appointment:",
+        error
+      );
+      throw internal(
+        "Terjadi kesalahan internal server saat memperbarui status appointment."
+      );
+    }
   }
 }
 
