@@ -27,5 +27,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable("users_partner");
+  // pgm.dropTable("users_partner");
 };
