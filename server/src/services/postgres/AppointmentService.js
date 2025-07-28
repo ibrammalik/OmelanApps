@@ -66,34 +66,75 @@ class AppointmentService {
   }
 
   async updateAppointmentStatus({ id, status }) {
+    const client = await this._pool.connect();
     try {
+      await client.query("BEGIN");
       // Pengecekan Optional
       if (!id || !status) {
         throw badRequest("ID appointment dan status harus disediakan.");
       }
 
-      const query = {
-        text: `UPDATE appointment SET status = $1 WHERE id = $2 RETURNING id`,
+      // const query = {
+      //   text: `UPDATE appointment SET status = $1 WHERE id = $2 RETURNING id`,
+      //   values: [status, id],
+      // };
+
+      const currentQuery = {
+        text: `
+        SELECT id, user_partner_id, appointment_date
+        FROM appointment
+        WHERE id = $1
+      `,
+        values: [id],
+      };
+      const currentResult = await client.query(currentQuery);
+      if (currentResult.rowCount === 0) {
+        throw badRequest("Appointment tidak ditemukan.");
+      }
+      const { user_partner_id, appointment_date } = currentResult.rows[0];
+
+      if (status === "confirmed") {
+        const cancelQuery = {
+          text: `
+          UPDATE appointment
+          SET status = 'cancelled'
+          WHERE user_partner_id = $1
+            AND appointment_date::date = $2::date
+            AND id != $3
+            AND status IN ('pending', 'confirmed')
+        `,
+          values: [user_partner_id, appointment_date, id],
+        };
+        await client.query(cancelQuery);
+      }
+      const updateQuery = {
+        text: `
+        UPDATE appointment
+        SET status = $1
+        WHERE id = $2
+      `,
         values: [status, id],
       };
-      const result = await this._pool.query(query);
-      if (!result.rowCount) {
-        throw notFound(
-          "Gagal memperbarui status, appointment tidak ditemukan."
-        );
-      }
-      return result.rows[0].id;
+      await client.query(updateQuery);
+
+      await client.query("COMMIT");
+      // if (!result.rowCount) {
+      //   throw notFound(
+      //     "Gagal memperbarui status, appointment tidak ditemukan."
+      //   );
+      // }
+      // return result.rows[0].id;
     } catch (error) {
+      await client.query("ROLLBACK");
+      console.error("❌ Error updateAppointmentStatus:", error.message);
       if (error.isBoom) {
         throw error;
       }
-      // console.error(
-      //   "Error tak terduga saat memperbarui status appointment:",
-      //   error
-      // );
       throw internal(
         "Terjadi kesalahan internal server saat memperbarui status appointment."
       );
+    } finally {
+      client.release();
     }
   }
 
