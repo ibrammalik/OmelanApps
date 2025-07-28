@@ -50,33 +50,38 @@ export async function getAppointmentsByPartner() {
     });
 
     const result = await res.json();
-    console.log(result);
 
     if (!res.ok) {
-      console.error("❌ Gagal ambil appointment:", result.message);
+      // console.error(" Gagal ambil appointment:", result.message);
       throw new Error(result.message);
     }
-    console.log(result);
 
     return result.data.appointments;
   } catch (error) {
-    console.error("❌ Error saat ambil appointment dari API:", error.message);
+    // console.error(" Error saat ambil appointment dari API:", error.message);
     throw error;
   }
 }
 
 export async function updateAppointmentStatus(id, status) {
-  const token = localStorage.getItem("accessToken");
-  const res = await fetch(`${API_URL}/appointments/${id}`, {
-    method: "PATCH",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${token}`,
-    },
-    body: JSON.stringify({ status }),
-  });
+  try {
+    const token = localStorage.getItem("accessToken");
 
-  const result = await res.json();
-  if (!res.ok) throw new Error(result.message);
-  return result;
+    const res = await fetch(`${API_URL}/appointments/${id}/status`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify({ status }),
+    });
+
+    const result = await res.json();
+
+    if (!res.ok) throw new Error(result.message);
+    return result;
+  } catch (error) {
+    console.error(" Gagal update status:", error.message);
+    throw error;
+  }
 }

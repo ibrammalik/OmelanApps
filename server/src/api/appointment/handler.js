@@ -1,7 +1,8 @@
 class AppointmentHandler {
-  constructor(service, validator) {
+  constructor(service, validator, reviewService) {
     this._service = service;
     this._validator = validator;
+    this._reviewService = reviewService;
   }
 
   postAppointmentHandler = async (request, h) => {
@@ -47,18 +48,37 @@ class AppointmentHandler {
   };
 
   updateAppointmentStatusHandler = async (request, h) => {
-    const { id } = request.params;
-    const { status } = request.payload;
+    try {
+      const { id } = request.params;
+      const { status } = request.payload;
 
-    await this._service.updateAppointmentStatus({ id, status });
+      await this._service.updateAppointmentStatus({ id, status });
 
-    const response = h.response({
-      status: "success",
-      message: "Status appointment diperbarui",
-    });
+      if (status === "completed") {
+        const appointment = await this._service.getAppointmentByIdForReview(id);
 
-    response.code(200);
-    return response;
+        await this._reviewService.createReview({
+          appointmentId: id,
+          userClientId: appointment.user_client_id,
+          userPartnerId: appointment.user_partner_id,
+        });
+      }
+
+      return {
+        status: "success",
+        message: "Status appointment berhasil diperbarui",
+      };
+    } catch (error) {
+      // console.error(" Gagal update appointment:", error.message);
+
+      return h
+        .response({
+          status: "fail",
+          message: "Gagal memperbarui status appointment",
+          error: error.message,
+        })
+        .code(500);
+    }
   };
 }
 

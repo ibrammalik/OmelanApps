@@ -1,5 +1,5 @@
 const ConnectPool = require("./ConnectPool");
-const { badRequest } = require("@hapi/boom");
+const { notFound, badRequest } = require("@hapi/boom");
 
 class AppointmentService {
   constructor() {
@@ -49,6 +49,7 @@ class AppointmentService {
           a.user_partner_id,
           a.appointment_date AS date,
           a.status,
+          a.created_at,
           uc.fullname AS client_name,
           uc.photo_url AS client_photo
         FROM appointment a
@@ -89,13 +90,42 @@ class AppointmentService {
       if (error.isBoom) {
         throw error;
       }
-      console.error(
-        "Error tak terduga saat memperbarui status appointment:",
-        error
-      );
+      // console.error(
+      //   "Error tak terduga saat memperbarui status appointment:",
+      //   error
+      // );
       throw internal(
         "Terjadi kesalahan internal server saat memperbarui status appointment."
       );
+    }
+  }
+
+  async getAppointmentByIdForReview(id) {
+    try {
+      const query = {
+        text: `
+        SELECT 
+          id, 
+          user_client_id, 
+          user_partner_id, 
+          status
+        FROM appointment
+        WHERE id = $1
+      `,
+        values: [id],
+      };
+
+      const result = await this._pool.query(query);
+
+      if (!result.rows.length) {
+        throw notFound("Appointment tidak ditemukan.");
+      }
+
+      return result.rows[0];
+    } catch (error) {
+      // console.error(" Gagal ambil appointment by ID:", error.message);
+      if (error.isBoom) throw error;
+      throw badRequest("Gagal mengambil appointment: " + error.message);
     }
   }
 }

@@ -44,10 +44,10 @@ export default function NavProfile({ setActiveLabel }) {
         if (res.ok) {
           setUser(result.data.details);
         } else {
-          console.error("Gagal memuat data user:", result.message);
+          // console.error("Gagal memuat data user:", result.message);
         }
       } catch (err) {
-        console.error("Error mengambil user:", err);
+        // console.error("Error mengambil user:", err);
       }
     };
 

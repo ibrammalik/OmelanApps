@@ -33,7 +33,7 @@ export default function OrderConfirmationPage() {
         const decoded = JSON.parse(atob(token.split(".")[1]));
         setUserName(decoded.fullname || "-");
       } catch (err) {
-        console.error("Gagal mendecode token:", err);
+        // console.error("Gagal mendecode token:", err);
       }
     }
   }, []);
@@ -71,7 +71,7 @@ export default function OrderConfirmationPage() {
       alert("Appointment berhasil dibuat!");
       navigate("/dashboard/caretaker/appointment");
     } catch (err) {
-      console.error("Error saat membuat appointment:", err);
+      // console.error("Error saat membuat appointment:", err);
       alert("Terjadi kesalahan saat memproses appointment.");
     } finally {
       setLoading(false);

@@ -17,7 +17,7 @@ const routes = (handler) => [
   },
   {
     method: "PATCH",
-    path: "/appointments/{id}",
+    path: "/appointments/{id}/status",
     handler: handler.updateAppointmentStatusHandler,
     options: {
       auth: "omelanapp_jwt",

@@ -27,6 +27,7 @@ const AuthenticationService = require("./services/postgres/AuthenticationsServic
 const AppointmentService = require("./services/postgres/AppointmentService");
 const AppointmentValidator = require("./validators/appointment");
 const appointments = require("./api/appointment");
+const ReviewService = require("./services/postgres/ReviewService");
 
 const Init = async () => {
   const usersClientService = new UsersClientService();
@@ -34,6 +35,7 @@ const Init = async () => {
   const schedulesService = new ScheduleService();
   const authenticationService = new AuthenticationService();
   const appointmentService = new AppointmentService();
+  const reviewService = new ReviewService();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -94,8 +96,9 @@ const Init = async () => {
     {
       plugin: appointments,
       options: {
-        service: appointmentService,
+        appointmentService,
         validator: AppointmentValidator,
+        reviewService,
       },
     },
     {

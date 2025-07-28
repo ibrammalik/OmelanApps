@@ -51,7 +51,7 @@ export default function CaregiverAppointment() {
       const data = await getAppointmentsByPartner();
       setAppointmentList(data);
     } catch (error) {
-      console.error("❌ Gagal ambil appointment:", error.message);
+      // console.error("❌ Gagal ambil appointment:", error.message);
     } finally {
       setLoading(false);
     }
@@ -64,11 +64,22 @@ export default function CaregiverAppointment() {
   const handleStatusChange = async (id, newStatus) => {
     try {
       await updateAppointmentStatus(id, newStatus);
+
+      if (newStatus === "completed") {
+        alert(
+          "Terima kasih atas kerja keras Anda! Silakan cek review dan invoice di dashboard Anda."
+        );
+      } else if (newStatus === "confirmed") {
+        alert("Pesanan Diterima, berhasil dikonfirmasi.");
+      }
+
       setAppointmentList((prev) =>
         prev.map((item) =>
           item.id === id ? { ...item, status: newStatus } : item
         )
       );
+
+      fetchAppointments();
     } catch (error) {
       alert("Gagal memperbarui status: " + error.message);
     }
