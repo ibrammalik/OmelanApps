@@ -43,13 +43,14 @@ export async function getAppointmentsByPartner() {
   const token = localStorage.getItem("accessToken");
 
   try {
-    const res = await fetch(`${API_URL}/appointments/partner`, {
+    const res = await fetchWithAuth(`${API_URL}/appointments/partner`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
 
     const result = await res.json();
+    console.log(result);
 
     if (!res.ok) {
       // console.error(" Gagal ambil appointment:", result.message);
@@ -67,7 +68,7 @@ export async function updateAppointmentStatus(id, status) {
   try {
     const token = localStorage.getItem("accessToken");
 
-    const res = await fetch(`${API_URL}/appointments/${id}/status`, {
+    const res = await fetchWithAuth(`${API_URL}/appointments/${id}/status`, {
       method: "PATCH",
       headers: {
         "Content-Type": "application/json",
@@ -81,7 +82,7 @@ export async function updateAppointmentStatus(id, status) {
     if (!res.ok) throw new Error(result.message);
     return result;
   } catch (error) {
-    console.error(" Gagal update status:", error.message);
+    // console.error(" Gagal update status:", error.message);
     throw error;
   }
 }

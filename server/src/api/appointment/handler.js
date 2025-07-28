@@ -1,3 +1,5 @@
+const { badRequest, notFound } = require("@hapi/boom");
+
 class AppointmentHandler {
   constructor(service, validator, reviewService) {
     this._service = service;
@@ -52,10 +54,19 @@ class AppointmentHandler {
       const { id } = request.params;
       const { status } = request.payload;
 
-      await this._service.updateAppointmentStatus({ id, status });
-
       if (status === "completed") {
         const appointment = await this._service.getAppointmentByIdForReview(id);
+
+        if (!appointment.user_client_id) {
+          throw badRequest(
+            "Gagal membuat review: user_client_id tidak ditemukan."
+          );
+        }
+        if (!appointment.user_partner_id) {
+          throw badRequest(
+            "Gagal membuat review: user_partner_id tidak ditemukan."
+          );
+        }
 
         await this._reviewService.createReview({
           appointmentId: id,
@@ -64,12 +75,14 @@ class AppointmentHandler {
         });
       }
 
+      await this._service.updateAppointmentStatus({ id, status });
+
       return {
         status: "success",
         message: "Status appointment berhasil diperbarui",
       };
     } catch (error) {
-      // console.error(" Gagal update appointment:", error.message);
+      // console.error("Handler Gagal update appointment:", error.message);
 
       return h
         .response({

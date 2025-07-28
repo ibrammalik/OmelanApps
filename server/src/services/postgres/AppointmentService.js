@@ -45,11 +45,8 @@ class AppointmentService {
         text: `
         SELECT 
           a.id,
-          a.user_client_id,
-          a.user_partner_id,
           a.appointment_date AS date,
           a.status,
-          a.created_at,
           uc.fullname AS client_name,
           uc.photo_url AS client_photo
         FROM appointment a
@@ -106,8 +103,8 @@ class AppointmentService {
         text: `
         SELECT 
           id, 
-          user_client_id, 
-          user_partner_id, 
+          user_client_id,
+          user_partner_id,
           status
         FROM appointment
         WHERE id = $1
