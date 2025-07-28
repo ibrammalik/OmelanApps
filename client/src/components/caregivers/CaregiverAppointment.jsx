@@ -10,6 +10,7 @@ const statusColor = {
   pending: "text-yellow-600",
   confirmed: "text-blue-600",
   completed: "text-green-600",
+  cancelled: "text-red-600",
 };
 
 const statusLabels = {
@@ -62,6 +63,7 @@ export default function CaregiverAppointment() {
   }, []);
 
   const handleStatusChange = async (id, newStatus) => {
+    setLoading(true);
     try {
       await updateAppointmentStatus(id, newStatus);
 
@@ -184,7 +186,8 @@ export default function CaregiverAppointment() {
           </div>
         ))}
 
-        {filteredAppointments.length === 0 && (
+        {loading && <p className="text-sm text-gray-500">Memuat data...</p>}
+        {!loading && filteredAppointments.length === 0 && (
           <p className="text-start text-gray-400 px-4">Tidak ada janji temu.</p>
         )}
       </div>
