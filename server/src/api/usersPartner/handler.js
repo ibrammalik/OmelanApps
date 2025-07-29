@@ -7,11 +7,11 @@ class UsersPartnerHandler {
   getUsersPartner = async (request) => {
     const list = await this._service.getUsers(request.payload);
     return {
-      status: 'success',
+      status: "success",
       data: {
         list: list.rows,
-        recordsLength: list.rowCount
-      }
+        recordsLength: list.rowCount,
+      },
     };
   };
 
@@ -20,10 +20,10 @@ class UsersPartnerHandler {
 
     const details = await this._service.getUserDetailsById(id);
     return {
-      status: 'success',
+      status: "success",
       data: {
-        details
-      }
+        details,
+      },
     };
   };
 
@@ -33,10 +33,10 @@ class UsersPartnerHandler {
 
     const details = await this._service.getUserDetails(credentialId);
     return {
-      status: 'success',
+      status: "success",
       data: {
-        details
-      }
+        details,
+      },
     };
   };
 
@@ -46,10 +46,10 @@ class UsersPartnerHandler {
 
     const userId = await this._service.addUser(request.payload);
     const response = h.response({
-      status: 'success',
+      status: "success",
       data: {
-        userId
-      }
+        userId,
+      },
     });
     response.code(201);
     return response;
@@ -62,8 +62,8 @@ class UsersPartnerHandler {
 
     await this._service.editUserById(credentialId, request.payload);
     return {
-      status: 'success',
-      message: 'Data updated successfully'
+      status: "success",
+      message: "Data updated successfully",
     };
   };
 }

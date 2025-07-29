@@ -11,9 +11,9 @@ export default async function fetchWithAuth(url, options = {}) {
   }
 
   const headers = {
+    "Content-Type": "application/json",
     ...options.headers,
     Authorization: `Bearer ${token}`,
-    "Content-Type": "application/json",
   };
 
   const config = {
@@ -23,9 +23,23 @@ export default async function fetchWithAuth(url, options = {}) {
 
   try {
     const response = await fetch(url, config);
-    return response;
+
+    if (!response.ok) {
+      let errorMessage = `HTTP Error: ${response.status} ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+
+        errorMessage = errorData.message || "Terjadi kesalahan pada server.";
+      } catch (e) {}
+      throw new Error(errorMessage);
+    }
+
+    if (response.status === 204) {
+      return null;
+    }
+
+    return response.json();
   } catch (error) {
-    console.error("Fetch with auth error:", error);
     throw error;
   }
 }

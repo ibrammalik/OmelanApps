@@ -82,7 +82,7 @@ exports.up = (pgm) => {
 
   // appointments
   pgm.sql(`
-    INSERT INTO appointment (user_client_id, user_partner_id, appointment_date, status, created_at, "updated_at")
+    INSERT INTO appointment (user_client_id, user_partner_id, appointment_date, status, created_at, updated_at)
     VALUES ${formatValues(appointments, [
       "user_client_id",
       "user_partner_id",
@@ -94,7 +94,7 @@ exports.up = (pgm) => {
   `);
   //reviews
   pgm.sql(`
-    INSERT INTO reviews (appointment_id, user_client_id, user_partner_id, rating, comment, created_at,"updated_at")
+    INSERT INTO reviews (appointment_id, user_client_id, user_partner_id, rating, comment, created_at, updated_at)
     VALUES ${formatValues(reviews, [
       "appointment_id",
       "user_client_id",
@@ -112,4 +112,11 @@ exports.up = (pgm) => {
  * @param run {() => void | undefined}
  * @returns {Promise<void> | void}
  */
-exports.down = (pgm) => {};
+exports.down = (pgm) => {
+  pgm.dropTable("users_client");
+  pgm.dropTable("users_partner");
+  pgm.dropConstraint("schedules", "fk_schedules_user.id");
+  pgm.dropTable("schedules");
+  pgm.dropTable("appointment");
+  pgm.dropTable("reviews");
+};

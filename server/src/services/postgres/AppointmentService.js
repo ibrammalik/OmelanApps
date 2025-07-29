@@ -126,7 +126,7 @@ class AppointmentService {
       // return result.rows[0].id;
     } catch (error) {
       await client.query("ROLLBACK");
-      console.error("❌ Error updateAppointmentStatus:", error.message);
+      // console.error("Error updateAppointmentStatus:", error.message);
       if (error.isBoom) {
         throw error;
       }
