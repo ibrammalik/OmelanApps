@@ -49,6 +49,16 @@ class AppointmentHandler {
     };
   };
 
+  getAppointmentsByClientHandler = async (request) => {
+    const { id: ClientId } = request.auth.credentials;
+    const appointments = await this._service.getAppointmentsForClient(ClientId);
+
+    return {
+      status: "success",
+      data: { appointments },
+    };
+  };
+
   updateAppointmentStatusHandler = async (request, h) => {
     try {
       const { id } = request.params;

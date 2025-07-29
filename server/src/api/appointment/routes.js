@@ -23,6 +23,14 @@ const routes = (handler) => [
       auth: "omelanapp_jwt",
     },
   },
+  {
+    method: "GET",
+    path: "/appointments/client",
+    handler: handler.getAppointmentsByClientHandler,
+    options: {
+      auth: "omelanapp_jwt",
+    },
+  },
   //   {
   //     method: "PUT",
   //     path: "/appointments/{appointmentId}/status",

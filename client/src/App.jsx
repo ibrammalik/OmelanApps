@@ -62,7 +62,10 @@ function App() {
             path={ROUTES.caretaker.appointment}
             element={<UserAppointment />}
           />
-          <Route path={ROUTES.caretaker.order} element={<RequestSummary />} />
+          <Route
+            path={ROUTES.caretaker.order}
+            element={<CaregiverAppointment />}
+          />
           <Route
             path={ROUTES.caretaker.favorite}
             element={<FavoriteCaregiver />}

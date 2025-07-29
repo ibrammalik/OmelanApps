@@ -2,7 +2,12 @@ import React, { useState, useEffect } from "react";
 import { Separator } from "../ui/separator";
 import { Avatar, AvatarFallback, AvatarImage } from "../ui/avatar";
 import { Button } from "../ui/button";
-import { getAppointmentsByPartner, updateAppointmentStatus } from "@/utils/api";
+import {
+  getAppointmentsByPartner,
+  updateAppointmentStatus,
+  getAppointmentsByClient,
+} from "@/utils/api";
+import { data } from "react-router-dom";
 
 const STATUS = ["Semua", "pending", "confirmed", "completed"];
 
@@ -26,6 +31,10 @@ export default function CaregiverAppointment() {
   const [appointmentList, setAppointmentList] = useState([]);
   const [loading, setLoading] = useState(true);
   const [activeStatus, setActiveStatus] = useState("Semua");
+
+  const userRole = localStorage.getItem("userRole");
+  const isCaregiver = userRole === "caregiver";
+  const isCaretaker = userRole === "caretaker";
   // const [appointmentList, setAppointmentList] = useState([
   //   {
   //     id: 1,
@@ -49,7 +58,15 @@ export default function CaregiverAppointment() {
 
   const fetchAppointments = async () => {
     try {
-      const data = await getAppointmentsByPartner();
+      let data;
+      if (isCaregiver) {
+        data = await getAppointmentsByPartner();
+      } else if (isCaretaker) {
+        data = await getAppointmentsByClient();
+      } else {
+        throw new Error("Peran pengguna tidak valid.");
+      }
+
       setAppointmentList(data);
     } catch (error) {
       // console.error("❌ Gagal ambil appointment:", error.message);
@@ -160,7 +177,7 @@ export default function CaregiverAppointment() {
 
               {(item.status === "pending" || item.status === "confirmed") && (
                 <div className="pt-1">
-                  {item.status === "pending" && (
+                  {isCaregiver && item.status === "pending" && (
                     <Button
                       size="sm"
                       variant="outline"
@@ -170,7 +187,7 @@ export default function CaregiverAppointment() {
                       Konfirmasi
                     </Button>
                   )}
-                  {item.status === "confirmed" && (
+                  {isCaregiver && item.status === "confirmed" && (
                     <Button
                       variant="outline"
                       size="sm"

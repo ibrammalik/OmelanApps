@@ -65,6 +65,32 @@ class AppointmentService {
     }
   }
 
+  async getAppointmentsForClient(ClientId) {
+    try {
+      const query = {
+        text: `
+        SELECT 
+          a.id,
+          a.appointment_date AS date,
+          a.status,
+          up.fullname AS client_name,
+          up.photo_url AS client_photo
+        FROM appointment a
+        JOIN users_partner up ON a.user_partner_id = up.id
+        WHERE a.user_client_id = $1
+        ORDER BY a.created_at DESC
+      `,
+        values: [ClientId],
+      };
+
+      const result = await this._pool.query(query);
+      return result.rows;
+    } catch (error) {
+      // console.error("Error query getAppointmentsForPartner:", error.message);
+      throw error;
+    }
+  }
+
   async updateAppointmentStatus({ id, status }) {
     const client = await this._pool.connect();
     try {

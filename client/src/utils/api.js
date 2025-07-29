@@ -36,6 +36,11 @@ export async function getAppointmentsByPartner() {
   return result.data.appointments;
 }
 
+export async function getAppointmentsByClient() {
+  const result = await fetchWithAuth(`${API_URL}/appointments/client`);
+  return result.data.appointments;
+}
+
 export async function updateAppointmentStatus(id, status) {
   const result = await fetchWithAuth(`${API_URL}/appointments/${id}/status`, {
     method: "PATCH",
