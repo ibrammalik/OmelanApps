@@ -31,8 +31,6 @@ export default function CaregiverOrderPage() {
         formattedDate
       );
 
-      // console.log("Response dari API:", { error, data, message });
-
       if (error) {
         // console.error("API Error:", message);
         alert(message || "Gagal mengambil data caregiver");

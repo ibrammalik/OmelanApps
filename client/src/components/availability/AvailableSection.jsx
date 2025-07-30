@@ -25,7 +25,7 @@ export default function AvailableSection() {
       await submitSchedule(date);
       loadSchedules();
     } catch (err) {
-      alert("Gagal menambahkan jadwal.");
+      alert("Jadwal di tanggal tersebut sudah tersedia.");
     }
   };
 
@@ -72,8 +72,7 @@ export default function AvailableSection() {
       <AvailableSummary
         availableDates={availableDates}
         loading={loading}
-
-        // onDeleteDate={handleDeleteDate}
+        onDeleteDate={handleDelete}
       />
     </div>
   );

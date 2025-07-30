@@ -1,5 +1,10 @@
 class SchedulesHandler {
-  constructor(usersClientService, usersPartnerService, schedulesService, validator) {
+  constructor(
+    usersClientService,
+    usersPartnerService,
+    schedulesService,
+    validator
+  ) {
     this._usersClientService = usersClientService;
     this._usersPartnerService = usersPartnerService;
     this._schedulesService = schedulesService;
@@ -9,12 +14,14 @@ class SchedulesHandler {
   getScheduleById = async (request) => {
     const { id: credentialId } = request.auth.credentials;
 
-    const schedules = await this._schedulesService.getSchedulesById(credentialId);
+    const schedules = await this._schedulesService.getSchedulesById(
+      credentialId
+    );
     return {
-      status: 'success',
+      status: "success",
       data: {
-        schedules
-      }
+        schedules,
+      },
     };
   };
 
@@ -24,12 +31,30 @@ class SchedulesHandler {
     const { id: credentialId } = request.auth.credentials;
     await this._usersPartnerService.verifyUserExisting(credentialId);
 
-    const userId = await this._schedulesService.addSchedule(credentialId, request.payload);
+    const { dateStart } = request.payload;
+
+    const isExist = await this._schedulesService.checkScheduleExist(
+      credentialId,
+      dateStart
+    );
+    if (isExist) {
+      return h
+        .response({
+          status: "fail",
+          message: "Jadwal untuk tanggal ini sudah ada.",
+        })
+        .code(400);
+    }
+
+    const userId = await this._schedulesService.addSchedule(
+      credentialId,
+      request.payload
+    );
     const response = h.response({
-      status: 'success',
+      status: "success",
       data: {
-        userId
-      }
+        userId,
+      },
     });
     response.code(201);
     return response;
@@ -41,11 +66,28 @@ class SchedulesHandler {
     const { id: credentialId } = request.auth.credentials;
     await this._usersPartnerService.verifyUserExisting(credentialId);
 
-    await this._schedulesService.editScheduleById(credentialId, request.payload);
+    await this._schedulesService.editScheduleById(
+      credentialId,
+      request.payload
+    );
     return {
-      status: 'success',
-      message: 'Schedule updated successfully'
+      status: "success",
+      message: "Schedule updated successfully",
     };
+  };
+
+  deleteScheduleById = async (request, h) => {
+    const { id: credentialId } = request.auth.credentials;
+    const { scheduleId } = request.params;
+
+    await this._schedulesService.deleteScheduleById(credentialId, scheduleId);
+
+    return h
+      .response({
+        status: "success",
+        message: "Jadwal berhasil dihapus",
+      })
+      .code(200);
   };
 
   getScheduleByDate = async (request) => {
@@ -55,22 +97,27 @@ class SchedulesHandler {
     await this._usersClientService.verifyUserExisting(credentialId);
 
     const partners = [];
-    const partnersId = await this._schedulesService.getSchedulesByDate(request.payload);
+    const partnersId = await this._schedulesService.getSchedulesByDate(
+      request.payload
+    );
 
     if (partnersId.length) {
       partnersId.forEach(async (partnerId) => {
         const data = new Promise((resolve, reject) => {
-          this._usersPartnerService.getUserDetailsById(partnerId.user_id).then((result) => resolve(result)).catch((err) => reject(err));
+          this._usersPartnerService
+            .getUserDetailsById(partnerId.user_id)
+            .then((result) => resolve(result))
+            .catch((err) => reject(err));
         });
         partners.push(data);
       });
 
       return Promise.all(partners).then((result) => {
         return {
-          status: 'success',
+          status: "success",
           data: {
-            partners: result
-          }
+            partners: result,
+          },
         };
       });
     }

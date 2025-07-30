@@ -52,7 +52,7 @@ export async function updateAppointmentStatus(id, status) {
 export async function fetchSchedules() {
   const result = await fetchWithAuth(`${API_URL}/schedule/partner`);
 
-  console.log(result);
+  // console.log(result);
 
   return result.data.schedules;
 }
@@ -69,7 +69,7 @@ export async function submitSchedule(date) {
 
     return result;
   } catch (error) {
-    console.error("❌ Gagal submit jadwal:", error.message);
+    // console.error("❌ Gagal submit jadwal:", error.message);
     throw error;
   }
 }
@@ -78,7 +78,6 @@ export async function deleteSchedule(id) {
   const res = await fetchWithAuth(`${API_URL}/schedule/partner/${id}`, {
     method: "DELETE",
   });
-  const result = await res.json();
-  if (!res.ok) throw new Error(result.message);
-  return result;
+
+  return true;
 }

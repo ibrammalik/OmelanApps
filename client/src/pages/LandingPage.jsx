@@ -14,7 +14,6 @@ export default function LandingPage() {
 
   useEffect(() => {
     fetchAllCaregivers().then(({ data }) => {
-      // console.log(data);
       if (data) setCaregivers(data);
       setInitializing(false);
     });

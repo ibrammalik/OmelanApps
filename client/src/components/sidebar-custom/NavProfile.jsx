@@ -22,7 +22,6 @@ export default function NavProfile({ setActiveLabel }) {
 
   useEffect(() => {
     const token = localStorage.getItem("accessToken");
-    // console.log(role);
 
     if (!token || !role) return;
 
@@ -39,7 +38,6 @@ export default function NavProfile({ setActiveLabel }) {
         });
 
         const result = await res.json();
-        // console.log(result);
 
         if (res.ok) {
           setUser(result.data.details);
