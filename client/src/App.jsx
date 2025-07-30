@@ -40,9 +40,23 @@ function App() {
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/caregivers/:id" element={<CaregiverDetailPage />} />
-        <Route path="/caregivers" element={<CaregiverListPage />} />
-        <Route path="/konfirmasi-pesanan" element={<OrderConfirmationPage />} />
-        <Route path="/pesan" element={<CaregiverOrderPage />} />
+        {/* <Route path="/caregivers" element={<CaregiverListPage />} /> */}
+        <Route
+          path="/konfirmasi-pesanan"
+          element={
+            <PrivateRoute allowedRole="caretaker">
+              <OrderConfirmationPage />
+            </PrivateRoute>
+          }
+        />
+        <Route
+          path="/pesan"
+          element={
+            <PrivateRoute allowedRole="caretaker">
+              <CaregiverOrderPage />
+            </PrivateRoute>
+          }
+        />
       </Route>
 
       {/* <Route element={<DashboardLayout />}></Route> */}
