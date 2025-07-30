@@ -119,6 +119,22 @@ const routes = (handler) => [
       auth: "omelanapp_jwt",
     },
   },
+  {
+    method: "PATCH",
+    path: "/appointments/{id}/status",
+    handler: handler.updateAppointmentStatusHandler,
+    options: {
+      auth: "omelanapp_jwt",
+    },
+  },
+  {
+    method: "GET",
+    path: "/appointments/client",
+    handler: handler.getAppointmentsByClientHandler,
+    options: {
+      auth: "omelanapp_jwt",
+    },
+  },
 ];
 
 module.exports = routes;
