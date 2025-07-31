@@ -1,26 +1,30 @@
-import React, { useState } from "react";
-import { Star } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Separator } from "@/components/ui/separator";
+import React, { useState } from 'react';
+import { Star } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
+import { Separator } from '@/components/ui/separator';
+import { toast } from 'sonner';
 
 export default function ReviewForm({ onSubmit }) {
   const [rating, setRating] = useState(0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [text, setText] = useState("");
+  const [text, setText] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!rating || !name || !text) return;
+    if (!rating || !text) {
+      toast.error('Harap isi rating dan ulasan.');
+      return;
+    }
 
     const newReview = {
       id: Date.now(),
       name,
-      date: new Date().toLocaleDateString("id-ID", {
-        day: "2-digit",
-        month: "long",
-        year: "numeric",
+      date: new Date().toLocaleDateString('id-ID', {
+        day: '2-digit',
+        month: 'long',
+        year: 'numeric',
       }),
       rating,
       text,
@@ -28,9 +32,11 @@ export default function ReviewForm({ onSubmit }) {
 
     onSubmit?.(newReview);
 
+    toast.success('Ulasan berhasil dikirim!');
+
     setRating(0);
     setHoverRating(0);
-    setText("");
+    setText('');
   };
 
   return (
@@ -46,8 +52,8 @@ export default function ReviewForm({ onSubmit }) {
               key={value}
               className={`w-6 h-6 cursor-pointer ${
                 (hoverRating || rating) >= value
-                  ? "text-yellow-400 fill-yellow-400"
-                  : "text-gray-300"
+                  ? 'text-yellow-400 fill-yellow-400'
+                  : 'text-gray-300'
               }`}
               onMouseEnter={() => setHoverRating(value)}
               onMouseLeave={() => setHoverRating(0)}
@@ -68,10 +74,7 @@ export default function ReviewForm({ onSubmit }) {
         />
       </div>
       <div className="flex justify-end">
-        <Button
-          type="submit"
-          className="bg-blue-600 text-white hover:bg-blue-700 justify-end"
-        >
+        <Button type="submit" className="bg-blue-600 text-white hover:bg-blue-700 justify-end">
           Kirim Ulasan
         </Button>
       </div>

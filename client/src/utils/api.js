@@ -49,6 +49,42 @@ export async function updateAppointmentStatus(id, status) {
   return result;
 }
 
+export async function getUserProfile(role) {
+  let endpoint = "";
+
+  if (role === "caregiver") {
+    endpoint = "/details/partner";
+  } else if (role === "caretaker") {
+    endpoint = "/details/client";
+  } else {
+    throw new Error("Role tidak valid atau tidak dikenali.");
+  }
+
+  const response = await fetchWithAuth(`${API_URL}${endpoint}`);
+  console.log(response);
+
+  return response.data.details;
+}
+
+export async function updateUserProfile(role, payload) {
+  let endpoint = "";
+
+  if (role === "caregiver") {
+    endpoint = "/details/partner";
+  } else if (role === "caretaker") {
+    endpoint = "/details/client";
+  } else {
+    throw new Error("Role tidak valid atau tidak dikenali.");
+  }
+
+  const res = await fetchWithAuth(`${API_URL}${endpoint}`, {
+    method: "PUT",
+    body: JSON.stringify(payload),
+  });
+
+  return res;
+}
+
 export async function fetchSchedules() {
   const result = await fetchWithAuth(`${API_URL}/schedule/partner`);
 
