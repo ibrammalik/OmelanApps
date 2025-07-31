@@ -2,7 +2,7 @@ const ROUTES = {
   caretaker: {
     dashboard: "/dashboard/caretaker",
     appointment: "/dashboard/caretaker/appointment",
-    review: "/dashboard/caretaker/review",
+    review: "/dashboard/caretaker/reviews",
     order: "/dashboard/caretaker/order",
     caregiverDetail: "/dashboard/caretaker/caregiver/:id",
     profile: "/dashboard/caretaker/profile",
