@@ -1,33 +1,33 @@
-require("dotenv").config();
-const Hapi = require("@hapi/hapi");
-const Jwt = require("@hapi/jwt");
+require('dotenv').config();
+const Hapi = require('@hapi/hapi');
+const Jwt = require('@hapi/jwt');
 
 // Users Client
-const userClient = require("./api/usersClient");
-const UserClientValidator = require("./validators/usersClient");
-const UsersClientService = require("./services/postgres/UsersClientServices");
+const userClient = require('./api/usersClient');
+const UserClientValidator = require('./validators/usersClient');
+const UsersClientService = require('./services/postgres/UsersClientServices');
 
 // Users Partner
-const userPartner = require("./api/usersPartner");
-const UserPartnerValidator = require("./validators/usersPartner");
-const UsersPartnerService = require("./services/postgres/UsersPartnerServices");
+const userPartner = require('./api/usersPartner');
+const UserPartnerValidator = require('./validators/usersPartner');
+const UsersPartnerService = require('./services/postgres/UsersPartnerServices');
 
 // Schedules
-const schedule = require("./api/schedules");
-const SchedulesValidator = require("./validators/schedules");
-const ScheduleService = require("./services/postgres/SchedulesService");
+const schedule = require('./api/schedules');
+const SchedulesValidator = require('./validators/schedules');
+const ScheduleService = require('./services/postgres/SchedulesService');
 
 // Authentications
-const authentication = require("./api/authentications");
-const AuthenticationValidator = require("./validators/authentications");
-const TokenManager = require("./tokenizer/TokenManager");
-const AuthenticationService = require("./services/postgres/AuthenticationsService");
+const authentication = require('./api/authentications');
+const AuthenticationValidator = require('./validators/authentications');
+const TokenManager = require('./tokenizer/TokenManager');
+const AuthenticationService = require('./services/postgres/AuthenticationsService');
 
 // Appointments
-const AppointmentService = require("./services/postgres/AppointmentService");
-const AppointmentValidator = require("./validators/appointment");
-const appointments = require("./api/appointment");
-const ReviewService = require("./services/postgres/ReviewService");
+const AppointmentService = require('./services/postgres/AppointmentService');
+const AppointmentValidator = require('./validators/appointment');
+const appointments = require('./api/appointment');
+const ReviewService = require('./services/postgres/ReviewService');
 
 const Init = async () => {
   const usersClientService = new UsersClientService();
@@ -42,7 +42,7 @@ const Init = async () => {
     host: process.env.HOST,
     routes: {
       cors: {
-        origin: ["*"],
+        origin: ['*'],
       },
     },
   });
@@ -53,7 +53,7 @@ const Init = async () => {
     },
   ]);
 
-  server.auth.strategy("omelanapp_jwt", "jwt", {
+  server.auth.strategy('omelanapp_jwt', 'jwt', {
     keys: process.env.ACCESS_TOKEN_KEY,
     verify: {
       aud: false,
@@ -96,9 +96,11 @@ const Init = async () => {
     {
       plugin: appointments,
       options: {
+        usersPartnerService,
+        schedulesService,
+        reviewService,
         appointmentService,
         validator: AppointmentValidator,
-        reviewService,
       },
     },
     {

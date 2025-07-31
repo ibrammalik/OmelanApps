@@ -1,24 +1,27 @@
 class SchedulesHandler {
-  constructor(
-    usersClientService,
-    usersPartnerService,
-    schedulesService,
-    validator
-  ) {
+  constructor(usersClientService, usersPartnerService, schedulesService, validator) {
     this._usersClientService = usersClientService;
     this._usersPartnerService = usersPartnerService;
     this._schedulesService = schedulesService;
     this._validator = validator;
   }
 
-  getScheduleById = async (request) => {
+  getScheduleByUserId = async (request) => {
     const { id: credentialId } = request.auth.credentials;
 
-    const schedules = await this._schedulesService.getSchedulesById(
-      credentialId
-    );
+    const schedules = await this._schedulesService.getSchedulesByUserId(credentialId);
     return {
-      status: "success",
+      status: 'success',
+      data: {
+        schedules,
+      },
+    };
+  };
+
+  getScheduleById = async (request) => {
+    const schedules = await this._schedulesService.getSchedulesById(request.payload);
+    return {
+      status: 'success',
       data: {
         schedules,
       },
@@ -40,8 +43,8 @@ class SchedulesHandler {
     if (isExist) {
       return h
         .response({
-          status: "fail",
-          message: "Jadwal untuk tanggal ini sudah ada.",
+          status: 'fail',
+          message: 'Schedule already exist',
         })
         .code(400);
     }
@@ -51,7 +54,7 @@ class SchedulesHandler {
       request.payload
     );
     const response = h.response({
-      status: "success",
+      status: 'success',
       data: {
         userId,
       },
@@ -71,8 +74,8 @@ class SchedulesHandler {
       request.payload
     );
     return {
-      status: "success",
-      message: "Schedule updated successfully",
+      status: 'success',
+      message: 'Schedule updated successfully',
     };
   };
 
@@ -84,8 +87,8 @@ class SchedulesHandler {
 
     return h
       .response({
-        status: "success",
-        message: "Jadwal berhasil dihapus",
+        status: 'success',
+        message: 'Jadwal berhasil dihapus',
       })
       .code(200);
   };
@@ -96,10 +99,8 @@ class SchedulesHandler {
     const { id: credentialId } = request.auth.credentials;
     await this._usersClientService.verifyUserExisting(credentialId);
 
-    const partners = [];
-    const partnersId = await this._schedulesService.getSchedulesByDate(
-      request.payload
-    );
+    const partnersList = [];
+    const partnersId = await this._schedulesService.getSchedulesByDate(request.payload);
 
     if (partnersId.length) {
       partnersId.forEach(async (partnerId) => {
@@ -109,14 +110,14 @@ class SchedulesHandler {
             .then((result) => resolve(result))
             .catch((err) => reject(err));
         });
-        partners.push(data);
+        partnersList.push(data);
       });
 
-      return Promise.all(partners).then((result) => {
+      return Promise.all(partnersList).then((partners) => {
         return {
-          status: "success",
+          status: 'success',
           data: {
-            partners: result,
+            partners
           },
         };
       });

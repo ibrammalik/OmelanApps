@@ -49,7 +49,7 @@ class UsersClientServices {
 
     const result = await this._pool.query(query);
     if (!result.rows.length) {
-      throw new notFound('Failed to update user. Cannot find user.');
+      throw new notFound('Failed to update profile');
     }
   }
 

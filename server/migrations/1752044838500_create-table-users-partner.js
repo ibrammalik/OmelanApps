@@ -5,63 +5,67 @@
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable("users_partner", {
+  pgm.createTable('users_partner', {
     id: {
-      type: "VARCHAR(50)",
+      type: 'VARCHAR(50)',
       primaryKey: true,
     },
     username: {
-      type: "VARCHAR(50)",
+      type: 'VARCHAR(50)',
       unique: true,
       notNull: true,
     },
     fullname: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     password: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     age: {
-      type: "INTEGER",
+      type: 'INTEGER',
       notNull: false,
     },
     address: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: false,
     },
     biodata: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: false,
     },
     photo_url: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: false,
     },
     phone_number: {
-      type: "VARCHAR(20)",
+      type: 'VARCHAR(20)',
       notNull: false,
     },
     average_rating: {
-      type: "DECIMAL",
+      type: 'DECIMAL',
       notNull: false,
       default: null,
     },
     experience: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: false,
     },
     specialist: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: false,
     },
+    rate_per_hour: {
+      type: 'DECIMAL',
+      default: null,
+    },
     created_at: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     updated_at: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
   });
@@ -73,5 +77,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable("users_partner");
+  pgm.dropTable('users_partner');
 };

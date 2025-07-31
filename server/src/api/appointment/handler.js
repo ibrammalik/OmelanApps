@@ -1,60 +1,56 @@
-const { badRequest, notFound } = require("@hapi/boom");
+const { badRequest } = require('@hapi/boom');
 
 class AppointmentHandler {
-  constructor(service, validator, reviewService) {
+  constructor(usersPartnerService, schedulesService, reviewService, service, validator) {
+    this._usersPartnerService = usersPartnerService;
+    this._schedulesService = schedulesService;
+    this._reviewService = reviewService;
     this._service = service;
     this._validator = validator;
-    this._reviewService = reviewService;
   }
 
   postAppointmentHandler = async (request, h) => {
-    try {
-      this._validator.validateAppointmentPayload(request.payload);
+    this._validator.validateAppointmentPayload(request.payload);
 
-      const { userPartnerId, appointmentDate } = request.payload;
-      const { id: userClientId } = request.auth.credentials;
+    const { userPartnerId, scheduleId, duration } = request.payload;
+    const { id: userClientId } = request.auth.credentials;
 
-      const appointmentId = await this._service.createAppointment({
-        userClientId,
-        userPartnerId,
-        appointmentDate,
-      });
+    await this._schedulesService.getSchedulesById(scheduleId);
+
+    const scheduleHasBeenTaken = await this._service.validateBookingDate(scheduleId);
+
+    if (!scheduleHasBeenTaken) {
+      const ratePerHour = await this._usersPartnerService.getUserPartnerRate(userPartnerId);
+      const costEstimation = ratePerHour * duration;
+
+      const appointmentId = await this._service.createAppointment({ userClientId, userPartnerId, scheduleId, duration, costEstimation });
 
       const response = h.response({
-        status: "success",
-        message: "Appointment created",
+        status: 'success',
+        message: 'Appointment created',
         data: { appointmentId },
       });
       response.code(201);
       return response;
-    } catch (error) {
-      return h
-        .response({
-          status: "fail",
-          message: error.message,
-        })
-        .code(400);
     }
   };
 
   getAppointmentsByPartnerHandler = async (request) => {
     const { id: partnerId } = request.auth.credentials;
-    const appointments = await this._service.getAppointmentsForPartner(
-      partnerId
-    );
+    const appointments = await this._service.getAppointmentsForPartner(partnerId);
 
     return {
-      status: "success",
+      status: 'success',
       data: { appointments },
     };
   };
 
   getAppointmentsByClientHandler = async (request) => {
-    const { id: ClientId } = request.auth.credentials;
-    const appointments = await this._service.getAppointmentsForClient(ClientId);
+    const { id: clientId } = request.auth.credentials;
 
+    const appointments = await this._service.getAppointmentsForClient(clientId);
     return {
-      status: "success",
+      status: 'success',
       data: { appointments },
     };
   };
@@ -64,17 +60,17 @@ class AppointmentHandler {
       const { id } = request.params;
       const { status } = request.payload;
 
-      if (status === "completed") {
+      if (status === 'completed') {
         const appointment = await this._service.getAppointmentByIdForReview(id);
 
         if (!appointment.user_client_id) {
           throw badRequest(
-            "Gagal membuat review: user_client_id tidak ditemukan."
+            'Failed create review: user client not found.'
           );
         }
         if (!appointment.user_partner_id) {
           throw badRequest(
-            "Gagal membuat review: user_partner_id tidak ditemukan."
+            'Failed create review: user partner not found.'
           );
         }
 
@@ -88,16 +84,15 @@ class AppointmentHandler {
       await this._service.updateAppointmentStatus({ id, status });
 
       return {
-        status: "success",
-        message: "Status appointment berhasil diperbarui",
+        status: 'success',
+        message: 'Appointment status updated successfully',
       };
     } catch (error) {
-      // console.error("Handler Gagal update appointment:", error.message);
 
       return h
         .response({
-          status: "fail",
-          message: "Gagal memperbarui status appointment",
+          status: 'fail',
+          message: 'Failed to update appointment status',
           error: error.message,
         })
         .code(500);
