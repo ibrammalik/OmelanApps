@@ -13,7 +13,7 @@ export default function ReviewForm({ onSubmit }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!rating || !name || !text) {
+    if (!rating || !text) {
       toast.error('Harap isi rating dan ulasan.');
       return;
     }
