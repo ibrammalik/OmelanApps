@@ -24,18 +24,18 @@ class AuthenticationHandler {
 
     const accessToken = await this._tokenManager.generateAccessToken({
       id,
-      role: "caretaker",
+      role: 'caretaker',
     });
     const refreshToken = await this._tokenManager.generateRefreshToken({
       id,
-      role: "caretaker",
+      role: 'caretaker',
     });
 
     await this._service.addRefreshToken(refreshToken);
 
     const response = h.response({
-      status: "success",
-      message: "User authenticated",
+      status: 'success',
+      message: 'User authenticated',
       data: {
         accessToken,
         refreshToken,
@@ -55,18 +55,18 @@ class AuthenticationHandler {
     );
     const accessToken = await this._tokenManager.generateAccessToken({
       id,
-      role: "caregiver",
+      role: 'caregiver',
     });
     const refreshToken = await this._tokenManager.generateRefreshToken({
       id,
-      role: "caregiver",
+      role: 'caregiver',
     });
 
     await this._service.addRefreshToken(refreshToken);
 
     const response = h.response({
-      status: "success",
-      message: "User authenticated",
+      status: 'success',
+      message: 'User authenticated',
       data: {
         accessToken,
         refreshToken,
@@ -86,8 +86,8 @@ class AuthenticationHandler {
     const accessToken = this._tokenManager.generateAccessToken({ id, role });
 
     return {
-      status: "success",
-      message: "Token updated successfully",
+      status: 'success',
+      message: 'Token updated successfully',
       data: {
         accessToken,
       },
@@ -101,8 +101,8 @@ class AuthenticationHandler {
     await this._service.verifyRefreshTokenDB(refreshToken);
     await this._service.deleteRefreshToken(refreshToken);
     return {
-      status: "success",
-      message: "Token removed successfully",
+      status: 'success',
+      message: 'Token removed successfully',
     };
   };
 }

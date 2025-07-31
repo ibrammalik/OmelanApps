@@ -1,23 +1,24 @@
-const { faker } = require("@faker-js/faker");
-const { nanoid } = require("nanoid");
-const bcrypt = require("bcrypt");
+/* eslint-disable camelcase */
+const { faker } = require('@faker-js/faker');
+const { nanoid } = require('nanoid');
+const bcrypt = require('bcrypt');
 
 module.exports = (now) => {
-  const hashedPassword = bcrypt.hashSync("admin", 10);
+  const hashedPassword = bcrypt.hashSync('admin', 10);
 
   const adminPartner = {
-    id: "partner-admin",
-    username: "admin@partner.com",
-    fullname: "admin partner",
+    id: 'partner-admin',
+    username: 'admin@partner.com',
+    fullname: 'admin partner',
     password: hashedPassword,
     age: 45,
-    address: "Bandung",
-    biodata: "Admin partner default",
+    address: 'Bandung',
+    biodata: 'Admin partner default',
     photo_url: faker.image.avatar(),
-    phone_number: "082112341234",
+    phone_number: '082112341234',
     average_rating: 5.0,
-    experience: "10",
-    specialist: "Perawat Lansia",
+    experience: '10',
+    specialist: 'Perawat Lansia',
     created_at: now,
     updated_at: now,
   };
@@ -26,7 +27,7 @@ module.exports = (now) => {
     id: `partner-${nanoid(10)}`,
     username: faker.internet.email(),
     fullname: faker.person.fullName(),
-    password: bcrypt.hashSync("123456", 10),
+    password: bcrypt.hashSync('123456', 10),
     age: faker.number.int({ min: 30, max: 60 }),
     address: faker.location.city(),
     biodata: faker.lorem.paragraph(),

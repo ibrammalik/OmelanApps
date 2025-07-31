@@ -5,31 +5,37 @@
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable("reviews", {
-    id: { type: "serial", primaryKey: true },
+  pgm.createTable('reviews', {
+    id: {
+      type: 'SERIAL', primaryKey: true
+    },
     appointment_id: {
-      type: "integer",
-      references: "appointment(id)",
-      onDelete: "CASCADE",
+      type: 'INTEGER',
+      references: 'appointment(id)',
+      onDelete: 'CASCADE',
     },
     user_client_id: {
-      type: "varchar(50)",
-      references: "users_client(id)",
-      onDelete: "CASCADE",
+      type: 'VARCHAR(50)',
+      references: 'users_client(id)',
+      onDelete: 'CASCADE',
     },
     user_partner_id: {
-      type: "varchar(50)",
-      references: "users_partner(id)",
-      onDelete: "CASCADE",
+      type: 'VARCHAR(50)',
+      references: 'users_partner(id)',
+      onDelete: 'CASCADE',
     },
-    rating: { type: "integer" },
-    comment: { type: "text" },
+    rating: {
+      type: 'INTEGER'
+    },
+    comment: {
+      type: 'TEXT'
+    },
     created_at: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     updated_at: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
   });
@@ -41,5 +47,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable("reviews");
+  pgm.dropTable('reviews');
 };

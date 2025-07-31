@@ -1,10 +1,12 @@
-const { AppointmentPayloadSchema } = require("./schema");
+const { badRequest } = require('@hapi/boom');
+const { AppointmentPayloadSchema } = require('./schema');
 
 const AppointmentValidator = {
   validateAppointmentPayload: (payload) => {
     const validationResult = AppointmentPayloadSchema.validate(payload);
+    console.log(validationResult)
     if (validationResult.error) {
-      throw new Error(validationResult.error.message);
+      throw badRequest(validationResult.error.message);
     }
   },
 };

@@ -5,58 +5,58 @@
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable("users_client", {
+  pgm.createTable('users_client', {
     id: {
-      type: "VARCHAR(50)",
+      type: 'VARCHAR(50)',
       primaryKey: true,
     },
     username: {
-      type: "VARCHAR(50)",
+      type: 'VARCHAR(50)',
       unique: true,
       notNull: true,
     },
     fullname: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     password: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     age: {
-      type: "INTEGER",
+      type: 'INTEGER',
       notNull: false,
     },
     address: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: false,
     },
     biodata: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: false,
     },
     photo_url: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: false,
     },
     phone_number: {
-      type: "VARCHAR(20)",
+      type: 'VARCHAR(20)',
       notNull: false,
     },
     partner_name: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: false,
     },
     emergency_contact: {
-      type: "VARCHAR(20)",
+      type: 'VARCHAR(20)',
       notNull: false,
     },
     created_at: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     updated_at: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
   });
@@ -68,5 +68,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable("users_client");
+  pgm.dropTable('users_client');
 };

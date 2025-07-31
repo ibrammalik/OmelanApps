@@ -1,5 +1,5 @@
-const ConnectPool = require("./ConnectPool");
-const { badRequest } = require("@hapi/boom");
+const ConnectPool = require('./ConnectPool');
+const { badRequest } = require('@hapi/boom');
 
 class ReviewService {
   constructor() {
@@ -18,8 +18,7 @@ class ReviewService {
       };
       await this._pool.query(query);
     } catch (error) {
-      // console.error(" Gagal membuat review otomatis:", error.message);
-      throw badRequest("Gagal membuat data review: " + error.message);
+      throw badRequest(`Failed create review: ${  error.message}`);
     }
   }
 }

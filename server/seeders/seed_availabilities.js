@@ -1,3 +1,4 @@
+/* eslint-disable camelcase */
 module.exports = (partners, now) => {
   const data = [];
 
@@ -7,8 +8,8 @@ module.exports = (partners, now) => {
         user_partner_id: partner.id,
         available_date: new Date(Date.now() + i * 86400000)
           .toISOString()
-          .split("T")[0],
-        status: "available",
+          .split('T')[0],
+        status: 'available',
         created_at: now,
       });
     }

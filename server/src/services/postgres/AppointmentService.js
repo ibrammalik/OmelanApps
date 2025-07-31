@@ -1,113 +1,79 @@
-const ConnectPool = require("./ConnectPool");
-const { notFound, badRequest } = require("@hapi/boom");
+/* eslint-disable camelcase */
+const ConnectPool = require('./ConnectPool');
+const { notFound, badRequest } = require('@hapi/boom');
 
 class AppointmentService {
   constructor() {
     this._pool = ConnectPool();
   }
 
-  async createAppointment({ userClientId, userPartnerId, appointmentDate }) {
+  async createAppointment({ userClientId, userPartnerId, scheduleId, duration, costEstimation }) {
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
-    const status = "pending";
+    const status = 'pending';
 
     const query = {
       text: `
-        INSERT INTO appointment 
-        (user_client_id, user_partner_id, appointment_date, status, created_at, updated_at)
-        VALUES ($1, $2, $3, $4, $5, $6)
-        RETURNING id
+        INSERT INTO appointment (user_client_id, user_partner_id, schedule_appointment_id, status, duration, cost_estimation, created_at, updated_at)
+        VALUES ($1, $2, $3, $4, $5, $6, $7, $8) RETURNING id
       `,
-      values: [
-        userClientId,
-        userPartnerId,
-        appointmentDate,
-        status,
-        createdAt,
-        updatedAt,
-      ],
+      values: [userClientId, userPartnerId, scheduleId, status, duration, costEstimation, createdAt, updatedAt],
     };
-    try {
-      const result = await this._pool.query(query);
-      if (!result.rows.length) {
-        throw badRequest("Gagal membuat appointment");
-      }
 
-      return result.rows[0].id;
-    } catch (error) {
-      throw badRequest(error.message);
+    const result = await this._pool.query(query);
+    if (!result.rows.length) {
+      throw badRequest('Failed to add appointment');
     }
+
+    return result.rows[0].id;
   }
 
   async getAppointmentsForPartner(partnerId) {
-    try {
-      const query = {
-        text: `
-        SELECT 
-          a.id,
-          a.appointment_date AS date,
-          a.status,
-          uc.fullname AS client_name,
-          uc.photo_url AS client_photo
-        FROM appointment a
-        JOIN users_client uc ON a.user_client_id = uc.id
-        WHERE a.user_partner_id = $1
-        ORDER BY a.created_at DESC
-      `,
-        values: [partnerId],
-      };
+    const query = {
+      text: `
+      SELECT a.id, s.date_start AS date, a.status, a.duration, a.cost_estimation, uc.fullname AS client_name, uc.photo_url AS client_photo
+      FROM appointment a
+      JOIN users_client uc ON a.user_client_id = uc.id
+      JOIN users_partner up ON a.user_partner_id = up.id
+      JOIN schedules s ON a.schedule_appointment_id = s.id
+      WHERE a.user_partner_id = $1
+      ORDER BY a.created_at DESC
+    `,
+      values: [partnerId],
+    };
 
-      const result = await this._pool.query(query);
-      return result.rows;
-    } catch (error) {
-      // console.error("Error query getAppointmentsForPartner:", error.message);
-      throw error;
-    }
+    const result = await this._pool.query(query);
+    return result.rows;
   }
 
-  async getAppointmentsForClient(ClientId) {
-    try {
-      const query = {
-        text: `
-        SELECT 
-          a.id,
-          a.appointment_date AS date,
-          a.status,
-          up.fullname AS client_name,
-          up.photo_url AS client_photo
-        FROM appointment a
-        JOIN users_partner up ON a.user_partner_id = up.id
-        WHERE a.user_client_id = $1
-        ORDER BY a.created_at DESC
-      `,
-        values: [ClientId],
-      };
+  async getAppointmentsForClient(clientId) {
+    const query = {
+      text: `
+      SELECT a.id, s.date_start AS date, a.status, a.duration, a.cost_estimation, up.fullname AS client_name, up.photo_url AS client_photo
+      FROM appointment a
+      JOIN users_partner up ON a.user_partner_id = up.id
+      JOIN schedules s ON a.schedule_appointment_id = s.id
+      WHERE a.user_client_id = $1
+      ORDER BY a.created_at DESC
+    `,
+      values: [clientId],
+    };
 
-      const result = await this._pool.query(query);
-      return result.rows;
-    } catch (error) {
-      // console.error("Error query getAppointmentsForPartner:", error.message);
-      throw error;
-    }
+    const result = await this._pool.query(query).catch((err) => err);
+    return result.rows;
   }
 
   async updateAppointmentStatus({ id, status }) {
     const client = await this._pool.connect();
     try {
-      await client.query("BEGIN");
-      // Pengecekan Optional
+      await client.query('BEGIN');
       if (!id || !status) {
-        throw badRequest("ID appointment dan status harus disediakan.");
+        throw badRequest('Missing appointment ID or status');
       }
-
-      // const query = {
-      //   text: `UPDATE appointment SET status = $1 WHERE id = $2 RETURNING id`,
-      //   values: [status, id],
-      // };
 
       const currentQuery = {
         text: `
-        SELECT id, user_partner_id, appointment_date
+        SELECT id, user_partner_id, schedule_appointment_id
         FROM appointment
         WHERE id = $1
       `,
@@ -115,24 +81,25 @@ class AppointmentService {
       };
       const currentResult = await client.query(currentQuery);
       if (currentResult.rowCount === 0) {
-        throw badRequest("Appointment tidak ditemukan.");
+        throw badRequest('Appointment not found.');
       }
-      const { user_partner_id, appointment_date } = currentResult.rows[0];
+      const { user_partner_id, schedule_appointment_id } = currentResult.rows[0];
 
-      if (status === "confirmed") {
+      if (status === 'confirmed') {
         const cancelQuery = {
           text: `
           UPDATE appointment
           SET status = 'cancelled'
           WHERE user_partner_id = $1
-            AND appointment_date::date = $2::date
-            AND id != $3
-            AND status IN ('pending', 'confirmed')
+          AND schedule_appointment_id = $2
+          AND id != $3
+          AND status IN ('pending', 'confirmed')
         `,
-          values: [user_partner_id, appointment_date, id],
+          values: [user_partner_id, schedule_appointment_id, id],
         };
         await client.query(cancelQuery);
       }
+
       const updateQuery = {
         text: `
         UPDATE appointment
@@ -143,21 +110,15 @@ class AppointmentService {
       };
       await client.query(updateQuery);
 
-      await client.query("COMMIT");
-      // if (!result.rowCount) {
-      //   throw notFound(
-      //     "Gagal memperbarui status, appointment tidak ditemukan."
-      //   );
-      // }
-      // return result.rows[0].id;
+      await client.query('COMMIT');
+
     } catch (error) {
-      await client.query("ROLLBACK");
-      // console.error("Error updateAppointmentStatus:", error.message);
+      await client.query('ROLLBACK');
       if (error.isBoom) {
         throw error;
       }
-      throw internal(
-        "Terjadi kesalahan internal server saat memperbarui status appointment."
+      throw (
+        'Internal server error on updating status.'
       );
     } finally {
       client.release();
@@ -168,11 +129,7 @@ class AppointmentService {
     try {
       const query = {
         text: `
-        SELECT 
-          id, 
-          user_client_id,
-          user_partner_id,
-          status
+        SELECT id, user_client_id, user_partner_id, status
         FROM appointment
         WHERE id = $1
       `,
@@ -182,15 +139,29 @@ class AppointmentService {
       const result = await this._pool.query(query);
 
       if (!result.rows.length) {
-        throw notFound("Appointment tidak ditemukan.");
+        throw notFound('Appointment not found.');
       }
 
       return result.rows[0];
     } catch (error) {
-      // console.error(" Gagal ambil appointment by ID:", error.message);
       if (error.isBoom) throw error;
-      throw badRequest("Gagal mengambil appointment: " + error.message);
+      throw badRequest(`Fail to get appointment: ${error.message}`);
     }
+  }
+
+  async validateBookingDate(scheduleId) {
+    const query = {
+      text: 'SELECT schedule_appointment_id FROM appointment WHERE schedule_appointment_id = $1',
+      values: [scheduleId],
+    };
+
+    const result = await this._pool.query(query);
+
+    if (result.rows.length) {
+      throw badRequest('Schedule has been taken');
+    }
+
+    return result.rows.length;
   }
 }
 

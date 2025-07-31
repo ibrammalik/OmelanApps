@@ -1,11 +1,12 @@
-const InvariantError = require("../../exceptions/InvariantError");
+const { badRequest } = require('@hapi/boom');
+const { ReviewPayloadSchema } = require('./schema');
 
 const ReviewValidator = {
   validateReviewPayload: (payload) => {
     const validationResult = ReviewPayloadSchema.validate(payload);
 
     if (validationResult.error) {
-      throw new InvariantError(validationResult.error.message);
+      throw badRequest(validationResult.error.message);
     }
   },
 };

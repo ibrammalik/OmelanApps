@@ -1,7 +1,8 @@
-const { nanoid } = require("nanoid");
+/* eslint-disable camelcase */
+const { nanoid } = require('nanoid');
 
 function formatDateToISO(date) {
-  return date.toISOString().split("T")[0];
+  return date.toISOString().split('T')[0];
 }
 
 function addDays(date, days) {
@@ -10,7 +11,7 @@ function addDays(date, days) {
   return result;
 }
 
-module.exports = (partners, now) => {
+module.exports = (partners) => {
   const schedules = [];
 
   partners.forEach((partner) => {

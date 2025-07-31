@@ -5,34 +5,34 @@
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable("schedules", {
+  pgm.createTable('schedules', {
     id: {
-      type: "VARCHAR(50)",
+      type: 'VARCHAR(50)',
       primaryKey: true,
     },
     user_id: {
-      type: "VARCHAR(50)",
+      type: 'VARCHAR(50)',
       notNull: true,
     },
     date_start: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     date_end: {
-      type: "TEXT",
+      type: 'TEXT',
       notNull: true,
     },
     // tambahan untuk ide antrian
     // created_at: { <-- untuk menebak waktu orang memasang schedule
-    //   type: "text",
+    //   type: 'text',
     // },
   });
 
   // create constraint foreign key to column user_id from table playlists reference to column id on table users
   pgm.addConstraint(
-    "schedules",
-    "fk_schedules_user.id",
-    "FOREIGN KEY(user_id) REFERENCES users_partner(id) ON DELETE CASCADE"
+    'schedules',
+    'fk_schedules_user.id',
+    'FOREIGN KEY(user_id) REFERENCES users_partner(id) ON DELETE CASCADE'
   );
 };
 
@@ -42,6 +42,6 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropConstraint("schedules", "fk_schedules_user.id");
-  pgm.dropTable("schedules");
+  pgm.dropConstraint('schedules', 'fk_schedules_user.id');
+  pgm.dropTable('schedules');
 };
