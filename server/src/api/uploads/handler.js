@@ -1,4 +1,4 @@
-const { badRequest } = require("@hapi/boom");
+const { badRequest } = require('@hapi/boom');
 
 class UploadsHandler {
   constructor(usersClientService, usersPartnerService, service, validator) {
