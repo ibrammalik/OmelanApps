@@ -1,8 +1,12 @@
 const { badRequest } = require('@hapi/boom');
+const template = require('../../utils/notificationTemplate');
 
 class AppointmentHandler {
-  constructor(usersPartnerService, schedulesService, reviewService, service, validator) {
+  constructor(notificationPartnerService, notificationClientService, usersPartnerService, usersClientService, schedulesService, reviewService, service, validator) {
+    this._notificationPartnerService = notificationPartnerService;
+    this._notificationClientService = notificationClientService;
     this._usersPartnerService = usersPartnerService;
+    this._usersClientService = usersClientService;
     this._schedulesService = schedulesService;
     this._reviewService = reviewService;
     this._service = service;
@@ -15,23 +19,27 @@ class AppointmentHandler {
     const { userPartnerId, scheduleId, duration } = request.payload;
     const { id: userClientId } = request.auth.credentials;
 
-    await this._schedulesService.getSchedulesById(scheduleId);
-
     const scheduleHasBeenTaken = await this._service.validateBookingDate(scheduleId);
+    const dataSchedule = await this._schedulesService.getScheduleById(scheduleId);
+    const dataClient = await this._usersClientService.getUserDetailsById(userClientId);
 
     if (!scheduleHasBeenTaken) {
       const ratePerHour = await this._usersPartnerService.getUserPartnerRate(userPartnerId);
       const costEstimation = ratePerHour * duration;
 
       const appointmentId = await this._service.createAppointment({ userClientId, userPartnerId, scheduleId, duration, costEstimation });
+      if (appointmentId) {
+        const { subject, content } = template({ name: dataClient.fullname, date: dataSchedule.date }).createBookingNotificationForPartner;
+        await this._notificationPartnerService.addNotification({ userPartnerId, subject, content });
 
-      const response = h.response({
-        status: 'success',
-        message: 'Appointment created',
-        data: { appointmentId },
-      });
-      response.code(201);
-      return response;
+        const response = h.response({
+          status: 'success',
+          message: 'Appointment created',
+          data: { appointmentId },
+        });
+        response.code(201);
+        return response;
+      }
     }
   };
 

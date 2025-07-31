@@ -1,4 +1,4 @@
-const Joi = require("joi");
+const Joi = require('joi');
 
 const UsersClientPayloadSchema = Joi.object({
   username: Joi.string().required(),
@@ -14,7 +14,7 @@ const UsersClientUpdatePayloadSchema = Joi.object({
   phoneNumber: Joi.string().required(),
   partnerName: Joi.string().required(),
   emergencyContact: Joi.string().required(),
-  photoUrl: Joi.string().uri().optional().allow(""),
+  photoUrl: Joi.string().uri().optional().allow(''),
 });
 
 module.exports = { UsersClientPayloadSchema, UsersClientUpdatePayloadSchema };

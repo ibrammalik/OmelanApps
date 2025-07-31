@@ -20,18 +20,7 @@ class UsersClientServices {
     return result.rows[0];
   }
 
-  async addUser({
-    username,
-    password,
-    fullname,
-    age = null,
-    address = '',
-    biodata = '',
-    photoUrl = '',
-    phoneNumber = '',
-    partnerName = '',
-    emergencyContact = '',
-  }) {
+  async addUser({ username, password, fullname, age = null, address = '', biodata = '', photoUrl = '', phoneNumber = '', partnerName = '', emergencyContact = '' }) {
     const createdAt = new Date().toISOString();
     const updatedAt = createdAt;
 
@@ -40,21 +29,7 @@ class UsersClientServices {
 
     const query = {
       text: 'INSERT INTO users_client VALUES($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING id',
-      values: [
-        id,
-        username,
-        fullname,
-        hashedPassword,
-        age,
-        address,
-        biodata,
-        photoUrl,
-        phoneNumber,
-        partnerName,
-        emergencyContact,
-        createdAt,
-        updatedAt,
-      ],
+      values: [id, username, fullname, hashedPassword, age, address, biodata, photoUrl, phoneNumber, partnerName, emergencyContact, createdAt, updatedAt],
     };
 
     const result = await this._pool.query(query);

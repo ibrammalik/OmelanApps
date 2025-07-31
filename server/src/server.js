@@ -35,6 +35,16 @@ const uploads = require('./api/uploads');
 const StorageServiceAWS = require('./services/s3/StorageService');
 const UploadsValidator = require('./validators/uploads');
 
+// Notifications User Client
+const notificationsClient = require('./api/notificationsClient');
+const NotificationsClientValidator = require('./validators/notifications');
+const NotificationsClientService = require('./services/postgres/NotificationsUserClientService');
+
+// Notifications User Partner
+const notificationsPartner = require('./api/notificationsPartner');
+const NotificationsPartnerValidator = require('./validators/notifications');
+const NotificationsPartnerService = require('./services/postgres/NotificationsUserPartnerService');
+
 const Init = async () => {
   const usersClientService = new UsersClientService();
   const usersPartnerService = new UsersPartnerService();
@@ -42,6 +52,8 @@ const Init = async () => {
   const authenticationService = new AuthenticationService();
   const appointmentService = new AppointmentService();
   const reviewService = new ReviewService();
+  const notificationClientService = new NotificationsClientService();
+  const notificationPartnerService = new NotificationsPartnerService();
   const storageServiceAWS = new StorageServiceAWS();
 
   const server = Hapi.server({
@@ -106,7 +118,10 @@ const Init = async () => {
     {
       plugin: appointments,
       options: {
+        notificationPartnerService,
+        notificationClientService,
         usersPartnerService,
+        usersClientService,
         schedulesService,
         reviewService,
         appointmentService,
@@ -121,6 +136,20 @@ const Init = async () => {
         tokenManager: TokenManager,
         service: authenticationService,
         validator: AuthenticationValidator,
+      },
+    },
+    {
+      plugin: notificationsClient,
+      options: {
+        service: notificationClientService,
+        validator: NotificationsClientValidator,
+      },
+    },
+    {
+      plugin: notificationsPartner,
+      options: {
+        service: notificationPartnerService,
+        validator: NotificationsPartnerValidator,
       },
     },
     {

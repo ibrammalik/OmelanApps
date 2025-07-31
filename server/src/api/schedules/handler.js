@@ -19,7 +19,7 @@ class SchedulesHandler {
   };
 
   getScheduleById = async (request) => {
-    const schedules = await this._schedulesService.getSchedulesById(request.payload);
+    const schedules = await this._schedulesService.getScheduleById(request.payload);
     return {
       status: 'success',
       data: {

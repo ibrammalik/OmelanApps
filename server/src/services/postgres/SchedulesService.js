@@ -43,9 +43,9 @@ class SchedulesService {
     return result.rows;
   }
 
-  async getSchedulesById(id) {
+  async getScheduleById(id) {
     const query = {
-      text: 'SELECT id FROM schedules WHERE id = $1',
+      text: 'SELECT date_start AS date FROM schedules WHERE id = $1',
       values: [id],
     };
 
@@ -54,7 +54,7 @@ class SchedulesService {
       throw badRequest('Schedule not available');
     }
 
-    return result.rowCount;
+    return result.rows[0];
   }
 
   async editScheduleById(userId, { id, dateStart, dateEnd }) {

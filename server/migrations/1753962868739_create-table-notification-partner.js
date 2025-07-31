@@ -5,7 +5,7 @@
  * @returns {Promise<void> | void}
  */
 exports.up = (pgm) => {
-  pgm.createTable('notifications_partner', {
+  pgm.createTable('partner_notifications', {
     id: {
       type: 'VARCHAR(50)',
       primaryKey: true,
@@ -44,5 +44,5 @@ exports.up = (pgm) => {
  * @returns {Promise<void> | void}
  */
 exports.down = (pgm) => {
-  pgm.dropTable('notifications_partner');
+  pgm.dropTable('partner_notifications');
 };
