@@ -128,6 +128,18 @@ class UsersPartnerServices {
     }
   }
 
+  async addPhotoUrl(id, photoUrl) {
+    const query = {
+      text: 'UPDATE users_partner SET photo_url = $1 WHERE id = $2 RETURNING id',
+      values: [photoUrl, id]
+    };
+
+    const result = await this._pool.query(query);
+    if (!result.rows.length) {
+      throw notFound('Failed to add photo url.');
+    }
+  }
+
 }
 
 module.exports = UsersPartnerServices;

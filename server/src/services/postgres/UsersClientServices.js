@@ -65,48 +65,16 @@ class UsersClientServices {
     return result.rows[0].id;
   }
 
-  async editUserById(
-    id,
-    {
-      fullname,
-      age,
-      address,
-      biodata,
-      phoneNumber,
-      partnerName,
-      emergencyContact,
-      photoUrl,
-    }
-  ) {
+  async editUserById(id, { fullname, age, address, biodata, phoneNumber, partnerName, emergencyContact, photoUrl }) {
     const updatedAt = new Date().toISOString();
     const query = {
       text: `
       UPDATE users_client
-      SET
-        fullname = $1,
-        age = $2,
-        address = $3,
-        biodata = $4,
-        phone_number = $5,
-        partner_name = $6,
-        emergency_contact = $7,
-        photo_url = $8,
-        updated_at = $9
+      SET fullname = $1, age = $2, address = $3, biodata = $4, phone_number = $5, partner_name = $6, emergency_contact = $7, photo_url = $8, updated_at = $9
       WHERE id = $10
       RETURNING id
     `,
-      values: [
-        fullname,
-        age,
-        address,
-        biodata,
-        phoneNumber,
-        partnerName,
-        emergencyContact,
-        photoUrl,
-        updatedAt,
-        id,
-      ],
+      values: [fullname, age, address, biodata, phoneNumber, partnerName, emergencyContact, photoUrl, updatedAt, id],
     };
 
     const result = await this._pool.query(query);
@@ -157,6 +125,18 @@ class UsersClientServices {
     const { rowCount } = await this._pool.query(query).catch((err) => err);
     if (rowCount == 0) {
       throw unauthorized('User not found. You have no permission.');
+    }
+  }
+
+  async addPhotoUrl(id, photoUrl) {
+    const query = {
+      text: 'UPDATE users_client SET photo_url = $1 WHERE id = $2 RETURNING id',
+      values: [photoUrl, id]
+    };
+
+    const result = await this._pool.query(query);
+    if (!result.rows.length) {
+      throw notFound('Failed to add photo url.');
     }
   }
 }

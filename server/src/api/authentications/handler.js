@@ -1,11 +1,5 @@
 class AuthenticationHandler {
-  constructor(
-    usersClientService,
-    usersPartnerService,
-    tokenManager,
-    service,
-    validator
-  ) {
+  constructor(usersClientService, usersPartnerService, tokenManager, service, validator) {
     this._usersClientService = usersClientService;
     this._usersPartnerService = usersPartnerService;
     this._tokenManager = tokenManager;
@@ -22,14 +16,8 @@ class AuthenticationHandler {
       password
     );
 
-    const accessToken = await this._tokenManager.generateAccessToken({
-      id,
-      role: 'caretaker',
-    });
-    const refreshToken = await this._tokenManager.generateRefreshToken({
-      id,
-      role: 'caretaker',
-    });
+    const accessToken = await this._tokenManager.generateAccessToken({ id, role: 'caretaker' });
+    const refreshToken = await this._tokenManager.generateRefreshToken({ id, role: 'caretaker' });
 
     await this._service.addRefreshToken(refreshToken);
 
@@ -49,18 +37,9 @@ class AuthenticationHandler {
     this._validator.validateUserLoginPayload(request.payload);
 
     const { username, password } = request.payload;
-    const id = await this._usersPartnerService.verifyUserCredential(
-      username,
-      password
-    );
-    const accessToken = await this._tokenManager.generateAccessToken({
-      id,
-      role: 'caregiver',
-    });
-    const refreshToken = await this._tokenManager.generateRefreshToken({
-      id,
-      role: 'caregiver',
-    });
+    const id = await this._usersPartnerService.verifyUserCredential(username, password);
+    const accessToken = await this._tokenManager.generateAccessToken({ id, role: 'caregiver' });
+    const refreshToken = await this._tokenManager.generateRefreshToken({ id, role: 'caregiver' });
 
     await this._service.addRefreshToken(refreshToken);
 
@@ -81,8 +60,7 @@ class AuthenticationHandler {
 
     const { refreshToken } = request.payload;
     await this._service.verifyRefreshTokenDB(refreshToken);
-    const { id, role } =
-      this._tokenManager.verifyRefreshTokenByJwt(refreshToken);
+    const { id, role } = this._tokenManager.verifyRefreshTokenByJwt(refreshToken);
     const accessToken = this._tokenManager.generateAccessToken({ id, role });
 
     return {

@@ -1,6 +1,7 @@
 require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
+const Inert = require('@hapi/inert');
 
 // Users Client
 const userClient = require('./api/usersClient');
@@ -29,6 +30,11 @@ const AppointmentValidator = require('./validators/appointment');
 const appointments = require('./api/appointment');
 const ReviewService = require('./services/postgres/ReviewService');
 
+// Uploads
+const uploads = require('./api/uploads');
+const StorageServiceAWS = require('./services/s3/StorageService');
+const UploadsValidator = require('./validators/uploads');
+
 const Init = async () => {
   const usersClientService = new UsersClientService();
   const usersPartnerService = new UsersPartnerService();
@@ -36,6 +42,7 @@ const Init = async () => {
   const authenticationService = new AuthenticationService();
   const appointmentService = new AppointmentService();
   const reviewService = new ReviewService();
+  const storageServiceAWS = new StorageServiceAWS();
 
   const server = Hapi.server({
     port: process.env.PORT,
@@ -50,6 +57,9 @@ const Init = async () => {
   await server.register([
     {
       plugin: Jwt,
+    },
+    {
+      plugin: Inert,
     },
   ]);
 
@@ -113,7 +123,21 @@ const Init = async () => {
         validator: AuthenticationValidator,
       },
     },
+    {
+      plugin: uploads,
+      options: {
+        usersClientService,
+        usersPartnerService,
+        service: storageServiceAWS,
+        validator: UploadsValidator
+      }
+    },
   ]);
+
+  server.ext('onPreResponse', (request, h) => {
+    console.log(`${request.info.remoteAddress}: ${request.method.toUpperCase()} ${request.path} --> ${request.response.statusCode}`);
+    return h.continue;
+  });
 
   await server.start();
   console.log(`App is running on ${server.info.uri}`);
