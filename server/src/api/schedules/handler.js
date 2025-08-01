@@ -106,8 +106,11 @@ class SchedulesHandler {
       partnersId.forEach(async (partnerId) => {
         const data = new Promise((resolve, reject) => {
           this._usersPartnerService
-            .getUserDetailsById(partnerId.user_id)
-            .then((result) => resolve(result))
+            .getUserDetailsById(partnerId['user_id'])
+            .then((result) => {
+              result['schedule_id'] = partnerId.id;
+              resolve(result);
+            })
             .catch((err) => reject(err));
         });
         partnersList.push(data);

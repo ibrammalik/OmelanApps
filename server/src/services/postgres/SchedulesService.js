@@ -73,7 +73,7 @@ class SchedulesService {
 
   async getSchedulesByDate({ dateStart, dateEnd }) {
     const query = {
-      text: 'SELECT DISTINCT user_id FROM schedules WHERE date_start <= $1 AND date_end >= $2',
+      text: 'SELECT DISTINCT id, user_id FROM schedules WHERE date_start <= $1 AND date_end >= $2',
       values: [dateStart, dateEnd],
     };
 
