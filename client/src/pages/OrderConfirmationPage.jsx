@@ -10,8 +10,6 @@ export default function OrderConfirmationPage() {
   const location = useLocation();
   const caregiver = location.state?.caregiver;
   const appointmentDate = location.state?.selectedDate;
-
-  const [userName, setUserName] = useState('-');
   const [loading, setLoading] = useState(false);
 
   const formattedDate = new Date(appointmentDate).toLocaleDateString('id-ID', {
@@ -20,17 +18,36 @@ export default function OrderConfirmationPage() {
     year: 'numeric',
   });
 
-  // Decode JWT token
+  const [user, setUser] = useState(null);
+
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
-    if (token) {
+
+    if (!token) return;
+
+    const fetchUser = async () => {
       try {
-        const decoded = JSON.parse(atob(token.split('.')[1]));
-        setUserName(decoded.fullname || '-');
+        const res = await fetch(`${import.meta.env.VITE_API_URL}/details/client`, {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+
+        const result = await res.json();
+
+        if (res.ok) {
+          setUser(result.data.details);
+        } else {
+          // console.error("Gagal memuat data user:", result.message);
+        }
+        // eslint-disable-next-line no-unused-vars
       } catch (err) {
-        // console.error("Gagal mendecode token:", err);
+        // console.error("Error mengambil user:", err);
       }
-    }
+    };
+
+    fetchUser();
   }, []);
 
   if (!caregiver || !appointmentDate) {
@@ -64,6 +81,7 @@ export default function OrderConfirmationPage() {
 
       alert('Appointment berhasil dibuat!');
       navigate('/dashboard/caretaker/appointment');
+      // eslint-disable-next-line no-unused-vars
     } catch (err) {
       // console.error("Error saat membuat appointment:", err);
       alert('Terjadi kesalahan saat memproses appointment.');
@@ -82,13 +100,13 @@ export default function OrderConfirmationPage() {
           <div className="flex items-center gap-3">
             <UserIcon className="w-5 h-5" />
             <p>
-              Nama: <strong>{userName}</strong>
+              Nama: <strong>{user?.fullname}</strong>
             </p>
           </div>
           <div className="flex items-center gap-3">
             <UserCircleIcon className="w-5 h-5" />
             <p>
-              Usia: <strong>76 Tahun</strong>
+              Usia: <strong>{user?.age || '-'}</strong>
             </p>
           </div>
           <div className="flex items-center gap-3">
@@ -110,8 +128,12 @@ export default function OrderConfirmationPage() {
           />
           <div>
             <p className="font-semibold">{caregiver.fullname}</p>
-            <p className="text-sm text-muted-foreground">Spesialis: {caregiver.specialist}</p>
-            <p className="text-sm text-muted-foreground">Pengalaman: {caregiver.experience}</p>
+            <p className="text-sm text-muted-foreground">
+              Spesialis: {caregiver.specialist || '-'}
+            </p>
+            <p className="text-sm text-muted-foreground">
+              Pengalaman: {caregiver.experience || '-'}
+            </p>
           </div>
         </CardContent>
       </Card>
@@ -125,12 +147,12 @@ export default function OrderConfirmationPage() {
           </div>
           <div className="flex justify-between">
             <span>Biaya Perawat</span>
-            <span>Rp 350.000</span>
+            <span>Rp {caregiver.rate_per_hour || '350.000'}</span>
           </div>
           <Separator />
           <div className="flex justify-between font-bold">
             <span>Total</span>
-            <span>Rp 350.000</span>
+            <span>Rp {caregiver.rate_per_hour || '350.000'}</span>
           </div>
         </CardContent>
       </Card>

@@ -20,22 +20,10 @@ const faq = [
       'Ya, Anda bisa melihat riwayat pemesanan dan memesan ulang perawat yang sebelumnya pernah memberikan layanan.',
   },
   {
-    icon: <MapPin />,
-    question: 'Apakah layanan tersedia di luar kota?',
-    answer:
-      'Saat ini layanan Omelan tersedia di beberapa kota besar di Indonesia. Gunakan pencarian lokasi untuk melihat cakupan area.',
-  },
-  {
     icon: <ShieldCheck />,
     question: 'Apakah data pribadi saya aman?',
     answer:
       'Kami menjamin keamanan dan kerahasiaan data Anda menggunakan sistem enkripsi dan standar perlindungan data yang ketat.',
-  },
-  {
-    icon: <CreditCard />,
-    question: 'Metode pembayaran apa yang bisa digunakan?',
-    answer:
-      'Kami mendukung pembayaran melalui transfer bank, e-wallet (seperti OVO, Dana, Gopay), serta kartu debit dan kredit.',
   },
 ];
 

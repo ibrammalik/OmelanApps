@@ -1,4 +1,4 @@
-import { BellRing, CalendarCheck, Lock, MapPin, ShieldCheck, Users } from 'lucide-react';
+import { CalendarCheck, History, MapPin, ShieldCheck, User, Users } from 'lucide-react';
 import React from 'react';
 
 const features = [
@@ -25,16 +25,14 @@ const features = [
     icon: MapPin,
   },
   {
-    title: 'Notifikasi Instan',
-    description:
-      'Terima update langsung lewat WhatsApp atau notifikasi aplikasi saat status pemesanan berubah.',
-    icon: BellRing,
+    title: 'Riwayat Pemesanan',
+    description: 'Lihat kembali catatan pemesanan sebelumnya dengan mudah di aplikasi.',
+    icon: History,
   },
   {
-    title: 'Privasi & Keamanan Data',
-    description:
-      'Data Anda dan keluarga dijamin aman dan tidak dibagikan ke pihak ketiga tanpa izin.',
-    icon: Lock,
+    title: 'Profil Perawat Lengkap',
+    description: 'Setiap perawat memiliki profil yang dapat Anda baca sebelum melakukan pemesanan.',
+    icon: User,
   },
 ];
 
