@@ -117,3 +117,22 @@ export async function deleteSchedule(id) {
 
   return true;
 }
+
+export async function getReviewsForPartner() {
+  const result = await fetchWithAuth(`${API_URL}/reviews/partner`);
+  return result.data.reviews;
+}
+
+export async function getReviewSummaryForClient() {
+  const result = await fetchWithAuth(`${API_URL}/reviews/client/summary`);
+  return result.data.reviews;
+}
+
+export async function updateReview({ appointmentId, rating, comment }) {
+  const result = await fetchWithAuth(`${API_URL}/reviews`, {
+    method: "PATCH",
+    body: JSON.stringify({ appointmentId, rating, comment }),
+  });
+
+  return result;
+}
