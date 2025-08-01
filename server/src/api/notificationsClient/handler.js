@@ -46,7 +46,7 @@ class SchedulesHandler {
     const { statusRead } = request.payload;
     const { id } = request.params;
 
-    await this._usersPartnerService.editStatusNotificationById({ id, userClientId, statusRead });
+    await this._service.editStatusNotificationById({ id, userClientId, statusRead });
 
     await this._service.getAllSubjectNotificationsByUserId(userClientId);
     return {

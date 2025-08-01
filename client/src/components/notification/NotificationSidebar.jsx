@@ -18,7 +18,7 @@ export default function NotificationSidebar({ type = 'client', isOpen, onClose }
 
   const handleSelect = async (id) => {
     const detail = await getNotificationDetail(id, type);
-    // await markNotificationAsRead(id, type);
+    await markNotificationAsRead(id, type);
     setSelected(detail);
     fetchNotifications();
   };
