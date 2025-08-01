@@ -49,11 +49,11 @@ export function AppSidebar({ setActiveLabel }) {
       label: "Permintaan",
       url: ROUTES.caretaker.order,
     },
-    {
-      icon: <CalendarCheck2 size={16} />,
-      label: "Janji Temu",
-      url: ROUTES.caretaker.appointment,
-    },
+    // {
+    //   icon: <CalendarCheck2 size={16} />,
+    //   label: "Janji Temu",
+    //   url: ROUTES.caretaker.appointment,
+    // },
     {
       icon: <NotebookPen size={16} />,
 
