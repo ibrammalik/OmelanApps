@@ -1,17 +1,17 @@
 const routes = (handler) => [
   {
-    method: 'POST',
-    path: '/user/upload/photo',
+    method: "POST",
+    path: "/user/upload/photo",
     handler: handler.postUploadImageHandler,
     options: {
       payload: {
-        allow: 'multipart/form-data',
+        allow: "multipart/form-data",
         multipart: true,
-        output: 'stream',
-        maxBytes: 512000
+        output: "stream",
+        maxBytes: 512000,
       },
-      auth: 'omelanapp_jwt',
-    }
+      auth: "omelanapp_jwt",
+    },
   },
 ];
 
