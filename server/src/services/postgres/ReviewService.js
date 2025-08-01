@@ -1,5 +1,5 @@
-const ConnectPool = require("./ConnectPool");
-const { badRequest } = require("@hapi/boom");
+const ConnectPool = require('./ConnectPool');
+const { badRequest } = require('@hapi/boom');
 
 class ReviewService {
   constructor() {
@@ -25,14 +25,14 @@ class ReviewService {
   async updateReview({ appointmentId, rating, comment }) {
     try {
       const checkQuery = {
-        text: `SELECT rating, comment FROM reviews WHERE appointment_id = $1`,
+        text: 'SELECT rating, comment FROM reviews WHERE appointment_id = $1',
         values: [appointmentId],
       };
       const { rows } = await this._pool.query(checkQuery);
       const existing = rows[0];
 
       if (existing && (existing.rating !== null || existing.comment !== null)) {
-        throw badRequest("Review sudah diberikan dan tidak dapat diubah lagi.");
+        throw badRequest('Review sudah diberikan dan tidak dapat diubah lagi.');
       }
 
       const now = new Date().toISOString();
@@ -46,7 +46,7 @@ class ReviewService {
       };
       await this._pool.query(updateQuery);
     } catch (error) {
-      throw badRequest(`Gagal update review: ${error.message}`);
+      throw badRequest(`Failed update review: ${error.message}`);
     }
   }
 
@@ -54,27 +54,25 @@ class ReviewService {
     try {
       const query = {
         text: `
-    SELECT 
-      a.id AS appointment_id,
-      p.fullname AS partner_name,
-      p.photo_url AS partner_photo,
-      a.created_at,
-      r.rating,
-      r.comment
-    FROM reviews r
-    JOIN appointment a ON r.appointment_id = a.id
-    JOIN users_partner p ON r.user_partner_id = p.id
-    WHERE r.user_client_id = $1
-    ORDER BY a.created_at DESC
-  `,
+        SELECT 
+          a.id AS appointment_id,
+          p.fullname AS partner_name,
+          p.photo_url AS partner_photo,
+          a.created_at,
+          r.rating,
+          r.comment
+        FROM reviews r
+        JOIN appointment a ON r.appointment_id = a.id
+        JOIN users_partner p ON r.user_partner_id = p.id
+        WHERE r.user_client_id = $1
+        ORDER BY a.created_at DESC
+      `,
         values: [userClientId],
       };
       const result = await this._pool.query(query);
       return result.rows;
     } catch (error) {
-      throw badRequest(
-        `Gagal mengambil ringkasan review client: ${error.message}`
-      );
+      throw badRequest(`Failed to get summary client review: ${error.message}`);
     }
   }
 
@@ -93,7 +91,7 @@ class ReviewService {
       const result = await this._pool.query(query);
       return result.rows;
     } catch (error) {
-      throw badRequest(`Gagal mengambil review: ${error.message}`);
+      throw badRequest(`Fail get review: ${error.message}`);
     }
   }
 }

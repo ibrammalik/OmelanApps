@@ -1,51 +1,51 @@
-require("dotenv").config();
-const Hapi = require("@hapi/hapi");
-const Jwt = require("@hapi/jwt");
-const Inert = require("@hapi/inert");
+require('dotenv').config();
+const Hapi = require('@hapi/hapi');
+const Jwt = require('@hapi/jwt');
+const Inert = require('@hapi/inert');
 
 // Users Client
-const userClient = require("./api/usersClient");
-const UserClientValidator = require("./validators/usersClient");
-const UsersClientService = require("./services/postgres/UsersClientServices");
+const userClient = require('./api/usersClient');
+const UserClientValidator = require('./validators/usersClient');
+const UsersClientService = require('./services/postgres/UsersClientServices');
 
 // Users Partner
-const userPartner = require("./api/usersPartner");
-const UserPartnerValidator = require("./validators/usersPartner");
-const UsersPartnerService = require("./services/postgres/UsersPartnerServices");
+const userPartner = require('./api/usersPartner');
+const UserPartnerValidator = require('./validators/usersPartner');
+const UsersPartnerService = require('./services/postgres/UsersPartnerServices');
 
 // Schedules
-const schedule = require("./api/schedules");
-const SchedulesValidator = require("./validators/schedules");
-const ScheduleService = require("./services/postgres/SchedulesService");
+const schedule = require('./api/schedules');
+const SchedulesValidator = require('./validators/schedules');
+const ScheduleService = require('./services/postgres/SchedulesService');
 
 // Authentications
-const authentication = require("./api/authentications");
-const AuthenticationValidator = require("./validators/authentications");
-const TokenManager = require("./tokenizer/TokenManager");
-const AuthenticationService = require("./services/postgres/AuthenticationsService");
+const authentication = require('./api/authentications');
+const AuthenticationValidator = require('./validators/authentications');
+const TokenManager = require('./tokenizer/TokenManager');
+const AuthenticationService = require('./services/postgres/AuthenticationsService');
 
 // Appointments
-const AppointmentService = require("./services/postgres/AppointmentService");
-const AppointmentValidator = require("./validators/appointment");
-const appointments = require("./api/appointment");
-const ReviewService = require("./services/postgres/ReviewService");
-const ReviewValidator = require("./validators/review");
-const reviews = require("./api/reviews");
+const AppointmentService = require('./services/postgres/AppointmentService');
+const AppointmentValidator = require('./validators/appointment');
+const appointments = require('./api/appointment');
+const ReviewService = require('./services/postgres/ReviewService');
+const ReviewValidator = require('./validators/review');
+const reviews = require('./api/reviews');
 
 // Uploads
-const uploads = require("./api/uploads");
-const StorageServiceAWS = require("./services/s3/StorageService");
-const UploadsValidator = require("./validators/uploads");
+const uploads = require('./api/uploads');
+const StorageServiceAWS = require('./services/s3/StorageService');
+const UploadsValidator = require('./validators/uploads');
 
 // Notifications User Client
-const notificationsClient = require("./api/notificationsClient");
-const NotificationsClientValidator = require("./validators/notifications");
-const NotificationsClientService = require("./services/postgres/NotificationsUserClientService");
+const notificationsClient = require('./api/notificationsClient');
+const NotificationsClientValidator = require('./validators/notifications');
+const NotificationsClientService = require('./services/postgres/NotificationsUserClientService');
 
 // Notifications User Partner
-const notificationsPartner = require("./api/notificationsPartner");
-const NotificationsPartnerValidator = require("./validators/notifications");
-const NotificationsPartnerService = require("./services/postgres/NotificationsUserPartnerService");
+const notificationsPartner = require('./api/notificationsPartner');
+const NotificationsPartnerValidator = require('./validators/notifications');
+const NotificationsPartnerService = require('./services/postgres/NotificationsUserPartnerService');
 
 const Init = async () => {
   const usersClientService = new UsersClientService();
@@ -63,7 +63,7 @@ const Init = async () => {
     host: process.env.HOST,
     routes: {
       cors: {
-        origin: ["*"],
+        origin: ['*'],
       },
     },
   });
@@ -77,7 +77,7 @@ const Init = async () => {
     },
   ]);
 
-  server.auth.strategy("omelanapp_jwt", "jwt", {
+  server.auth.strategy('omelanapp_jwt', 'jwt', {
     keys: process.env.ACCESS_TOKEN_KEY,
     verify: {
       aud: false,
@@ -120,6 +120,7 @@ const Init = async () => {
     {
       plugin: reviews,
       options: {
+        appointmentService,
         service: reviewService,
         validator: ReviewValidator,
       },
@@ -172,7 +173,7 @@ const Init = async () => {
     },
   ]);
 
-  server.ext("onPreResponse", (request, h) => {
+  server.ext('onPreResponse', (request, h) => {
     console.log(
       `${request.info.remoteAddress}: ${request.method.toUpperCase()} ${
         request.path
