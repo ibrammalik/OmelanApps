@@ -13,7 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Star } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
-export function CaregiverDetailModal({ caregiver }) {
+export function CaregiverDetailModal({ caregiver, selectedDate }) {
   const { photo_url, fullname, age, average_rating, experience, specialist, biodata } = caregiver;
 
   return (
@@ -61,7 +61,7 @@ export function CaregiverDetailModal({ caregiver }) {
 
           {/* CTA */}
           <div className="flex justify-end">
-            <Link to="/konfirmasi-pesanan">
+            <Link to="/konfirmasi-pesanan" state={{ caregiver, selectedDate }}>
               <Button size="lg">Pesan Perawat Ini</Button>
             </Link>
           </div>
