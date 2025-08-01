@@ -42,19 +42,19 @@ export default function NotificationSidebar({ type = 'client', isOpen, onClose }
             <div
               key={notif.id}
               className={`p-3 rounded border cursor-pointer ${
-                notif.statusRead ? 'bg-gray-100' : 'bg-blue-50'
+                notif.status_read ? 'bg-gray-100' : 'bg-blue-50'
               }`}
               onClick={() => handleSelect(notif.id)}>
               <p className="font-semibold">{notif.subject}</p>
-              <p className="text-sm text-gray-600">{notif.date}</p>
+              <p className="text-sm text-gray-600">{notif.created_at}</p>
             </div>
           ))}
         </div>
       ) : (
         <div className="p-4 space-y-2 overflow-y-auto h-full">
-          <h3 className="text-lg font-semibold">{selected.title}</h3>
-          <p className="text-sm text-gray-500">{selected.date}</p>
-          <div className="mt-4 whitespace-pre-line">{selected.body}</div>
+          <h3 className="text-lg font-semibold">{selected.subject}</h3>
+          <p className="text-sm text-gray-500">{selected.created_at}</p>
+          <div className="mt-4 whitespace-pre-line">{selected.content}</div>
         </div>
       )}
     </div>
