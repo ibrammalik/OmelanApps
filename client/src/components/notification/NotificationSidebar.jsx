@@ -18,7 +18,7 @@ export default function NotificationSidebar({ type = 'client', isOpen, onClose }
 
   const handleSelect = async (id) => {
     const detail = await getNotificationDetail(id, type);
-    await markNotificationAsRead(id, type);
+    // await markNotificationAsRead(id, type);
     setSelected(detail);
     fetchNotifications();
   };
@@ -46,14 +46,30 @@ export default function NotificationSidebar({ type = 'client', isOpen, onClose }
               }`}
               onClick={() => handleSelect(notif.id)}>
               <p className="font-semibold">{notif.subject}</p>
-              <p className="text-sm text-gray-600">{notif.created_at}</p>
+              <p className="text-sm text-gray-600">
+                {new Date(notif.created_at).toLocaleString('id-ID', {
+                  day: '2-digit',
+                  month: 'long',
+                  year: 'numeric',
+                  hour: '2-digit',
+                  minute: '2-digit',
+                })}
+              </p>
             </div>
           ))}
         </div>
       ) : (
         <div className="p-4 space-y-2 overflow-y-auto h-full">
           <h3 className="text-lg font-semibold">{selected.subject}</h3>
-          <p className="text-sm text-gray-500">{selected.created_at}</p>
+          <p className="text-sm text-gray-500">
+            {new Date(selected.created_at).toLocaleString('id-ID', {
+              day: '2-digit',
+              month: 'long',
+              year: 'numeric',
+              hour: '2-digit',
+              minute: '2-digit',
+            })}
+          </p>
           <div className="mt-4 whitespace-pre-line">{selected.content}</div>
         </div>
       )}
