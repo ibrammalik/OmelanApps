@@ -129,7 +129,7 @@ class AppointmentService {
     try {
       const query = {
         text: `
-        SELECT id, user_client_id, user_partner_id, status
+        SELECT id, user_client_id, user_partner_id, status, schedule_appointment_id
         FROM appointment
         WHERE id = $1
       `,

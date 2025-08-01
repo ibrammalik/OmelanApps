@@ -13,8 +13,8 @@ class SchedulesService {
 
     const timeStart = 'T00:00:00.000z';
     const timeEnd = 'T59:59:59.997z';
-    dateStart = new Date(dateStart).toISOString().split('T')[0];
-    dateEnd = new Date(dateStart).toISOString().split('T')[0];
+    dateStart = new Date(dateStart).toISOString().split('T')[0]+timeStart;
+    dateEnd = new Date(dateStart).toISOString().split('T')[0]+timeEnd;
 
     const query = {
       text: 'INSERT INTO schedules VALUES($1, $2, $3, $4) RETURNING id',

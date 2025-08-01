@@ -68,25 +68,36 @@ class AppointmentHandler {
       const { id } = request.params;
       const { status } = request.payload;
 
+      const appointment = await this._service.getAppointmentByIdForReview(id);
+
+      if (!appointment.user_client_id) {
+        throw badRequest(
+          'Failed create review: user client not found.'
+        );
+      }
+      if (!appointment.user_partner_id) {
+        throw badRequest(
+          'Failed create review: user partner not found.'
+        );
+      }
+
+      const userClientId = appointment.user_client_id;
+      const userPartnerId = appointment.user_partner_id;
+      const scheduleId = appointment.schedule_appointment_id;
+
+      const dataSchedule = await this._schedulesService.getScheduleById(scheduleId);
+      const dataClient = await this._usersClientService.getUserDetailsById(userClientId);
+
       if (status === 'completed') {
-        const appointment = await this._service.getAppointmentByIdForReview(id);
+        await this._reviewService.createReview({ appointmentId: id, userClientId, userPartnerId });
 
-        if (!appointment.user_client_id) {
-          throw badRequest(
-            'Failed create review: user client not found.'
-          );
-        }
-        if (!appointment.user_partner_id) {
-          throw badRequest(
-            'Failed create review: user partner not found.'
-          );
-        }
+        const { subject, content } = template().createReviewNotificationForClient;
+        await this._notificationClientService.addNotification({ userClientId, subject, content });
+      }
 
-        await this._reviewService.createReview({
-          appointmentId: id,
-          userClientId: appointment.user_client_id,
-          userPartnerId: appointment.user_partner_id,
-        });
+      else if (status === 'confirmed') {
+        const { subject, content } = template({ name: dataClient.fullname, date: dataSchedule.date }).createBookingNotificationForClient;
+        await this._notificationClientService.addNotification({ userClientId, subject, content });
       }
 
       await this._service.updateAppointmentStatus({ id, status });

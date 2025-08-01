@@ -6,7 +6,7 @@ const template = (data) => {
     },
     createBookingNotificationForClient: {
       subject: 'Approve Order',
-      content: `Out partner ${data.name} has approve booking on date ${data.date}. You will be contact soon.`
+      content: `Our partner ${data.name} has approve booking on date ${data.date}. You will be contact soon.`
     },
     createReviewNotificationForPartner: {
       subject: 'New review order',
