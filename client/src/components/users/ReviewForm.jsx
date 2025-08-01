@@ -1,42 +1,43 @@
-import React, { useState } from 'react';
-import { Star } from 'lucide-react';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Separator } from '@/components/ui/separator';
-import { toast } from 'sonner';
+import React, { useState } from "react";
+import { Star } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Separator } from "@/components/ui/separator";
+import { toast } from "sonner";
+import { updateReview } from "../../utils/api";
 
-export default function ReviewForm({ onSubmit }) {
-  const [rating, setRating] = useState(0);
+export default function ReviewForm({
+  appointmentId,
+  defaultRating,
+  defaultComment,
+  onSubmit,
+}) {
+  const [rating, setRating] = useState(defaultRating || 0);
   const [hoverRating, setHoverRating] = useState(0);
-  const [text, setText] = useState('');
+  const [comment, setComment] = useState(defaultComment || "");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState(null);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-
-    if (!rating || !text) {
-      toast.error('Harap isi rating dan ulasan.');
+    if (!rating || !comment) {
+      toast.error("Harap isi rating dan ulasan.");
       return;
     }
 
-    const newReview = {
-      id: Date.now(),
-      name,
-      date: new Date().toLocaleDateString('id-ID', {
-        day: '2-digit',
-        month: 'long',
-        year: 'numeric',
-      }),
-      rating,
-      text,
-    };
+    setLoading(true);
+    setError(null);
 
-    onSubmit?.(newReview);
-
-    toast.success('Ulasan berhasil dikirim!');
-
-    setRating(0);
-    setHoverRating(0);
-    setText('');
+    try {
+      await updateReview({ appointmentId, rating, comment });
+      toast.success("Ulasan berhasil dikirim!");
+      onSubmit();
+    } catch (err) {
+      setError("Gagal mengirim review.");
+      console.error(err);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -52,8 +53,8 @@ export default function ReviewForm({ onSubmit }) {
               key={value}
               className={`w-6 h-6 cursor-pointer ${
                 (hoverRating || rating) >= value
-                  ? 'text-yellow-400 fill-yellow-400'
-                  : 'text-gray-300'
+                  ? "text-yellow-400 fill-yellow-400"
+                  : "text-gray-300"
               }`}
               onMouseEnter={() => setHoverRating(value)}
               onMouseLeave={() => setHoverRating(0)}
@@ -63,21 +64,21 @@ export default function ReviewForm({ onSubmit }) {
         </div>
       </div>
 
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-medium">Ulasan</label>
+      <div>
+        <label className="block font-medium text-sm">Ulasan:</label>
         <textarea
-          placeholder="Tulis ulasan Anda di sini..."
-          rows={4}
-          className="w-full px-3 py-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
-          value={text}
-          onChange={(e) => setText(e.target.value)}
+          className="w-full border p-2 rounded"
+          rows="3"
+          value={comment}
+          onChange={(e) => setComment(e.target.value)}
         />
       </div>
-      <div className="flex justify-end">
-        <Button type="submit" className="bg-blue-600 text-white hover:bg-blue-700 justify-end">
-          Kirim Ulasan
-        </Button>
-      </div>
+
+      {error && <p className="text-red-600 text-sm">{error}</p>}
+
+      <Button type="submit" disabled={loading}>
+        {loading ? "Menyimpan..." : "Kirim Review"}
+      </Button>
     </form>
   );
 }
