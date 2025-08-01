@@ -115,10 +115,10 @@ function App() {
               path={ROUTES.caregiver.appointment}
               element={<CaregiverAppointment />}
             />
-            <Route
+            {/* <Route
               path={ROUTES.caregiver.earnings}
               element={<InvoiceSummary />}
-            />
+            /> */}
             <Route path={ROUTES.caregiver.reviews} element={<ReviewList />} />
           </Route>
         </Route>

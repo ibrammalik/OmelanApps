@@ -1,9 +1,9 @@
-const Joi = require('joi');
+const Joi = require("joi");
 
 const UsersPartnerPayloadSchema = Joi.object({
   username: Joi.string().required(),
   fullname: Joi.string().required(),
-  password: Joi.string().required()
+  password: Joi.string().required(),
 });
 
 const UsersPartnerUpdatePayloadSchema = Joi.object({
@@ -13,9 +13,9 @@ const UsersPartnerUpdatePayloadSchema = Joi.object({
   biodata: Joi.string().required(),
   phoneNumber: Joi.string().required(),
   experience: Joi.string().required(),
-  specialist: Joi.string().required(),
-  ratePerHour: Joi.number().required(),
-  photoUrl: Joi.string()
+  // specialist: Joi.string().required(),
+  // ratePerHour: Joi.number().required(),
+  photoUrl: Joi.string(),
 });
 
 module.exports = { UsersPartnerPayloadSchema, UsersPartnerUpdatePayloadSchema };

@@ -125,10 +125,17 @@ export const EditableProfileCard = ({ profile, onSave, role }) => {
       address: formData.address,
       biodata: formData.biodata,
       photoUrl: finalPhotoUrl,
-      partnerName: formData.partner_name,
-      emergencyContact: formData.emergency_contact,
       age: formData.age,
     };
+    if (role === "caregiver") {
+      //
+      dataToSave.experience = formData.experience; //
+    }
+    if (role === "caretaker") {
+      //
+      dataToSave.partnerName = formData.partner_name; //
+      dataToSave.emergencyContact = formData.emergency_contact; //
+    }
     // console.log(
     //   "Data yang akan disimpan ke API (sesuai schema Joi):",
     //   dataToSave
@@ -221,12 +228,19 @@ function renderFields(role, formData, isEditing, handleChange) {
 
     { key: "age", label: "Umur", type: "number" },
     { key: "address", label: "Alamat", type: "textarea" },
-    {
-      key: "partner_name",
-      label: "Nama Kerabat Yang bisa dihubungi",
-      type: "text",
-    },
-    { key: "emergency_contact", label: "Nomor Kerabat", type: "number" },
+
+    ...(role === "caretaker" //
+      ? [
+          //
+          {
+            //
+            key: "partner_name", //
+            label: "Nama Kerabat Yang bisa dihubungi", //
+            type: "text", //
+          }, //
+          { key: "emergency_contact", label: "Nomor Kerabat", type: "number" }, //
+        ]
+      : []), //
 
     ...(role === "caregiver"
       ? [
