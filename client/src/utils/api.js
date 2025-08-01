@@ -38,6 +38,7 @@ export async function getAppointmentsByPartner() {
 
 export async function getAppointmentsByClient() {
   const result = await fetchWithAuth(`${API_URL}/appointments/client`);
+
   return result.data.appointments;
 }
 
@@ -85,6 +86,34 @@ export async function updateUserProfile(role, payload) {
   return res;
 }
 
+export async function uploadPhoto(file) {
+  const token = localStorage.getItem("accessToken");
+  const formData = new FormData();
+  formData.append("photo", file);
+
+  try {
+    const res = await fetch(`${API_URL}/user/upload/photo`, {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      body: formData,
+    });
+
+    if (!res.ok) {
+      const errorData = await res.json().catch(() => ({}));
+
+      throw new Error(errorData.message || "Gagal upload foto");
+    }
+
+    const result = await res.json();
+
+    return result;
+  } catch (err) {
+    throw err;
+  }
+}
+
 export async function fetchSchedules() {
   const result = await fetchWithAuth(`${API_URL}/schedule/partner`);
 
@@ -105,7 +134,6 @@ export async function submitSchedule(date) {
 
     return result;
   } catch (error) {
-    // console.error("❌ Gagal submit jadwal:", error.message);
     throw error;
   }
 }

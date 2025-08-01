@@ -14,7 +14,6 @@ export default function ProfilePage() {
 
         setProfile(data);
       } catch (error) {
-        console.error(" ProfilePage: Gagal ambil profil:", error.message);
       } finally {
         setLoading(false);
       }

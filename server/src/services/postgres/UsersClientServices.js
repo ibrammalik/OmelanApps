@@ -163,7 +163,6 @@ class UsersClientServices {
     // console.log("📦 Hasil query:", result.rows);
 
     if (!result.rows.length) {
-      console.error("❌ Gagal menyimpan URL foto");
       throw notFound("Failed to add photo url.");
     }
   }
