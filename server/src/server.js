@@ -2,6 +2,8 @@ require('dotenv').config();
 const Hapi = require('@hapi/hapi');
 const Jwt = require('@hapi/jwt');
 const Inert = require('@hapi/inert');
+const Fs = require('fs');
+const path = require('path');
 
 // Users Client
 const userClient = require('./api/usersClient');
@@ -61,6 +63,10 @@ const Init = async () => {
   const server = Hapi.server({
     port: process.env.PORT,
     host: process.env.HOST,
+    tls: {
+      key: Fs.readFileSync(path.join(__dirname, '../server.key'), 'utf8'),
+      cert: Fs.readFileSync(path.join(__dirname, '../server.crt'), 'utf8')
+    },
     routes: {
       cors: {
         origin: ['*'],
