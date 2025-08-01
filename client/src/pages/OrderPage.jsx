@@ -107,7 +107,7 @@ export default function CaregiverOrderPage() {
                   </div>
                 </div>
                 <div className="flex gap-4">
-                  <CaregiverDetailModal caregiver={caregiver} />
+                  <CaregiverDetailModal caregiver={caregiver} selectedDate={date} />
                   <Link to="/konfirmasi-pesanan" state={{ caregiver, selectedDate: date }}>
                     <Button variant="outline">Pilih</Button>
                   </Link>
