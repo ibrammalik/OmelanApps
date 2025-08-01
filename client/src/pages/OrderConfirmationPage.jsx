@@ -1,14 +1,9 @@
-import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
-import { Separator } from "@/components/ui/separator";
-import {
-  CalendarIcon,
-  UserIcon,
-  UserCircleIcon,
-  ArrowLeft,
-} from "lucide-react";
-import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Card, CardContent, CardHeader } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+import { Separator } from '@/components/ui/separator';
+import { CalendarIcon, UserIcon, UserCircleIcon, ArrowLeft } from 'lucide-react';
+import { useEffect, useState } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 export default function OrderConfirmationPage() {
   const navigate = useNavigate();
@@ -16,22 +11,22 @@ export default function OrderConfirmationPage() {
   const caregiver = location.state?.caregiver;
   const appointmentDate = location.state?.selectedDate;
 
-  const [userName, setUserName] = useState("-");
+  const [userName, setUserName] = useState('-');
   const [loading, setLoading] = useState(false);
 
-  const formattedDate = new Date(appointmentDate).toLocaleDateString("id-ID", {
-    day: "numeric",
-    month: "long",
-    year: "numeric",
+  const formattedDate = new Date(appointmentDate).toLocaleDateString('id-ID', {
+    day: 'numeric',
+    month: 'long',
+    year: 'numeric',
   });
 
   // Decode JWT token
   useEffect(() => {
-    const token = localStorage.getItem("accessToken");
+    const token = localStorage.getItem('accessToken');
     if (token) {
       try {
-        const decoded = JSON.parse(atob(token.split(".")[1]));
-        setUserName(decoded.fullname || "-");
+        const decoded = JSON.parse(atob(token.split('.')[1]));
+        setUserName(decoded.fullname || '-');
       } catch (err) {
         // console.error("Gagal mendecode token:", err);
       }
@@ -39,40 +34,39 @@ export default function OrderConfirmationPage() {
   }, []);
 
   if (!caregiver || !appointmentDate) {
-    return (
-      <div>Data tidak lengkap. Silakan pilih caregiver dan tanggal ulang.</div>
-    );
+    return <div>Data tidak lengkap. Silakan pilih caregiver dan tanggal ulang.</div>;
   }
 
   const handleConfirmAppointment = async () => {
-    const accessToken = localStorage.getItem("accessToken");
+    const accessToken = localStorage.getItem('accessToken');
 
     setLoading(true);
     try {
       const res = await fetch(`${import.meta.env.VITE_API_URL}/appointments`, {
-        method: "POST",
+        method: 'POST',
         headers: {
-          "Content-Type": "application/json",
+          'Content-Type': 'application/json',
           Authorization: `Bearer ${accessToken}`,
         },
         body: JSON.stringify({
           userPartnerId: caregiver.id,
-          appointmentDate,
+          duration: 1,
+          scheduleId: caregiver.schedule_id,
         }),
       });
 
       const result = await res.json();
 
       if (!res.ok) {
-        alert(result.message || "Gagal membuat appointment");
+        alert(result.message || 'Gagal membuat appointment');
         return;
       }
 
-      alert("Appointment berhasil dibuat!");
-      navigate("/dashboard/caretaker/appointment");
+      alert('Appointment berhasil dibuat!');
+      navigate('/dashboard/caretaker/appointment');
     } catch (err) {
       // console.error("Error saat membuat appointment:", err);
-      alert("Terjadi kesalahan saat memproses appointment.");
+      alert('Terjadi kesalahan saat memproses appointment.');
     } finally {
       setLoading(false);
     }
@@ -107,9 +101,7 @@ export default function OrderConfirmationPage() {
       </Card>
 
       <Card>
-        <CardHeader className="text-lg font-semibold">
-          Perawat yang Dipilih
-        </CardHeader>
+        <CardHeader className="text-lg font-semibold">Perawat yang Dipilih</CardHeader>
         <CardContent className="flex items-center gap-4">
           <img
             src={caregiver.photo_url}
@@ -118,20 +110,14 @@ export default function OrderConfirmationPage() {
           />
           <div>
             <p className="font-semibold">{caregiver.fullname}</p>
-            <p className="text-sm text-muted-foreground">
-              Spesialis: {caregiver.specialist}
-            </p>
-            <p className="text-sm text-muted-foreground">
-              Pengalaman: {caregiver.experience}
-            </p>
+            <p className="text-sm text-muted-foreground">Spesialis: {caregiver.specialist}</p>
+            <p className="text-sm text-muted-foreground">Pengalaman: {caregiver.experience}</p>
           </div>
         </CardContent>
       </Card>
 
       <Card>
-        <CardHeader className="text-lg font-semibold">
-          Detail Pemesanan
-        </CardHeader>
+        <CardHeader className="text-lg font-semibold">Detail Pemesanan</CardHeader>
         <CardContent className="space-y-2">
           <div className="flex justify-between">
             <span>Durasi Layanan</span>
@@ -158,9 +144,8 @@ export default function OrderConfirmationPage() {
         <Button
           className="bg-primary text-white hover:bg-primary/90"
           onClick={handleConfirmAppointment}
-          disabled={loading}
-        >
-          {loading ? "Memproses..." : "Konfirmasi & Pesan"}
+          disabled={loading}>
+          {loading ? 'Memproses...' : 'Konfirmasi & Pesan'}
         </Button>
       </div>
     </div>
