@@ -19,11 +19,11 @@ export default function AppointmentSummary() {
   const fetchAppointments = async () => {
     try {
       const data = await getReviewSummaryForClient();
-      console.log(data);
+      // console.log(data);
 
       setAppointments(data);
     } catch (error) {
-      console.error("Gagal fetch data:", error);
+      // console.error("Gagal fetch data:", error);
     }
   };
 

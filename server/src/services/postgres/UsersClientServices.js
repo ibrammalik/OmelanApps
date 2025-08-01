@@ -152,7 +152,7 @@ class UsersClientServices {
   }
 
   async addPhotoUrl(id, photoUrl) {
-    console.log("📝 Menyimpan photo_url:", photoUrl, "untuk ID:", id);
+    // console.log("📝 Menyimpan photo_url:", photoUrl, "untuk ID:", id);
 
     const query = {
       text: "UPDATE users_client SET photo_url = $1 WHERE id = $2 RETURNING id",
@@ -160,7 +160,7 @@ class UsersClientServices {
     };
 
     const result = await this._pool.query(query);
-    console.log("📦 Hasil query:", result.rows);
+    // console.log("📦 Hasil query:", result.rows);
 
     if (!result.rows.length) {
       console.error("❌ Gagal menyimpan URL foto");

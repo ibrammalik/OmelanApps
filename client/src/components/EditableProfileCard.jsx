@@ -112,7 +112,7 @@ export const EditableProfileCard = ({ profile, onSave, role }) => {
         finalPhotoUrl = uploadResult.url;
         alert("Foto berhasil diunggah!");
       } catch (uploadError) {
-        console.error("Gagal mengunggah foto:", uploadError);
+        // console.error("Gagal mengunggah foto:", uploadError);
         alert("Gagal mengunggah foto: " + uploadError.message);
         return;
       }
@@ -128,10 +128,10 @@ export const EditableProfileCard = ({ profile, onSave, role }) => {
       emergencyContact: formData.emergency_contact,
       age: formData.age,
     };
-    console.log(
-      "Data yang akan disimpan ke API (sesuai schema Joi):",
-      dataToSave
-    );
+    // console.log(
+    //   "Data yang akan disimpan ke API (sesuai schema Joi):",
+    //   dataToSave
+    // );
 
     onSave(dataToSave);
     setIsEditing(false);

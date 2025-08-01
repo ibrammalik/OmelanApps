@@ -14,7 +14,7 @@ export default function AvailableSection() {
       const schedules = await fetchSchedules();
       setAvailableDates(schedules);
     } catch (err) {
-      console.error("❌ Gagal ambil jadwal:", err.message);
+      // console.error("❌ Gagal ambil jadwal:", err.message);
     } finally {
       setLoading(false);
     }

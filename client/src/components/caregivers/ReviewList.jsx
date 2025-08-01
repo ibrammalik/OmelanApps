@@ -31,11 +31,11 @@ export default function ReviewList() {
     const fetchReviews = async () => {
       try {
         const data = await getReviewsForPartner();
-        console.log(data);
+        // console.log(data);
 
         setReviews(data);
       } catch (err) {
-        console.error("Gagal memuat review partner:", err);
+        // console.error("Gagal memuat review partner:", err);
         setError("Gagal memuat review.");
       } finally {
         setLoading(false);
