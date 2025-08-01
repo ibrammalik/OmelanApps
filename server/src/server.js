@@ -5,7 +5,7 @@ const Inert = require('@hapi/inert');
 
 // Users Client
 const userClient = require('./api/usersClient');
-const UserClientValidator = require('./validators/usersClient/index');
+const UserClientValidator = require('./validators/usersclient');
 const UsersClientService = require('./services/postgres/UsersClientServices');
 
 // Users Partner
