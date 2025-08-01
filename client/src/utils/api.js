@@ -28,7 +28,7 @@ export async function searchCaregiversByDateAvailableDB(date) {
     body: JSON.stringify(payload),
   });
 
-  return DListCaregiver.data.partners;
+  return DListCaregiver;
 }
 
 export async function getAppointmentsByPartner() {
