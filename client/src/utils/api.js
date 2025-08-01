@@ -162,29 +162,3 @@ export const markNotificationAsRead = async (id, type = "client") => {
     body: JSON.stringify({ statusRead: "Y" }),
   });
 };
-
-export const getAllNotifications = async (type = "client") => {
-  const url = `${API_URL}/notifications/${type}/all`;
-  const response = await fetchWithAuth(url, { method: "GET" });
-  return response.data.notifications;
-};
-
-export const getUnreadNotifications = async (type = "client") => {
-  const url = `${API_URL}/notifications/${type}/unread`;
-  const response = await fetchWithAuth(url, { method: "GET" });
-  return response.data.notifications;
-};
-
-export const getNotificationDetail = async (id, type = "client") => {
-  const url = `${API_URL}/notifications/${type}/${id}`;
-  const response = await fetchWithAuth(url, { method: "GET" });
-  return response.data.content;
-};
-
-export const markNotificationAsRead = async (id, type = "client") => {
-  const url = `${API_URL}/notifications/${type}/${id}`;
-  await fetchWithAuth(url, {
-    method: "PUT",
-    body: JSON.stringify({ statusRead: "Y" }),
-  });
-};
