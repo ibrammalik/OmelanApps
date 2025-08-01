@@ -11,6 +11,8 @@ import {
   SelectValue,
 } from "./ui/select";
 
+import { uploadPhoto } from "@/utils/api";
+
 export const EditableProfileCard = ({ profile, onSave, role }) => {
   const [formData, setFormData] = useState({
     fullname: profile.fullname || "",
@@ -109,10 +111,9 @@ export const EditableProfileCard = ({ profile, onSave, role }) => {
     if (selectedFile) {
       try {
         const uploadResult = await uploadPhoto(selectedFile);
+
         finalPhotoUrl = uploadResult.url;
-        alert("Foto berhasil diunggah!");
       } catch (uploadError) {
-        console.error("Gagal mengunggah foto:", uploadError);
         alert("Gagal mengunggah foto: " + uploadError.message);
         return;
       }
@@ -128,10 +129,10 @@ export const EditableProfileCard = ({ profile, onSave, role }) => {
       emergencyContact: formData.emergency_contact,
       age: formData.age,
     };
-    console.log(
-      "Data yang akan disimpan ke API (sesuai schema Joi):",
-      dataToSave
-    );
+    // console.log(
+    //   "Data yang akan disimpan ke API (sesuai schema Joi):",
+    //   dataToSave
+    // );
 
     onSave(dataToSave);
     setIsEditing(false);

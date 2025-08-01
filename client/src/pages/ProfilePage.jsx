@@ -14,7 +14,6 @@ export default function ProfilePage() {
 
         setProfile(data);
       } catch (error) {
-        console.error(" ProfilePage: Gagal ambil profil:", error.message);
       } finally {
         setLoading(false);
       }
@@ -29,11 +28,11 @@ export default function ProfilePage() {
 
   const handleSave = async (updatedProfile) => {
     try {
-      const result = await updateUserProfile(role, updatedProfile);
-
+      await updateUserProfile(role, updatedProfile);
       alert("✅ Profil berhasil diperbarui.");
 
-      setProfile(result);
+      const latestProfile = await getUserProfile(role);
+      setProfile(latestProfile);
     } catch (error) {
       alert("❌ Gagal perbarui profil: " + error.message);
     }

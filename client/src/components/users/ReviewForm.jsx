@@ -34,7 +34,7 @@ export default function ReviewForm({
       onSubmit();
     } catch (err) {
       setError("Gagal mengirim review.");
-      console.error(err);
+      // console.error(err);
     } finally {
       setLoading(false);
     }

@@ -58,7 +58,7 @@ class ReviewService {
       a.id AS appointment_id,
       p.fullname AS partner_name,
       p.photo_url AS partner_photo,
-      a.created_at AS appointment_date,
+      a.created_at,
       r.rating,
       r.comment
     FROM reviews r
