@@ -63,6 +63,7 @@ export async function getUserProfile(role) {
 
   const response = await fetchWithAuth(`${API_URL}${endpoint}`);
   // console.log(response);
+  console.log(response);
 
   return response.data.details;
 }

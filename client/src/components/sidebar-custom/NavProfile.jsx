@@ -50,7 +50,7 @@ export default function NavProfile({ setActiveLabel }) {
     };
 
     fetchUser();
-  }, []);
+  }, [role]);
 
   // useEffect(() => {
   //   const storedUser = localStorage.getItem("tempRegisterData");
@@ -66,11 +66,11 @@ export default function NavProfile({ setActiveLabel }) {
 
   const handleProfileClick = () => {
     setActiveLabel("Profil");
-    navigate(
-      user?.role === "caregiver"
-        ? ROUTES.caregiver.profile
-        : ROUTES.caretaker.profile
-    );
+    if (role === "caregiver") {
+      navigate(ROUTES.caregiver.profile);
+    } else if (role === "caretaker") {
+      navigate(ROUTES.caretaker.profile);
+    }
   };
 
   if (!user) return null;

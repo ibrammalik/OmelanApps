@@ -88,11 +88,11 @@ export function AppSidebar({ setActiveLabel }) {
       label: "Jadwal Ketersediaan",
       url: ROUTES.caregiver.availability,
     },
-    {
-      icon: <Wallet size={16} />,
-      label: "Pendapatan",
-      url: ROUTES.caregiver.earnings,
-    },
+    // {
+    //   icon: <Wallet size={16} />,
+    //   label: "Pendapatan",
+    //   url: ROUTES.caregiver.earnings,
+    // },
     {
       icon: <NotebookPen size={16} />,
       label: "Penilaian",
